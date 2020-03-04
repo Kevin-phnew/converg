@@ -1,2 +1,2 @@
 # converg
-提交至GitHub
+大家可以在dev上开发
