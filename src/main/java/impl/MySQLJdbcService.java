@@ -3,7 +3,10 @@ package impl;
 import common.AbstractJdbcService;
 import common.DataSource;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,8 +38,9 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Map<String, Object>> getTableColumnsAndType(String tname) {
-        String sql = "select * from test.emp limit 1";
+    public List<Map<String, Object>> getTableColumnsAndType() {
+        String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
+        String sql = "select * from " + tvName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs

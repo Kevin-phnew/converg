@@ -12,18 +12,23 @@ public class DataSource implements Serializable {
     private String jdbcUser;
     //pwd
     private String jdbcPassword;
+    //schema
+    private String schema;
+    //
+    private String dbName;
     //表名 | 视图名
-    private String tvname;
+    private String tvName;
 
-    public DataSource(String jdbcType, String jdbcUrl, String jdbcUser, String jdbcPassword, String tvname) {
+    public DataSource(String jdbcType, String jdbcUrl, String jdbcUser, String jdbcPassword, String dbName, String schema, String tvName) {
         this.jdbcType = jdbcType;
         this.jdbcUrl = jdbcUrl;
         this.jdbcUser = jdbcUser;
         this.jdbcPassword = jdbcPassword;
-        this.tvname = tvname;
+        this.schema = schema;
+        this.tvName = tvName;
+        this.dbName = dbName;
     }
 
-    //getter 、setter..
     public String getJdbcType() {
         return jdbcType;
     }
@@ -56,11 +61,27 @@ public class DataSource implements Serializable {
         this.jdbcPassword = jdbcPassword;
     }
 
-    public String getTvname() {
-        return tvname;
+    public String getSchema() {
+        return schema;
     }
 
-    public void setTvname(String tvname) {
-        this.tvname = tvname;
+    public void setSchema(String schema) {
+        this.schema = schema;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public void setDbName(String dbName) {
+        this.dbName = dbName;
+    }
+
+    public String gettvName() {
+        return tvName;
+    }
+
+    public void settvName(String tvName) {
+        this.tvName = tvName;
     }
 }
