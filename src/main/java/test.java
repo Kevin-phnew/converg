@@ -30,7 +30,7 @@ public class test {
         DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
         List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType();
-        JSONArray json = (JSONArray) JSONObject.toJSON(fields);
+        JSONArray json = (JSONArray) JSONObject.toJSON(fields);//,,,
         fields.stream().forEach(e -> System.out.println(e));
     }
 }
