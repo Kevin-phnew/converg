@@ -50,27 +50,6 @@ public class ConvergDB {
         List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType();
         String json = ((JSONArray) JSONObject.toJSON(fields)).toJSONString();
         System.out.println(json);
-//        String info = "Attempting connection to "+database +"as analytics_user...";
-//        System.out.println(info);
-//
-//        //创建连接
-//        Connection conn = null;
-//        conn = new JDBCUtil().getConn(database,engine);
-//        if(null == conn){
-//            System.out.println("\n" +
-//                    "Sorry, your connection is wrong. Please check the connection parameters");
-//            return;
-//        }
-//        System.out.println("Connected!");
-//        System.out.println("Extracting schema for the following objects:");
-//
-//        JSONObject json = null;
-//        //抽取元数据
-////      json = new GetMetaDataImp().getMetaData("","");
-//        if(json == null){
-//            System.out.println("Extracting schema failed!");
-//            return;
-//        }
 
         System.out.println("Schema extracted successfully!");
 
@@ -90,7 +69,7 @@ public class ConvergDB {
 //        }catch (){
 //
 //        }
-//        extraSchema.exportSchema(json);
+        extraSchema.exportSchema(fields);
 
         System.out.println("Process complete");
 
