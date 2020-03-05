@@ -1,6 +1,7 @@
 package schema;
 
-import com.alibaba.fastjson.JSONObject;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author Kevin
@@ -10,13 +11,13 @@ import com.alibaba.fastjson.JSONObject;
 public class ExtraSchema {
 
     //输出schema
-    public void exportSchema(JSONObject json){
+    public void exportSchema(List<Map<String, Object>> json){
         String schema = getSchema(json);
         //下面进行存储的工作...
     }
 
     //解析json格式并形成要求的schema
-    private String getSchema(JSONObject json){
+    private String getSchema(List<Map<String, Object>> json){
         return null;
     }
 

@@ -1,9 +1,11 @@
 package schema;
 
-import com.alibaba.fastjson.JSONObject;
-import util.JDBCUtil;
+import common.DataSource;
+import common.JdbcService;
+import common.JdbcServiceFactory;
 
-import java.sql.Connection;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -30,29 +32,26 @@ public class ConvergDB {
     private static void convergDBAction(){
         String userName = System.getProperty("table");
         String passwd = System.getProperty("table");
-        String database = System.getProperty("database");
-        String engine = System.getProperty("db_engine");
-        String info = "Attempting connection to "+database +"as analytics_user...";
+        String jdbcUrl = System.getProperty("database");
+        String jdbcType = System.getProperty("db_engine");
+        String info = "Attempting connection to "+jdbcUrl +"as analytics_user...";
         System.out.println(info);
 
-        //创建连接
-        Connection conn = null;
-        conn = new JDBCUtil().getConn(database,engine);
-        if(null == conn){
-            System.out.println("\n" +
-                    "Sorry, your connection is wrong. Please check the connection parameters");
-            return;
-        }
-        System.out.println("Connected!");
-        System.out.println("Extracting schema for the following objects:");
+        /**
+         * 根据不同数据库信息参数设置
+         */
+        String jdbcUser = "root";
+        String jdbcPassword = "1234";
+//        String dbName = "";
+        String tvname = "emp";
 
-        JSONObject json = null;
-        //抽取元数据
-//      json = new GetMetaDataImp().getMetaData("","");
-        if(json == null){
-            System.out.println("Extracting schema failed!");
-            return;
-        }
+        /**
+         * 元数据抽取部分
+         */
+        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, tvname);
+        JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
+        List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType(tvname);
+        fields.stream().forEach(e -> System.out.println(e));
 
         System.out.println("Schema extracted successfully!");
 
@@ -72,7 +71,10 @@ public class ConvergDB {
 //        }catch (){
 //
 //        }
-        extraSchema.exportSchema(json);
+        /**
+         * DDL到Schema
+         */
+        extraSchema.exportSchema(fields);
 
         System.out.println("Process complete");
 
