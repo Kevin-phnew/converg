@@ -3,6 +3,7 @@ import common.JdbcService;
 import common.JdbcServiceFactory;
 
 import java.util.List;
+import java.util.Map;
 
 public class test {
     public static void main(String[] args) {
@@ -14,7 +15,7 @@ public class test {
         String tvname = "emp";
         DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, tvname);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        List<String> tables = jdbcService.listAllTables();
-        tables.stream().forEach(e -> System.out.println(e));
+        List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType(tvname);
+        fields.stream().forEach(e -> System.out.println(e));
     }
 }

@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public abstract class AbstractJdbcService implements JdbcService {
@@ -233,4 +234,5 @@ public abstract class AbstractJdbcService implements JdbcService {
      * a schema name pattern; must match the schema name as it is stored in the database; "" retrieves those without a schema; null means that the schema name should not be used to narrow the search
      */
     protected abstract String schemaPattern();
+
 }
