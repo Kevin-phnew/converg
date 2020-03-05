@@ -82,7 +82,7 @@ public abstract class AbstractJdbcService implements JdbcService {
 
     @Override
     public boolean test() {
-        //todo 打印连接
+        System.out.println("Attempting connection to " + this.getDataSource().getJdbcUrl() + "...");
         Connection conn = null;
         try {
             conn = getConnection();
@@ -95,10 +95,11 @@ public abstract class AbstractJdbcService implements JdbcService {
                 return false;
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } finally {
             close(conn);
         }
+        System.out.println("connected!");
         return true;
     }
 
