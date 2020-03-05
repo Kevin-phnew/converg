@@ -1,7 +1,9 @@
 package schema;
 
+import common.Column;
+
 import java.util.List;
-import java.util.Map;
+import java.util.Scanner;
 
 /**
  * @Author Kevin
@@ -11,13 +13,25 @@ import java.util.Map;
 public class ExtraSchema {
 
     //输出schema
-    public void exportSchema(List<Map<String, Object>> json){
-        String schema = getSchema(json);
+    public void exportSchema(List<Column> fields){
+
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please provide path for ConvergDB schema output:");
+        String outPath;
+        if (scan.hasNext()) {
+            outPath = scan.next();
+            System.out.println("Schema written to: \n" + outPath);
+        }else{
+            System.out.println("no output path");
+        }
+
+        String schema = getSchema(fields);
+
         //下面进行存储的工作...
     }
 
     //解析json格式并形成要求的schema
-    private String getSchema(List<Map<String, Object>> json){
+    private String getSchema(List<Column> fields){
         return null;
     }
 

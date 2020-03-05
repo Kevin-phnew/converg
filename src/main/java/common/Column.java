@@ -1,13 +1,13 @@
 package common;
 
-public class column {
+public class Column {
 
     private String columnName;
     private String columnTypeName;
     private int columnType;
     private boolean required;
 
-    public column(String columnName, String columnTypeName, int columnType, boolean required) {
+    public Column(String columnName, String columnTypeName, int columnType, boolean required) {
         this.columnName = columnName;
         this.columnTypeName = columnTypeName;
         this.columnType = columnType;

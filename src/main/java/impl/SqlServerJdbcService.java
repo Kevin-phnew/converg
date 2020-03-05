@@ -2,7 +2,7 @@ package impl;
 
 import common.AbstractJdbcService;
 import common.DataSource;
-import common.column;
+import common.Column;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class SqlServerJdbcService extends AbstractJdbcService{
     }
 
     @Override
-    public List<column> getTableColumnsAndType() {
+    public List<Column> getTableColumnsAndType() {
         return null;
     }
 }

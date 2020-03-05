@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
 public interface GetMetaData {
 
 //    获取元数据,返回json   new JSONObject().put("k","v")
-    abstract JSONObject getMetaData(String... strings);
+    JSONObject getMetaData(String... strings);
 
 
 }
