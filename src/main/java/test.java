@@ -1,3 +1,5 @@
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import common.DataSource;
 import common.JdbcService;
 import common.JdbcServiceFactory;
@@ -28,6 +30,7 @@ public class test {
         DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
         List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType();
+        JSONArray json = (JSONArray) JSONObject.toJSON(fields);
         fields.stream().forEach(e -> System.out.println(e));
     }
 }
