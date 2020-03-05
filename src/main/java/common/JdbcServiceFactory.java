@@ -2,6 +2,7 @@ package common;
 
 import impl.MySQLJdbcService;
 import impl.OracleJdbcService;
+import impl.PostgreSQLJdbcService;
 
 public class JdbcServiceFactory {
     /**
@@ -15,6 +16,8 @@ public class JdbcServiceFactory {
             return new MySQLJdbcService(dataSource);
         } else if (dataSource.getJdbcType().equals(JdbcType.ORACLE.getValue())) {
             return new OracleJdbcService(dataSource);
+        } else if (dataSource.getJdbcType().equals(JdbcType.POSTGRESQL.getValue())) {
+            return new PostgreSQLJdbcService(dataSource);
         }
         return null;
     }

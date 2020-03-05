@@ -82,6 +82,7 @@ public abstract class AbstractJdbcService implements JdbcService {
 
     @Override
     public boolean test() {
+        //todo 打印连接
         Connection conn = null;
         try {
             conn = getConnection();

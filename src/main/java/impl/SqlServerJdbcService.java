@@ -27,7 +27,7 @@ public class SqlServerJdbcService extends AbstractJdbcService{
     }
 
     @Override
-    public List<Map<String, Object>> getTableColumnsAndType(String tableName) {
+    public List<Map<String, Object>> getTableColumnsAndType() {
         return null;
     }
 }

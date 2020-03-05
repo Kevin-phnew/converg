@@ -12,29 +12,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class OracleJdbcService extends AbstractJdbcService {
+public class PostgreSQLJdbcService extends AbstractJdbcService {
 
-    public OracleJdbcService(DataSource dataSource) {
+    public PostgreSQLJdbcService(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
     protected String loadDriverClass() {
-        return "oracle.jdbc.driver.OracleDriver";
+        return "org.postgresql.Driver";
     }
 
-    /**
-     * 注意：oracle用户名称须大写
-     */
     @Override
     protected String schemaPattern() {
-        //oracle的schemaPattern为用户名
-        return getDataSource().getJdbcUser().toUpperCase();
+        //mysql的schemaPattern为数据库名称
+        String url = getDataSource().getJdbcUrl();
+        //jdbc:mysql://localhost:3306/iso_db?useUnicode=true&characterEncoding=UTF-8
+        String database = url.substring(url.indexOf("/", 13) + 1);
+        int index = database.indexOf("?");
+        if (index > 0) {
+            database = database.substring(0, index);
+        }
+        return database;
     }
 
     @Override
     public List<Map<String, Object>> getTableColumnsAndType() {
-        String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
+        String tvName = this.getDataSource().getSchema() + "." + this.getDataSource().gettvName();
         String sql = "select * from " + tvName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
