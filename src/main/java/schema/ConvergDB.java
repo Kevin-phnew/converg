@@ -1,9 +1,6 @@
 package schema;
 
-import common.Column;
-import metadata.ANSIMetaData;
-
-import java.util.List;
+import common.ExtractSchema;
 
 /**
  * @Author Kevin
@@ -16,15 +13,9 @@ public class ConvergDB {
                             "ConvergDB JDBC schema extractor\n" +
                             "===============================\n");
 
-        //Metadata extraction
-        List<Column> fields = ANSIMetaData.getANSIMetaData();
-
-        /**
-         * 待开发部分
-         */
         //Metadata transformation and output
-        ExtraSchema extraSchema = new ExtraSchema();
-        extraSchema.exportSchema(fields);
+        ExtractSchema extraSchema = new ExtraSchema();
+        extraSchema.outPutSchema();
 
         System.out.println("Process complete");
 

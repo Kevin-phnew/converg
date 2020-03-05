@@ -1,6 +1,8 @@
 package schema;
 
 import common.Column;
+import common.ExtractSchema;
+import metadata.ANSIMetaData;
 
 import java.util.List;
 import java.util.Scanner;
@@ -10,10 +12,12 @@ import java.util.Scanner;
  * @Date 2020/3/4
  * @Desc 解析json并输出schema文件
  */
-public class ExtraSchema {
+public class ExtraSchema extends ExtractSchema{
 
-    //输出schema
-    public void exportSchema(List<Column> fields){
+    @Override
+    public void outPutSchema() {
+        //Metadata extraction
+        List<Column> fields = ANSIMetaData.getANSIMetaData();
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Please provide path for ConvergDB schema output:");
@@ -28,11 +32,11 @@ public class ExtraSchema {
         String schema = getSchema(fields);
 
         //下面进行存储的工作...
+
     }
 
     //解析json格式并形成要求的schema
     private String getSchema(List<Column> fields){
         return null;
     }
-
 }
