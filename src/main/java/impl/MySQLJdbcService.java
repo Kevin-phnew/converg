@@ -2,6 +2,7 @@ package impl;
 
 import common.AbstractJdbcService;
 import common.DataSource;
+import common.column;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,13 +39,13 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Map<String, Object>> getTableColumnsAndType() {
+    public List<column> getTableColumnsAndType() {
         String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
         String sql = "select * from " + tvName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<column> list = new ArrayList<>();
         try {
             conn = this.getConnection();
             pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
@@ -58,7 +59,8 @@ public class MySQLJdbcService extends AbstractJdbcService {
                         // typeName 字段名 type 字段类型
                         Map<String, Object> map = new HashMap<>();
                         map.put(data.getColumnName(i), data.getColumnTypeName(i));//具体长度data.getColumnType(i)
-                        list.add(map);
+                        list.add(new column(data.getColumnName(i), data.getColumnTypeName(i), data.getColumnType(i)
+                                , data.isNullable(i) == 0));
                     }
                 }
             }

@@ -2,9 +2,9 @@ package impl;
 
 import common.AbstractJdbcService;
 import common.DataSource;
+import common.column;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * @Author Kevin
@@ -27,7 +27,7 @@ public class SqlServerJdbcService extends AbstractJdbcService{
     }
 
     @Override
-    public List<Map<String, Object>> getTableColumnsAndType() {
+    public List<column> getTableColumnsAndType() {
         return null;
     }
 }

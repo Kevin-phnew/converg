@@ -5,9 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import common.DataSource;
 import common.JdbcService;
 import common.JdbcServiceFactory;
+import common.column;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -46,8 +46,10 @@ public class ConvergDB {
         String table = System.getProperty("table");
 
         DataSource param = new DataSource(engine, database, userName, passwd, "", schema, table);
+
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType();
+        jdbcService.test();
+        List<column> fields = jdbcService.getTableColumnsAndType();
         String json = ((JSONArray) JSONObject.toJSON(fields)).toJSONString();
         System.out.println(json);
 

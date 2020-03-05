@@ -3,7 +3,7 @@ package common;
 public enum JdbcType {
     ORACLE("oracle"),
     MYSQL("mysql"),
-    POSTGRESQL("postgresql");
+    POSTGRESQL("postgres");
 
     // 自定义变量
     private String value;

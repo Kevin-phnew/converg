@@ -1,7 +1,6 @@
 package common;
 
 import java.util.List;
-import java.util.Map;
 
 public interface JdbcService {
     /**
@@ -37,6 +36,6 @@ public interface JdbcService {
     /**
      * 列出所有的字段及类型
      */
-    List<Map<String, Object>> getTableColumnsAndType();
+    List<column> getTableColumnsAndType();
 
 }
