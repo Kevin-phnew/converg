@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="converg" />
+        <module name="schemaExtractor" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="converg" target="8" />
+      <module name="schemaExtractor" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

@@ -24,8 +24,6 @@ public class ConvergDB {
 
 
 
-
-
     /**
      * 该方法执行数据库连接、元数据获取、schema文件输出
      */
