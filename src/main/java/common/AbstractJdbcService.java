@@ -94,7 +94,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             if (meta == null) {
                 return false;
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
             close(conn);
