@@ -1,0 +1,10 @@
+domain "domain_rep" {
+  schema "schema_rep" {
+    relation "relation_rep" {
+      relation_type = base
+      partitions = ["attribute_name",...]
+      attributes { attribute_rep
+      }
+    }
+  }
+}

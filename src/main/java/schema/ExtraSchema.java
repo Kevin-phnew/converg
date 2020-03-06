@@ -3,6 +3,7 @@ package schema;
 import common.Column;
 import common.ExtractSchema;
 import metadata.ANSIMetaData;
+import util.FileUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +22,7 @@ public class ExtraSchema extends ExtractSchema {
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Please provide path for ConvergDB schema output:");
-        String outPath;
+        String outPath = null;
         if (scan.hasNext()) {
             outPath = scan.next();
             System.out.println("Schema written to: \n" + outPath);
@@ -31,12 +32,42 @@ public class ExtraSchema extends ExtractSchema {
 
         String schema = getSchema(fields);
 
-        //下面进行存储的工作...
-
+        boolean res = FileUtil.writeTxtFile(schema, outPath.trim(), "UTF-8");
+        if(res) {
+            System.out.println("Output file failed, please check the output file path");
+        }
+        else{
+            System.out.println("Process complete");
+        }
     }
 
-    //解析json格式并形成要求的schema
-    private String getSchema(List<Column> fields) {
-        return null;
+    //解析格式并形成要求的schema
+    public String getSchema(List<Column> fields) {
+
+        /**
+         * 待完善：
+         * domain schema relation 三个局部变量需要使用System.getPro...
+         */
+        String domain = "service";
+        String schema = "root";
+        String relation = "page_click";
+
+        String str = FileUtil.getFile("outschema");
+
+        StringBuffer sb = new StringBuffer();
+
+        for(Column field:fields){
+            sb.append("\n       attribute \""+field.getColumnName()+"\" {\n");
+            sb.append("         required = "+field.getRequired()+"\n");
+            sb.append("         data_type = "+field.getColumnType()+"\n");
+            sb.append("       }");
+        }
+        String res = str.replaceAll("domain_rep", domain)
+                .replaceAll("schema_rep", schema)
+                .replaceAll("relation_rep", relation)
+                .replaceAll("attribute_rep",sb.toString());
+//        System.out.println(res);
+        return res;
     }
+
 }

@@ -17,7 +17,7 @@ public class ConvergDB {
         ExtractSchema extraSchema = new ExtraSchema();
         extraSchema.outPutSchema();
 
-        System.out.println("Process complete");
+
 
     }
 

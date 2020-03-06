@@ -3,7 +3,7 @@ package impl;
 import common.AbstractJdbcService;
 import common.Column;
 import common.DataSource;
-import util.readFileUtil;
+import util.FileUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -38,7 +38,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
 
     @Override
     public List<Column> getTableColumnsAndType() {
-        String sql = readFileUtil.getIRSql("postgresIR.sql")
+        String sql = FileUtil.getFile("postgresIR.sql")
                 .replace("#{dbName}", this.getDataSource().getDbName())
                 .replace("#{schema}", this.getDataSource().getSchema())
                 .replace("#{tbName}", this.getDataSource().gettvName());
