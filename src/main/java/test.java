@@ -1,23 +1,34 @@
 import common.DataSource;
 import common.JdbcService;
 import common.JdbcServiceFactory;
+import common.column;
 
 import java.util.List;
-import java.util.Map;
 
 public class test {
     public static void main(String[] args) {
-        String jdbcType = "mysql";
-        String jdbcUrl = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
-        String jdbcUser = "root";
-        String jdbcPassword = "1234";
+//        String jdbcType = "mysql";
+//        String jdbcUrl = "jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC";
+//        String jdbcUser = "root";
+//        String jdbcPassword = "1234";
 //        String dbName = "";
-        String tvname = "emp";
-        //将数据库连接信息封装为一个对象，传入jdbc工厂，匹配对应的jdbc连接连接服务，
-        //并返回jdbc连接服务对象，进行后续的抽取元数据
-        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, tvname);
+//        String schema = "";
+//        String tvName = "emp";
+//        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
+//        JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
+//        List<column> fields = jdbcService.getTableColumnsAndType();
+//        fields.stream().forEach(e -> System.out.println(JSONObject.toJSON(e)));
+
+        String jdbcType = "postgres";
+        String jdbcUrl = "jdbc:postgresql://localhost:5432/test";
+        String jdbcUser = "postgres";
+        String jdbcPassword = "1234";
+        String dbName = "test";
+        String schema = "pg_catalog";
+        String tvName = "pg_user";
+        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        List<Map<String, Object>> fields = jdbcService.getTableColumnsAndType(tvname);
-        fields.stream().forEach(e -> System.out.println(e));
+        List<column> fields = jdbcService.getTableColumnsAndType();
+        fields.stream().forEach(e -> System.out.println(e.toString()));
     }
 }

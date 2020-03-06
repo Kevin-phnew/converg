@@ -9,9 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class OracleJdbcService extends AbstractJdbcService {
 
@@ -52,10 +50,8 @@ public class OracleJdbcService extends AbstractJdbcService {
                 while (rs.next()) {
                     for (int i = 1; i <= data.getColumnCount(); i++) {
                         // typeName 字段名 type 字段类型
-                        Map<String, Object> map = new HashMap<>();
-                        map.put(data.getColumnName(i), data.getColumnTypeName(i));//具体长度data.getColumnType(i)
-                        list.add(new column(data.getColumnName(i), data.getColumnTypeName(i), data.getColumnType(i)
-                                , data.isNullable(i) == 0));
+                        list.add(new column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
+                                , data.isNullable(i) == 0 ? "notRequired" : "required"));
                     }
                 }
             }

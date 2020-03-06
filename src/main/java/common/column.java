@@ -3,13 +3,11 @@ package common;
 public class column {
 
     private String columnName;
-    private String columnTypeName;
-    private int columnType;
-    private boolean required;
+    private String columnType;
+    private String required;
 
-    public column(String columnName, String columnTypeName, int columnType, boolean required) {
+    public column(String columnName, String columnType, String required) {
         this.columnName = columnName;
-        this.columnTypeName = columnTypeName;
         this.columnType = columnType;
         this.required = required;
     }
@@ -22,27 +20,28 @@ public class column {
         this.columnName = columnName;
     }
 
-    public String getColumnTypeName() {
-        return columnTypeName;
-    }
-
-    public void setColumnTypeName(String columnTypeName) {
-        this.columnTypeName = columnTypeName;
-    }
-
-    public int getColumnType() {
+    public String getColumnType() {
         return columnType;
     }
 
-    public void setColumnType(int columnType) {
+    public void setColumnType(String columnType) {
         this.columnType = columnType;
     }
 
-    public boolean isRequired() {
+    public String getRequired() {
         return required;
     }
 
-    public void setRequired(boolean required) {
+    public void setRequired(String required) {
         this.required = required;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "columnName='" + columnName + '\'' +
+                ", columnType='" + columnType + '\'' +
+                ", required='" + required + '\'' +
+                '}';
     }
 }
