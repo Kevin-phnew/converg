@@ -3,6 +3,8 @@ package impl;
 import common.AbstractJdbcService;
 import common.Column;
 import common.DataSource;
+import org.apache.commons.lang3.StringUtils;
+import util.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +21,15 @@ public class OracleJdbcService extends AbstractJdbcService {
 
     @Override
     protected String loadDriverClass() {
-        return "oracle.jdbc.driver.OracleDriver";
+        String driver_jar = System.getProperty("driver_jar");
+        String driver_class = System.getProperty("driver_class");
+        if (StringUtils.isNotBlank(driver_jar)) {
+            JDBCUtil.loadJdbcJar(driver_jar);
+        }
+        if (StringUtils.isBlank(driver_class)) {
+            driver_class = "oracle.jdbc.driver.OracleDriver";
+        }
+        return driver_class;
     }
 
     /**

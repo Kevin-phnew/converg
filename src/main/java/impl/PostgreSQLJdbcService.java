@@ -3,6 +3,8 @@ package impl;
 import common.AbstractJdbcService;
 import common.Column;
 import common.DataSource;
+import org.apache.commons.lang3.StringUtils;
+import util.JDBCUtil;
 import util.readFileUtil;
 
 import java.sql.Connection;
@@ -18,9 +20,18 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
         super(dataSource);
     }
 
+
     @Override
     protected String loadDriverClass() {
-        return "org.postgresql.Driver";
+        String driver_jar = System.getProperty("driver_jar");
+        String driver_class = System.getProperty("driver_class");
+        if (StringUtils.isNotBlank(driver_jar)) {
+            JDBCUtil.loadJdbcJar(driver_jar);
+        }
+        if (StringUtils.isBlank(driver_class)) {
+            driver_class = "org.postgresql.Driver";
+        }
+        return driver_class;
     }
 
     @Override

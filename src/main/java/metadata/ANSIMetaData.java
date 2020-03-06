@@ -25,9 +25,11 @@ public class ANSIMetaData {
         String database = System.getProperty("database");
         String engine = System.getProperty("db_engine");
         String schema = System.getProperty("schema");
+        String dbName = System.getProperty("db_name");
         String table = System.getProperty("table");
-        DataSource param = new DataSource(engine, database, userName, passwd, "", schema, table);
+        DataSource param = new DataSource(engine, database, userName, passwd, dbName, schema, table);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
+        //测试数据据连接
         jdbcService.test();
         List<Column> fields = jdbcService.getTableColumnsAndType();
         System.out.println("Schema extracted successfully!");
