@@ -36,6 +36,6 @@ public interface JdbcService {
     /**
      * 列出所有的字段及类型
      */
-    List<column> getTableColumnsAndType();
+    List<Column> getTableColumnsAndType();
 
 }

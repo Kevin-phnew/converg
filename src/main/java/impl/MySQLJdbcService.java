@@ -1,8 +1,8 @@
 package impl;
 
 import common.AbstractJdbcService;
+import common.Column;
 import common.DataSource;
-import common.column;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -37,13 +37,13 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<column> getTableColumnsAndType() {
+    public List<Column> getTableColumnsAndType() {
         String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
         String sql = "select * from " + tvName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
-        List<column> list = new ArrayList<>();
+        List<Column> list = new ArrayList<>();
         try {
             conn = this.getConnection();
             pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
@@ -55,7 +55,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
                 while (rs.next()) {
                     for (int i = 1; i <= data.getColumnCount(); i++) {
                         // typeName 字段名 type 字段类型
-                        list.add(new column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
+                        list.add(new Column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
                                 , data.isNullable(i) == 0 ? "notRequired" : "required"));
                     }
                 }

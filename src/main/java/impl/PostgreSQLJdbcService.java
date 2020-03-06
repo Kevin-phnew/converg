@@ -1,8 +1,8 @@
 package impl;
 
 import common.AbstractJdbcService;
+import common.Column;
 import common.DataSource;
-import common.column;
 import util.readFileUtil;
 
 import java.sql.Connection;
@@ -37,7 +37,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<column> getTableColumnsAndType() {
+    public List<Column> getTableColumnsAndType() {
         String sql = readFileUtil.getIRSql("postgresIR.sql")
                 .replace("#{dbName}", this.getDataSource().getDbName())
                 .replace("#{schema}", this.getDataSource().getSchema())
@@ -46,7 +46,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
-        List<column> list = new ArrayList<>();
+        List<Column> list = new ArrayList<>();
         try {
             conn = this.getConnection();
             pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
@@ -56,7 +56,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
                 ResultSetMetaData data = rs.getMetaData();
                 //遍历结果   getColumnCount 获取表列个数
                 while (rs.next()) {
-                    list.add(new column(
+                    list.add(new Column(
                             rs.getString(4)
                             , rs.getString(5)
                             , rs.getString(6)));

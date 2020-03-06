@@ -1,7 +1,7 @@
+import common.Column;
 import common.DataSource;
 import common.JdbcService;
 import common.JdbcServiceFactory;
-import common.column;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public class test {
 //        String tvName = "emp";
 //        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
 //        JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-//        List<column> fields = jdbcService.getTableColumnsAndType();
+//        List<Column> fields = jdbcService.getTableColumnsAndType();
 //        fields.stream().forEach(e -> System.out.println(JSONObject.toJSON(e)));
 
         String jdbcType = "postgres";
@@ -28,7 +28,7 @@ public class test {
         String tvName = "pg_user";
         DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        List<column> fields = jdbcService.getTableColumnsAndType();
+        List<Column> fields = jdbcService.getTableColumnsAndType();
         fields.stream().forEach(e -> System.out.println(e.toString()));
     }
 }

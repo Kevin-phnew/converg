@@ -1,12 +1,12 @@
 package common;
 
-public class column {
+public class Column {
 
     private String columnName;
     private String columnType;
     private String required;
 
-    public column(String columnName, String columnType, String required) {
+    public Column(String columnName, String columnType, String required) {
         this.columnName = columnName;
         this.columnType = columnType;
         this.required = required;
