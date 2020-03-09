@@ -84,4 +84,17 @@ public class DataSource implements Serializable {
     public void settvName(String tvName) {
         this.tvName = tvName;
     }
+
+    @Override
+    public String toString() {
+        return "DataSource{" +
+                "jdbcType='" + jdbcType + '\'' +
+                ", jdbcUrl='" + jdbcUrl + '\'' +
+                ", jdbcUser='" + jdbcUser + '\'' +
+                ", jdbcPassword='" + jdbcPassword + '\'' +
+                ", schema='" + schema + '\'' +
+                ", dbName='" + dbName + '\'' +
+                ", tvName='" + tvName + '\'' +
+                '}';
+    }
 }

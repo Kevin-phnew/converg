@@ -61,11 +61,35 @@ public class Relation {
         this.attributes = attributes;
     }
 
+    /**
+     * format relation output struct
+     * relation "cars_source" {
+     *   relation_type = base
+     *   attributes {
+     *     attribute "make" {
+     *       required = true
+     *       data_type = varchar(128)
+     *       expression = "x*3"
+     *     }
+     *     attribute "year" {
+     *       data_type = integer
+     *     }
+     *   }
+     * }
+     * @return formatted relation with \n
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("relation \"" + name + "\" {\n");
-        builder.append("  relation_type = " + relation_type + "\n");
+        builder.append("  relation_type = " + relation_type);
+        if (source != null) {
+            builder.append(" {\n");
+            builder.append("    source = \"" + source + "\"\n");
+            builder.append("  }");
+        }
+        builder.append("\n");
+
         if (partitions != null && partitions.size() > 0){
             builder.append("  partitions = [");
             String collect = partitions.parallelStream()
@@ -88,7 +112,8 @@ public class Relation {
         attributes.add(new Attribute("make", true,"varchar(128)", "x*3"));
         attributes.add(new Attribute("model", "varchar(128)"));
         attributes.add(new Attribute("year", "integer"));
-        Relation relation = new Relation("cars_source", "base", attributes);
+        Relation relation = new Relation("cars", "base", attributes);
+        relation.setSource("cars_source");
         System.out.println(relation);
     }
 }

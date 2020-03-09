@@ -1,8 +1,5 @@
 package common;
 
-import com.sun.istack.internal.NotNull;
-import org.junit.Test;
-
 public class Attribute {
     private String name;
     private Boolean required;
@@ -63,6 +60,15 @@ public class Attribute {
         this.expression = expression;
     }
 
+    /**
+     * format attribute output struct
+     * attribute "make" {
+     *   required = true
+     *   data_type = varchar(128)
+     *   expression = "x*3"
+     * }
+     * @return formatted attribute with \n
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
