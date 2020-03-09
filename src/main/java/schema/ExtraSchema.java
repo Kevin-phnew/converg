@@ -1,10 +1,10 @@
 package schema;
 
-import common.Column;
-import common.ExtractSchema;
+import common.*;
 import metadata.ANSIMetaData;
 import util.FileUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -68,6 +68,38 @@ public class ExtraSchema extends ExtractSchema {
                 .replaceAll("attribute_rep",sb.toString());
 //        System.out.println(res);
         return res;
+    }
+
+    /**
+     * transform fields to attribute
+     * @param fields fields from database
+     * @return attribute
+     */
+    public List<Attribute> getAttributes(List<Column> fields) {
+        List<Attribute> attributes = new ArrayList<>();
+        for (Column column : fields) {
+            Attribute attribute = new Attribute();
+            attribute.setName(column.getColumnName());
+            attribute.setData_type(column.getColumnType());
+            attribute.setRequired(Boolean.getBoolean(column.getRequired()));
+            attributes.add(attribute);
+        }
+        return attributes;
+    }
+
+    /**
+     * get full schema string, default relation type is base
+     * @param domain database name
+     * @param schemaName schema name or user name
+     * @param relationName relation name or table name
+     * @return formatted string type schema
+     */
+    public String getSchema(String domain, String schemaName, String relationName) {
+        List<Column> fields = ANSIMetaData.getANSIMetaData();
+        List<Attribute> attributes = getAttributes(fields);
+        Relation relation = new Relation(relationName, "base", attributes);
+        Schema schema = new Schema(domain, schemaName, relation);
+        return schema.toString();
     }
 
 }
