@@ -92,10 +92,10 @@ public class Schema {
     }
 
     public static void main(String[] args) {
-        List<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("make", true,"varchar(128)", "x*3"));
-        attributes.add(new Attribute("model", "varchar(128)"));
-        attributes.add(new Attribute("year", "integer"));
+        List<Column> attributes = new ArrayList<>();
+        attributes.add(new Column("make", "true","varchar(128)", "x*3"));
+        attributes.add(new Column("model", "varchar(128)"));
+        attributes.add(new Column("year", "integer"));
         List<Relation> relations = new ArrayList<>();
         relations.add(new Relation("cars_source", "base", attributes));
         Relation relation2 = new Relation("cars", "derived", attributes);

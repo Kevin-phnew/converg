@@ -13,11 +13,6 @@ public class ConvergDB {
                             "ConvergDB JDBC schema extractor\n" +
                             "===============================\n");
 
-        // TODO: 从自定义参数中读取
-        String domain = "";
-        String schemaName = "";
-        String relationName = "";
-
         //Metadata transformation and output
         ExtractSchema extraSchema = new ExtraSchema();
         extraSchema.outPutSchema();

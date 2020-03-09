@@ -5,11 +5,28 @@ public class Column {
     private String columnName;
     private String columnType;
     private String required;
+    private String expression;
+
+    public Column() {
+
+    }
+
+    public Column(String columnName, String columnType) {
+        this.columnName = columnName;
+        this.columnType = columnType;
+    }
 
     public Column(String columnName, String columnType, String required) {
         this.columnName = columnName;
         this.columnType = columnType;
         this.required = required;
+    }
+
+    public Column(String columnName, String columnType, String required, String expression) {
+        this.columnName = columnName;
+        this.columnType = columnType;
+        this.required = required;
+        this.expression = expression;
     }
 
     public String getColumnName() {
@@ -36,12 +53,42 @@ public class Column {
         this.required = required;
     }
 
+    public String getExpression() {
+        return expression;
+    }
+
+    public void setExpression(String expression) {
+        this.expression = expression;
+    }
+
+    /**
+     * format attribute output struct
+     * attribute "make" {
+     *   required = true
+     *   data_type = varchar(128)
+     *   expression = "x*3"
+     * }
+     * @return formatted attribute with \n
+     */
     @Override
     public String toString() {
-        return "{" +
-                "columnName='" + columnName + '\'' +
-                ", columnType='" + columnType + '\'' +
-                ", required='" + required + '\'' +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append("attribute \"" + columnName + "\" {\n");
+        if (required != null) {
+            builder.append("  required = " + required + "\n");
+        }
+
+        builder.append("  data_type = " + columnType + "\n");
+
+        if (expression != null) {
+            builder.append("  expression = \"" + expression + "\"\n");
+        }
+        builder.append("}");
+        return builder.toString();
+    }
+
+    public static void main(String[] args) {
+        Column attribute = new Column("make", "true","varchar(128)", "x*3");
+        System.out.println(attribute);
     }
 }

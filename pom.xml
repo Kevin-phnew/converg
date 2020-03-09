@@ -23,12 +23,12 @@
             <version>8.0.19</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.oracle/ojdbc14 -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.oracle</groupId>-->
-        <!--            <artifactId>ojdbc14</artifactId>-->
-        <!--            <version>10.2.0.3.0</version>-->
-        <!--        </dependency>-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.oracle/ojdbc14 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.oracle</groupId>-->
+            <!--<artifactId>ojdbc14</artifactId>-->
+            <!--<version>10.2.0.3.0</version>-->
+        <!--</dependency>-->
 
 
         <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
@@ -43,6 +43,12 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>1.7.25</version>
         </dependency>
 
         <dependency>
