@@ -29,12 +29,9 @@ public class ExtraSchema extends ExtractSchema {
             System.out.println("no output path");
         }
 
-//        String domain = System.getProperty("");
-//        String schemaName = System.getProperty("");
-//        String relationName = System.getProperty("");
-        String domain = "service";
-        String schemaName = "root";
-        String relationName = "page_click";
+        String domain = System.getProperty("db_name");
+        String schemaName = System.getProperty("schema");
+        String relationName = System.getProperty("table");
         Relation relation = new Relation(relationName, "base", fields);
         Schema schema = new Schema(domain, schemaName, relation);
 
