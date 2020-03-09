@@ -36,11 +36,10 @@ public class ExtraSchema extends ExtractSchema {
         Schema schema = new Schema(domain, schemaName, relation);
 
         boolean res = FileUtil.writeTxtFile(schema.toString(), outPath.trim(), "UTF-8");
-        if(res) {
-            System.out.println("Output file failed, please check the output file path");
-        }
-        else{
+        if (res) {
             System.out.println("Process complete");
+        } else {
+            System.out.println("Output file failed, please check the output file path");
         }
     }
 
