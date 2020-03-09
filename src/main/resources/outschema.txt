@@ -1,0 +1,29 @@
+domain "testdb" {
+  schema "public" {
+    relation "company" {
+      relation_type = base
+      attributes {
+        attribute "id" {
+          required = true
+          data_type = int(4)
+        }
+        attribute "name" {
+          required = true
+          data_type = not supported
+        }
+        attribute "age" {
+          required = true
+          data_type = int(4)
+        }
+        attribute "address" {
+          required = false
+          data_type = char(50)
+        }
+        attribute "salary" {
+          required = false
+          data_type = float
+        }
+      }
+    }
+  }
+}
