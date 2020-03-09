@@ -9,16 +9,16 @@ public class Relation {
     private String relation_type;
     private String source;
     private List<String> partitions;
-    private List<Attribute> attributes;
+    private List<Column> column;
 
     public Relation() {
 
     }
 
-    public Relation(String name, String relation_type, List<Attribute> attributes) {
+    public Relation(String name, String relation_type, List<Column> column) {
         this.name = name;
         this.relation_type = relation_type;
-        this.attributes = attributes;
+        this.column = column;
     }
 
     public String getName() {
@@ -53,19 +53,19 @@ public class Relation {
         this.partitions = partitions;
     }
 
-    public List<Attribute> getAttributes() {
-        return attributes;
+    public List<Column> getColumns() {
+        return column;
     }
 
-    public void setAttributes(List<Attribute> attributes) {
-        this.attributes = attributes;
+    public void setColumns(List<Column> column) {
+        this.column = column;
     }
 
     /**
      * format relation output struct
      * relation "cars_source" {
      *   relation_type = base
-     *   attributes {
+     *   column {
      *     attribute "make" {
      *       required = true
      *       data_type = varchar(128)
@@ -99,7 +99,7 @@ public class Relation {
             builder.append("]\n");
         }
         builder.append("  attributes {\n");
-        for (Attribute attribute : attributes) {
+        for (Column attribute : column) {
             builder.append("    " + attribute.toString().replaceAll("\n", "\n    ") + "\n");
         }
         builder.append("  }\n");
@@ -108,11 +108,11 @@ public class Relation {
     }
 
     public static void main(String[] args) {
-        List<Attribute> attributes = new ArrayList<>();
-        attributes.add(new Attribute("make", true,"varchar(128)", "x*3"));
-        attributes.add(new Attribute("model", "varchar(128)"));
-        attributes.add(new Attribute("year", "integer"));
-        Relation relation = new Relation("cars", "base", attributes);
+        List<Column> column = new ArrayList<>();
+        column.add(new Column("make", "true","varchar(128)", "x*3"));
+        column.add(new Column("model", "varchar(128)"));
+        column.add(new Column("year", "integer"));
+        Relation relation = new Relation("cars", "base", column);
         relation.setSource("cars_source");
         System.out.println(relation);
     }
