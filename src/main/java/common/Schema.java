@@ -1,8 +1,8 @@
 package common;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Schema {
     private String domain;
@@ -11,6 +11,12 @@ public class Schema {
 
     public Schema() {
 
+    }
+
+    public Schema(String domain, String schema, Relation relation) {
+        this.domain = domain;
+        this.schema = schema;
+        this.relations = Arrays.asList(relation);
     }
 
     public Schema(String domain, String schema, List<Relation> relations) {
@@ -43,6 +49,35 @@ public class Schema {
         this.relations = relations;
     }
 
+    /**
+     * format schema output struct
+     * domain "inventory" {
+     *   schema "vehicles" {
+     *     relation "cars_source" {
+     *       relation_type = base
+     *       attributes {
+     *         attribute "make" {
+     *           required = true
+     *           data_type = varchar(128)
+     *           expression = "x*3"
+     *         }
+     *       }
+     *     }
+     *     relation "cars" {
+     *       relation_type = derived {
+     *         source = "cars_source"
+     *       }
+     *       attributes {
+     *         attribute "year" {
+     *           data_type = integer
+     *         }
+     *       }
+     *     }
+     *   }
+     * }
+     *
+     * @return formatted schema with \n
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

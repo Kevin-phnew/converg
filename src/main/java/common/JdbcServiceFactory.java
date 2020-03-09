@@ -12,6 +12,7 @@ public class JdbcServiceFactory {
      * @return jdbc service
      */
     public static JdbcService getJdbcService(DataSource dataSource) {
+        System.out.println(dataSource.toString());
         if (dataSource.getJdbcType().equals(JdbcType.MYSQL.getValue())) {
             return new MySQLJdbcService(dataSource);
         } else if (dataSource.getJdbcType().equals(JdbcType.ORACLE.getValue())) {
