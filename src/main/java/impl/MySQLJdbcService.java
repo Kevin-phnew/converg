@@ -65,7 +65,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
                     for (int i = 1; i <= data.getColumnCount(); i++) {
                         // typeName 字段名 type 字段类型
                         list.add(new Column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
-                                , data.isNullable(i) == 0 ? "required" : "notRequired"));
+                                , data.isNullable(i) == 0 ? "true" : "false"));
                     }
                 }
             }

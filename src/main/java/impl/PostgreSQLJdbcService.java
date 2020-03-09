@@ -59,7 +59,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
                     list.add(new Column(
                             rs.getString(4)
                             , rs.getString(5)
-                            , rs.getString(6)));
+                            , rs.getString(6).equals("required") ? "true" : "false"));
                 }
             }
         } catch (Exception e) {
