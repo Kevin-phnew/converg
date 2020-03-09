@@ -1,8 +1,5 @@
 package common;
 
-import com.sun.istack.internal.NotNull;
-import org.junit.Test;
-
 public class Attribute {
     private String name;
     private Boolean required;
