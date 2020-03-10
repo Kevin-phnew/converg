@@ -1,6 +1,9 @@
 package schema;
 
-import common.*;
+import common.Column;
+import common.ExtractSchema;
+import common.Relation;
+import common.Schema;
 import metadata.ANSIMetaData;
 import util.FileUtil;
 
@@ -13,7 +16,7 @@ public class ExtraSchema extends ExtractSchema {
     @Override
     public void outPutSchema() {
         //Metadata extraction
-        List<Column> fields = ANSIMetaData.getANSIMetaData();
+        List<Column> fields = ANSIMetaData.changeANSIToConvergeMeta();
 
         if(null == fields)
             return ;
