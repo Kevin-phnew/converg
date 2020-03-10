@@ -9,7 +9,8 @@ public class LogUtil {
     private static final Logger logger = LoggerFactory.getLogger(LogUtil.class);
 
     public static void main(String args[]){
-        LogUtil.warn("nihao ");
+
+        logger.info("c1s");
     }
 
     public static void info(String msg){
@@ -20,6 +21,8 @@ public class LogUtil {
         logger.warn(msg);
     }
 
-
+    public static void debgue2file(String msg,Throwable t){
+        logger.debug(msg,t);
+    }
 
 }

@@ -1,6 +1,7 @@
 package common;
 
 import org.apache.commons.lang3.StringUtils;
+import util.LogUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -114,7 +115,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             Class.forName(loadDriverClass());
             conn = DriverManager.getConnection(dataSource.getJdbcUrl(), dataSource.getJdbcUser(), dataSource.getJdbcPassword());
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.debgue2file("Connection Failed",e);
         }
         return conn;
     }
