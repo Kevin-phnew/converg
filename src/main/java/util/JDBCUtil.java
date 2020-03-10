@@ -9,10 +9,6 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
 
-/**
- * @Author Kevin
- * @Date 2020/3/4
- */
 public class JDBCUtil {
 
 

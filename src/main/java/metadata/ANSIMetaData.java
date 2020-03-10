@@ -7,10 +7,7 @@ import common.JdbcServiceFactory;
 
 import java.util.List;
 
-/**
- * @Author Kevin
- * @Date 2020/3/5
- */
+
 public class ANSIMetaData {
 
     /**
@@ -30,7 +27,9 @@ public class ANSIMetaData {
         DataSource param = new DataSource(engine, database, userName, passwd, dbName, schema, table);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
         //测试数据据连接
-        jdbcService.test();
+        boolean testConn = jdbcService.test();
+        if(!testConn)
+            return null;
         List<Column> fields = jdbcService.getTableColumnsAndType();
         System.out.println("Schema extracted successfully!");
 //        String json = ((JSONArray) JSONObject.toJSON(fields)).toJSONString();

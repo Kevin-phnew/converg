@@ -7,17 +7,16 @@ import util.FileUtil;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * @Author Kevin
- * @Date 2020/3/4
- * @Desc 解析json并输出schema文件
- */
+
 public class ExtraSchema extends ExtractSchema {
 
     @Override
     public void outPutSchema() {
         //Metadata extraction
         List<Column> fields = ANSIMetaData.getANSIMetaData();
+
+        if(null == fields)
+            return ;
 
         Scanner scan = new Scanner(System.in);
         System.out.println("Please provide path for ConvergDB schema output:");
@@ -28,6 +27,7 @@ public class ExtraSchema extends ExtractSchema {
         } else {
             System.out.println("no output path");
         }
+        scan.close();
 
         String domain = System.getProperty("db_name");
         String schemaName = System.getProperty("schema");

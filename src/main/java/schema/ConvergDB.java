@@ -2,10 +2,6 @@ package schema;
 
 import common.ExtractSchema;
 
-/**
- * @Author Kevin
- * @Date 2020/3/4
- */
 public class ConvergDB {
     public static void main(String[] args) {
 

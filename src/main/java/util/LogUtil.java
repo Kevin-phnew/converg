@@ -4,10 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-/**
- * @Author Kevin
- * @Date 2020/3/9
- */
 public class LogUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(LogUtil.class);
