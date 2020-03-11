@@ -13,7 +13,7 @@ import java.util.List;
 public class ANSIMetaData {
 
     /**
-     * 相当于中间层，对外提供数据
+     * Middle tier, providing data to the outside
      *
      * @return List<Column>
      */
@@ -28,7 +28,7 @@ public class ANSIMetaData {
         String table = System.getProperty("table");
         DataSource param = new DataSource(engine, database, userName, passwd, dbName, schema, table);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        //测试数据据连接
+        //Connection test
         boolean testConn = jdbcService.test();
         if(!testConn)
             return null;

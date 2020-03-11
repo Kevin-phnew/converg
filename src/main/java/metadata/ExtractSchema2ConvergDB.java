@@ -1,7 +1,6 @@
-package schema;
+package metadata;
 
 import common.ExtractSchema;
-import metadata.ANSIMetaData;
 import model.Column;
 import model.Relation;
 import model.Schema;
@@ -11,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 
 
-public class ExtraSchema extends ExtractSchema {
+public class ExtractSchema2ConvergDB extends ExtractSchema {
 
     @Override
     public void outPutSchema() {
