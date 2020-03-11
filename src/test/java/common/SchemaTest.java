@@ -1,5 +1,8 @@
 package common;
 
+import model.Column;
+import model.Relation;
+import model.Schema;
 import org.junit.Test;
 
 import java.util.ArrayList;
