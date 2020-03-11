@@ -8,7 +8,7 @@ public class LogUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(LogUtil.class);
 
-    public static void main(String args[]){
+    public static void main(String[] args) {
 
         logger.info("c1s");
     }
@@ -21,7 +21,7 @@ public class LogUtil {
         logger.warn(msg);
     }
 
-    public static void debgue2file(String msg,Throwable t){
+    public static void error(String msg, Throwable t) {
         logger.debug(msg,t);
     }
 

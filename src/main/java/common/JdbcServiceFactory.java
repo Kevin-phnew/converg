@@ -8,9 +8,8 @@ import impl.PostgreSQLJdbcService;
 
 public class JdbcServiceFactory {
     /**
-     * 获取jdbc service
-     *
-     * @param dataSource 数据源
+     * get jdbc service
+     * @param dataSource
      * @return jdbc service
      */
     public static JdbcService getJdbcService(DataSource dataSource) {

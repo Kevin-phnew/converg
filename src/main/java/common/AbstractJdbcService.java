@@ -19,9 +19,9 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 校验数据源信息是否有效
+     * check dataSource valid
      *
-     * @param dataSource 数据源
+     * @param dataSource
      */
     private void checkDataSource(DataSource dataSource) {
         if (dataSource == null) {
@@ -35,12 +35,17 @@ public abstract class AbstractJdbcService implements JdbcService {
         }
     }
 
+    /**
+     * get dataSource
+     *
+     * @return
+     */
     protected DataSource getDataSource() {
         return dataSource;
     }
 
     /**
-     * 关闭(释放)资源
+     * close Connection
      *
      * @param conn Connection
      */
@@ -49,7 +54,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 关闭(释放)资源
+     * close Connection PreparedStatement ResultSet
      *
      * @param conn Connection
      * @param ps   PreparedStatement
@@ -82,6 +87,10 @@ public abstract class AbstractJdbcService implements JdbcService {
         }
     }
 
+    /**
+     * test connection
+     * @return
+     */
     @Override
     public boolean test() {
         System.out.println("Attempting connection to " + this.getDataSource().getJdbcUrl() + "...");
@@ -106,7 +115,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 获取连接
+     * getConnection
      *
      * @return Connection
      */
@@ -116,7 +125,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             Class.forName(loadDriverClass());
             conn = DriverManager.getConnection(dataSource.getJdbcUrl(), dataSource.getJdbcUser(), dataSource.getJdbcPassword());
         } catch (Exception e) {
-            LogUtil.debgue2file("Connection Failed",e);
+            LogUtil.error("Connection Failed", e);
         }
         return conn;
     }
@@ -227,7 +236,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 加载驱动class
+     * loadDriverClass
      *
      * @return class
      */
