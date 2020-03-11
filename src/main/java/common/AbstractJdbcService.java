@@ -115,7 +115,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             Class.forName(loadDriverClass());
             conn = DriverManager.getConnection(dataSource.getJdbcUrl(), dataSource.getJdbcUser(), dataSource.getJdbcPassword());
         } catch (Exception e) {
-            LogUtil.debgue2file("Connection Failed",e);
+            LogUtil.error("Connection Failed", e);
         }
         return conn;
     }
