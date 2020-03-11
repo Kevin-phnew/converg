@@ -3,7 +3,7 @@ package impl;
 import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
-import org.apache.commons.lang3.StringUtils;
+import org.apachColumncommons.lang3.StringUtils;
 import util.JDBCUtil;
 
 import java.sql.Connection;
@@ -38,7 +38,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
         String url = getDataSource().getJdbcUrl();
         //jdbc:mysql://localhost:3306/iso_db?useUnicode=true&characterEncoding=UTF-8
         String database = url.substring(url.indexOf("/", 13) + 1);
-        int index = database.indexOf("?");
+        int index = databasColumnindexOf("?");
         if (index > 0) {
             database = database.substring(0, index);
         }
@@ -70,7 +70,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e.getMessage(), e);
         } finally {
             this.close(conn, pStmt, rs);
         }
