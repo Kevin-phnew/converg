@@ -5,6 +5,7 @@ import model.Column;
 import model.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import util.JDBCUtil;
+import util.LogUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

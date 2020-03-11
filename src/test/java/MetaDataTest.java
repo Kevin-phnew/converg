@@ -4,7 +4,6 @@ import metadata.ANSIMetaData;
 import model.Column;
 import model.DataSource;
 import org.junit.Test;
-import util.JDBCUtil;
 
 import java.util.List;
 
@@ -27,15 +26,25 @@ public class MetaDataTest {
     }
 
     public List<Column> getMetaData() {
+//        java -jar -Ddb_name=testdb \
+//        -Dschema=public \
+//        -Dtable=company \
+//        -Ddatabase=jdbc:postgresql://114.67.96.244:5432/testdb \
+//        -Ddb_engine=postgres \
+//        -Ddriver_jar=/Users/guguoyu/Documents/app/maven-repo/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
+//        -Ddriver_class=org.postgresql.Driver \
+//        -DuserName=postgres \
+//        -Dpasswd=123456 \
+//        schemaExtractor-1.0-SNAPSHOT.jar
         String jdbcType = "postgres";
-        String jdbcUrl = "jdbc:postgresql://localhost:5432/test";
+        String jdbcUrl = "jdbc:postgresql://114.67.96.244:5432/testdb";
         String jdbcUser = "postgres";
-        String jdbcPassword = "1234";
-        String dbName = "test";
-        String schema = "pg_catalog";
-        String tvName = "pg_user";
-        String driver_jar = "C:\\Users\\huijun\\.m2\\repository\\postgresql\\postgresql\\9.1-901-1.jdbc4\\postgresql-9.1-901-1.jdbc4.jar";
-        JDBCUtil.loadJdbcJar(driver_jar);//动态加载指定jar
+        String jdbcPassword = "123456";
+        String dbName = "testdb";
+        String schema = "public";
+        String tvName = "company";
+//        String driver_jar = "C:\\Users\\huijun\\.m2\\repository\\postgresql\\postgresql\\9.1-901-1.jdbc4\\postgresql-9.1-901-1.jdbc4.jar";
+//        JDBCUtil.loadJdbcJar(driver_jar);//动态加载指定jar
         DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
         List<Column> fields = jdbcService.getTableColumnsAndType();
