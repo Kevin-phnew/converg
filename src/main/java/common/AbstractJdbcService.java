@@ -106,7 +106,7 @@ public abstract class AbstractJdbcService implements JdbcService {
                 return false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e.getMessage(), e);
         } finally {
             close(conn);
         }
@@ -157,7 +157,7 @@ public abstract class AbstractJdbcService implements JdbcService {
                 result.add(rs.getString("TABLE_NAME"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e.getMessage(), e);
         } finally {
             close(conn, null, rs);
         }

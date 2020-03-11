@@ -1,9 +1,9 @@
 package metadata;
 
-import model.Column;
-import model.DataSource;
 import common.JdbcService;
 import common.JdbcServiceFactory;
+import model.Column;
+import model.DataSource;
 import org.apache.commons.lang3.StringUtils;
 import util.StringUtil;
 
@@ -48,8 +48,8 @@ public class ANSIMetaData {
      * time(n)	time
      * time(n) with time zone	time with time zone
      */
-    public static List<Column> changeANSIToConvergeMeta() {
-        List<Column> columns = getANSIMetaData();
+    public static List<Column> changeANSIToConvergeMeta(List<Column> columns) {
+//        List<Column> columns = getANSIMetaData();
         for (Column e : columns) {
             String columnType = e.getColumnType();
             if (columnType.startsWith("int")) {

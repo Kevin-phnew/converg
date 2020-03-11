@@ -63,7 +63,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e.getMessage(), e);
         } finally {
             this.close(conn, pStmt, rs);
         }

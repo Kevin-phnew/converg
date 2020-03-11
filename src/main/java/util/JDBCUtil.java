@@ -56,7 +56,7 @@ public class JDBCUtil {
             //jar路径加入到系统url路径里
             method.invoke(classLoader, url);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.error(e.getMessage(), e);
         } finally {
             //回写访问权限
             method.setAccessible(accessible);

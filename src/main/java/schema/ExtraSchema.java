@@ -1,10 +1,10 @@
 package schema;
 
-import model.Column;
 import common.ExtractSchema;
+import metadata.ANSIMetaData;
+import model.Column;
 import model.Relation;
 import model.Schema;
-import metadata.ANSIMetaData;
 import util.FileUtil;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class ExtraSchema extends ExtractSchema {
     @Override
     public void outPutSchema() {
         //Metadata extraction
-        List<Column> fields = ANSIMetaData.changeANSIToConvergeMeta();
+        List<Column> fields = ANSIMetaData.changeANSIToConvergeMeta(ANSIMetaData.getANSIMetaData());
 
         if(null == fields)
             return ;
