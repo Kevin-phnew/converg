@@ -1,5 +1,7 @@
 package common;
 
+import model.DataSource;
+import model.JdbcType;
 import impl.MySQLJdbcService;
 import impl.OracleJdbcService;
 import impl.PostgreSQLJdbcService;

@@ -1,9 +1,9 @@
 package schema;
 
-import common.Column;
+import model.Column;
 import common.ExtractSchema;
-import common.Relation;
-import common.Schema;
+import model.Relation;
+import model.Schema;
 import metadata.ANSIMetaData;
 import util.FileUtil;
 

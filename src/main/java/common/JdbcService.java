@@ -1,5 +1,7 @@
 package common;
 
+import model.Column;
+
 import java.util.List;
 
 public interface JdbcService {

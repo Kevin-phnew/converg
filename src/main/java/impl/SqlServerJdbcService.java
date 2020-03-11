@@ -1,8 +1,8 @@
 package impl;
 
 import common.AbstractJdbcService;
-import common.Column;
-import common.DataSource;
+import model.Column;
+import model.DataSource;
 
 import java.util.List;
 

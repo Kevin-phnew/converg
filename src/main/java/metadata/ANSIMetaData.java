@@ -1,7 +1,7 @@
 package metadata;
 
-import common.Column;
-import common.DataSource;
+import model.Column;
+import model.DataSource;
 import common.JdbcService;
 import common.JdbcServiceFactory;
 import org.apache.commons.lang3.StringUtils;

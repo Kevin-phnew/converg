@@ -1,4 +1,4 @@
-package common;
+package model;
 
 public enum JdbcType {
     ORACLE("oracle"),
