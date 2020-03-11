@@ -9,7 +9,7 @@ domain "testdb" {
         }
         attribute "name" {
           required = true
-          data_type = not supported
+          data_type = varchar
         }
         attribute "age" {
           required = true

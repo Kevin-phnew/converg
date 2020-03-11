@@ -60,7 +60,6 @@ then input the schema output direction you want, for example:
 finally, you will get the result after open the outschema.txt
 
 ```bash
-
 domain "testdb" {
   schema "public" {
     relation "company" {
@@ -72,7 +71,7 @@ domain "testdb" {
         }
         attribute "name" {
           required = true
-          data_type = not supported
+          data_type = varchar
         }
         attribute "age" {
           required = true
