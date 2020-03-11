@@ -106,14 +106,4 @@ public class Relation {
         builder.append("}");
         return builder.toString();
     }
-
-    public static void main(String[] args) {
-        List<Column> column = new ArrayList<>();
-        column.add(new Column("make", "true","varchar(128)", "x*3"));
-        column.add(new Column("model", "varchar(128)"));
-        column.add(new Column("year", "integer"));
-        Relation relation = new Relation("cars", "base", column);
-        relation.setSource("cars_source");
-        System.out.println(relation);
-    }
 }

@@ -86,9 +86,4 @@ public class Column {
         builder.append("}");
         return builder.toString();
     }
-
-    public static void main(String[] args) {
-        Column attribute = new Column("make", "true","varchar(128)", "x*3");
-        System.out.println(attribute);
-    }
 }
