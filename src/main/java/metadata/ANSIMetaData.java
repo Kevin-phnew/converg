@@ -4,6 +4,7 @@ import common.JdbcService;
 import common.JdbcServiceFactory;
 import model.Column;
 import model.DataSource;
+import util.LogUtil;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ANSIMetaData {
         if(!testConn)
             return null;
         List<Column> fields = jdbcService.getTableColumnsAndType();
-        System.out.println("Schema extracted successfully!");
+        LogUtil.info("Schema extracted successfully!");
         return fields;
     }
 

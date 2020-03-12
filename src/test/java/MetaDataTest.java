@@ -1,6 +1,6 @@
 import common.JdbcService;
 import common.JdbcServiceFactory;
-import metadata.ANSIMetaData;
+import metadata.ExtractSchema2ConvergDB;
 import model.Column;
 import model.DataSource;
 import org.junit.Test;
@@ -21,7 +21,7 @@ public class MetaDataTest {
     @Test
     public void changeANSIToConvergeMetaTest() {
         List<Column> fields = getMetaData();
-        fields = ANSIMetaData.changeANSIToConvergeMeta(getMetaData());
+        fields = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(getMetaData());
         fields.stream().forEach(e -> System.out.println(e.toString()));
     }
 

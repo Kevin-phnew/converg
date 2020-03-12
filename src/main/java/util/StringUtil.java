@@ -18,7 +18,7 @@ public class StringUtil {
                 return mat.group();
             }
         } catch (Exception e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         }
         return "";
     }

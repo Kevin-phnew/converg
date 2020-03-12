@@ -19,7 +19,7 @@ public class FileUtil {
                 out.append(new String(b, 0, n));
             }
         } catch (IOException e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         }
         return out.toString();
     }
@@ -36,17 +36,17 @@ public class FileUtil {
             output.write(schema.getBytes(encoding));
             result=true;
         } catch (FileNotFoundException e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         } catch (UnsupportedEncodingException e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         } catch (IOException e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    LogUtil.error(e.getMessage(), e);
+                    LogUtil.debug(e.getMessage(), e);
                 }
             }
         }

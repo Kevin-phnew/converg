@@ -21,7 +21,7 @@ public class LogUtil {
         logger.warn(msg);
     }
 
-    public static void error(String msg, Throwable t) {
+    public static void debug(String msg, Throwable t) {
         logger.debug(msg,t);
     }
 

@@ -106,11 +106,11 @@ public abstract class AbstractJdbcService implements JdbcService {
                 return false;
             }
         } catch (Exception e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             close(conn);
         }
-        System.out.println("connected!");
+        LogUtil.info("Connected");
         return true;
     }
 
@@ -125,7 +125,8 @@ public abstract class AbstractJdbcService implements JdbcService {
             Class.forName(loadDriverClass());
             conn = DriverManager.getConnection(dataSource.getJdbcUrl(), dataSource.getJdbcUser(), dataSource.getJdbcPassword());
         } catch (Exception e) {
-            LogUtil.error("Connection Failed", e);
+            LogUtil.info("Connection Failed,Please check out your parameter");
+            LogUtil.debug("Connection Failed", e);
         }
         return conn;
     }
@@ -157,7 +158,7 @@ public abstract class AbstractJdbcService implements JdbcService {
                 result.add(rs.getString("TABLE_NAME"));
             }
         } catch (Exception e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             close(conn, null, rs);
         }

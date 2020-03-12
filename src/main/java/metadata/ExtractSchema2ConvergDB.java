@@ -6,6 +6,7 @@ import model.Relation;
 import model.Schema;
 import org.apache.commons.lang3.StringUtils;
 import util.FileUtil;
+import util.LogUtil;
 import util.StringUtil;
 
 import java.util.List;
@@ -16,20 +17,21 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
 
     @Override
     public void outPutSchema() {
-        //Metadata extraction
-        List<Column> fields = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ANSIMetaData.getANSIMetaData());
-
-        if(null == fields)
+        List<Column> ansiMetaData = ANSIMetaData.getANSIMetaData();
+        if(null == ansiMetaData)
             return ;
+        //Metadata extraction
+        List<Column> fields = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ansiMetaData);
 
         Scanner scan = new Scanner(System.in);
-        System.out.println("Please provide path for ConvergDB schema output:");
+        LogUtil.info("Please provide path for ConvergDB schema output:");
         String outPath = null;
         if (scan.hasNext()) {
             outPath = scan.next();
-            System.out.println("Schema written to: \n" + outPath);
+            LogUtil.info("Schema written to: \n" + outPath);
         } else {
-            System.out.println("no output path");
+            LogUtil.info("no output path");
+            return;
         }
         scan.close();
 
@@ -41,11 +43,12 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
 
         boolean res = FileUtil.writeTxtFile(schema.toString(), outPath.trim(), "UTF-8");
         if (res) {
-            System.out.println("Process complete");
+            LogUtil.info("Process complete");
         } else {
-            System.out.println("Output file failed, please check the output file path");
+            LogUtil.info("Output file failed, please check the output file path");
         }
     }
+
 
 
 
@@ -85,5 +88,4 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         }
         return columns;
     }
-
 }

@@ -71,7 +71,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
                 }
             }
         } catch (Exception e) {
-            LogUtil.error(e.getMessage(), e);
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             this.close(conn, pStmt, rs);
         }
