@@ -19,14 +19,16 @@ public class EnvUtil {
 
         Map<String, String> env = System.getenv();
         String userName = env.get("userName");
-        String passWord = env.get("passWord");
-        if(StringUtils.isBlank(userName) || StringUtils.isBlank(passWord)){
-            LogUtil.info("The userName or passWord of the database is empty. " +
-                    "Please check the parameters you entered ");
+        String passwd = env.get("passwd");
+        if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
+            LogUtil.info("The userName or passwd of the database is empty. " +
+                    "Please check that the userName and password in the" +
+                    " parameter or environment variable you entered are " +
+                    "\"userName\" and \"passwd\"");
             return null;
         }
         arr[0] = userName;
-        arr[1] = passWord;
+        arr[1] = passwd;
 
         return arr;
     }
