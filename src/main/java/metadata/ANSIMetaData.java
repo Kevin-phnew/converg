@@ -2,8 +2,8 @@ package metadata;
 
 import common.JdbcService;
 import common.JdbcServiceFactory;
-import model.Column;
 import model.DataSource;
+import model.Relation;
 import util.LogUtil;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class ANSIMetaData {
      *
      * @return List<Column>
      */
-    public static List<Column> getANSIMetaData() {
+    public static List<Relation> getANSIMetaData() {
 
         String userName = System.getProperty("userName");
         String passwd = System.getProperty("passwd");
@@ -31,9 +31,9 @@ public class ANSIMetaData {
         boolean testConn = jdbcService.test();
         if(!testConn)
             return null;
-        List<Column> fields = jdbcService.getTableColumnsAndType();
+        List<Relation> relations = jdbcService.getAllTablesColumnsAndType();
         LogUtil.info("Schema extracted successfully!");
-        return fields;
+        return relations;
     }
 
 

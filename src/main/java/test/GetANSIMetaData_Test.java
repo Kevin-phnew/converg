@@ -22,7 +22,7 @@ public class GetANSIMetaData_Test {
         //Connection test
         boolean testConn = jdbcService.test();
 
-        List<Column> fields = jdbcService.getTableColumnsAndType();
+        List<Column> fields = jdbcService.getTableColumnsAndType(table);
         System.out.println("Schema extracted successfully!");
         System.out.println(fields);
 

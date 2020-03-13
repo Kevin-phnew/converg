@@ -3,6 +3,7 @@ package impl;
 import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
+import model.Relation;
 import org.apache.commons.lang3.StringUtils;
 import util.JDBCUtil;
 import util.LogUtil;
@@ -47,8 +48,8 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Column> getTableColumnsAndType() {
-        String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
+    public List<Column> getTableColumnsAndType(String tvName) {
+        tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
         String sql = "select * from " + tvName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
@@ -78,4 +79,8 @@ public class MySQLJdbcService extends AbstractJdbcService {
         return list;
     }
 
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        return null;
+    }
 }

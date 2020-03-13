@@ -3,8 +3,10 @@ import common.JdbcServiceFactory;
 import metadata.ExtractSchema2ConvergDB;
 import model.Column;
 import model.DataSource;
+import model.Relation;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,8 +23,13 @@ public class MetaDataTest {
     @Test
     public void changeANSIToConvergeMetaTest() {
         List<Column> fields = getMetaData();
-        fields = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(getMetaData());
-        fields.stream().forEach(e -> System.out.println(e.toString()));
+        Relation relation = new Relation();
+        relation.setName("");
+        relation.setColumns(fields);
+        List<Relation> relations = new ArrayList<>();
+        relations.add(relation);
+        relations = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(relations);
+        relations.stream().forEach(e -> System.out.println(e.toString()));
     }
 
     public List<Column> getMetaData() {
@@ -47,7 +54,7 @@ public class MetaDataTest {
 //        JDBCUtil.loadJdbcJar(driver_jar);//动态加载指定jar
         DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        List<Column> fields = jdbcService.getTableColumnsAndType();
+        List<Column> fields = jdbcService.getTableColumnsAndType(tvName);
         return fields;
     }
 

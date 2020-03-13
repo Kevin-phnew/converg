@@ -3,6 +3,7 @@ package impl;
 import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
+import model.Relation;
 import org.apache.commons.lang3.StringUtils;
 import util.JDBCUtil;
 import util.LogUtil;
@@ -43,8 +44,8 @@ public class OracleJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Column> getTableColumnsAndType() {
-        String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
+    public List<Column> getTableColumnsAndType(String tvName) {
+        tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
         String sql = "select * from " + tvName + " where 0<>0";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
@@ -72,5 +73,10 @@ public class OracleJdbcService extends AbstractJdbcService {
             this.close(conn, pStmt, rs);
         }
         return list;
+    }
+
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        return null;
     }
 }

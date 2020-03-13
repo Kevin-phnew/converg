@@ -3,6 +3,7 @@ package impl;
 import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
+import model.Relation;
 
 import java.util.List;
 
@@ -27,7 +28,12 @@ public class SqlServerJdbcService extends AbstractJdbcService{
     }
 
     @Override
-    public List<Column> getTableColumnsAndType() {
+    public List<Column> getTableColumnsAndType(String tableName) {
+        return null;
+    }
+
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
         return null;
     }
 }

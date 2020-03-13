@@ -17,11 +17,11 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
 
     @Override
     public void outPutSchema() {
-        List<Column> ansiMetaData = ANSIMetaData.getANSIMetaData();
+        List<Relation> ansiMetaData = ANSIMetaData.getANSIMetaData();
         if(null == ansiMetaData)
             return ;
         //Metadata extraction
-        List<Column> fields = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ansiMetaData);
+        List<Relation> relations = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ansiMetaData);
 
         Scanner scan = new Scanner(System.in);
         LogUtil.info("Please provide path for ConvergDB schema output:");
@@ -35,11 +35,13 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         }
         scan.close();
 
-        String domain = System.getProperty("db_name");
-        String schemaName = System.getProperty("schema");
-        String relationName = System.getProperty("table");
-        Relation relation = new Relation(relationName, "base", fields);
-        Schema schema = new Schema(domain, schemaName, relation);
+//  todo
+//        String domain = System.getProperty("db_name");
+//        String schemaName = System.getProperty("schema");
+//        String relationName = System.getProperty("table");
+//        Relation relation = new Relation(relationName, "base", fields);
+//        Schema schema = new Schema(domain, schemaName, relation);
+        Schema schema = new Schema();
 
         boolean res = FileUtil.writeTxtFile(schema.toString(), outPath.trim(), "UTF-8");
         if (res) {
@@ -61,31 +63,32 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
      * time(n)	time
      * time(n) with time zone	time with time zone
      */
-    public static List<Column> changeANSIToConvergeMeta(List<Column> columns) {
-//        List<Column> columns = getANSIMetaData();
-        for (Column e : columns) {
-            String columnType = e.getColumnType();
-            if (columnType.startsWith("int")) {
-                String n = StringUtil.getNumberFromText(columnType);
-                if (StringUtils.isBlank(n) || Integer.parseInt(n) < 8) {
-                    e.setColumnType("interger");
-                } else {
-                    e.setColumnType("bigint");
-                }
-            } else if (columnType.startsWith("timestamp")) {
-                if (columnType.endsWith("zone")) {
-                    e.setColumnType("timestamptz");
-                } else {
-                    e.setColumnType("timestamp");
-                }
-            } else if (columnType.startsWith("time")) {
-                if (columnType.endsWith("zone")) {
-                    e.setColumnType("time with time zone");
-                } else {
-                    e.setColumnType("time");
+    public static List<Relation> changeANSIToConvergeMeta(List<Relation> relations) {
+        for (Relation r : relations) {
+            for (Column e : r.getColumns()) {
+                String columnType = e.getColumnType();
+                if (columnType.startsWith("int")) {
+                    String n = StringUtil.getNumberFromText(columnType);
+                    if (StringUtils.isBlank(n) || Integer.parseInt(n) < 8) {
+                        e.setColumnType("interger");
+                    } else {
+                        e.setColumnType("bigint");
+                    }
+                } else if (columnType.startsWith("timestamp")) {
+                    if (columnType.endsWith("zone")) {
+                        e.setColumnType("timestamptz");
+                    } else {
+                        e.setColumnType("timestamp");
+                    }
+                } else if (columnType.startsWith("time")) {
+                    if (columnType.endsWith("zone")) {
+                        e.setColumnType("time with time zone");
+                    } else {
+                        e.setColumnType("time");
+                    }
                 }
             }
         }
-        return columns;
+        return relations;
     }
 }

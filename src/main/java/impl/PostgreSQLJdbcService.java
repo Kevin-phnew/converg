@@ -3,6 +3,8 @@ package impl;
 import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
+import model.Relation;
+import org.apache.commons.lang3.StringUtils;
 import util.FileUtil;
 import util.LogUtil;
 
@@ -38,16 +40,19 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Column> getTableColumnsAndType() {
+    public List<Column> getTableColumnsAndType(String tvName) {
+        if (StringUtils.isBlank(tvName)) {
+            tvName = this.getDataSource().gettvName();
+        }
         String sql = FileUtil.getFile("postgresIR.sql")
                 .replace("#{dbName}", this.getDataSource().getDbName())
                 .replace("#{schema}", this.getDataSource().getSchema())
-                .replace("#{tbName}", this.getDataSource().gettvName());
+                .replace("#{tbName}", tvName);
 
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
-        List<Column> list = new ArrayList<>();
+        List<Column> columns = new ArrayList<>();
         try {
             conn = this.getConnection();
             pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
@@ -57,7 +62,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
                 ResultSetMetaData data = rs.getMetaData();
                 //遍历结果   getColumnCount 获取表列个数
                 while (rs.next()) {
-                    list.add(new Column(
+                    columns.add(new Column(
                             rs.getString(4)
                             , rs.getString(5)
                             , rs.getString(6).equals("required") ? "true" : "false"));
@@ -68,7 +73,53 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
         } finally {
             this.close(conn, pStmt, rs);
         }
-        return list;
+        return columns;
+    }
+
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        List<String> tables = this.listAllTables();
+        List<Relation> relations = new ArrayList<>();
+        tables.stream().forEach(tvName -> {
+            Relation relation = new Relation();
+            relation.setName(tvName);
+            relation.setColumns(this.getTableColumnsAndType(tvName));
+            relations.add(relation);
+        });
+        return relations;
+    }
+
+    @Override
+    public List<String> listAllTables() {
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+
+        ResultSet rs = null;
+        String sql = "SELECT table_name FROM information_schema.tables " +
+                "WHERE table_schema = '" + this.getDataSource().getSchema() + "'" +
+                " and table_name like '" + this.getDataSource().gettvName() + "'";
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+
+        return result;
     }
 
 
