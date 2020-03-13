@@ -3,9 +3,9 @@ package metadata;
 import common.JdbcService;
 import common.JdbcServiceFactory;
 import model.DataSource;
+import model.Relation;
 import org.apache.commons.lang3.StringUtils;
 import util.EnvUtil;
-import model.Relation;
 import util.LogUtil;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class ANSIMetaData {
      *
      * @return List<Column>
      */
-    public static List<Column> getANSIMetaData() {
+    public static List<Relation> getANSIMetaData() {
 
         String userName = System.getProperty("userName");
         String passwd = System.getProperty("passwd");
