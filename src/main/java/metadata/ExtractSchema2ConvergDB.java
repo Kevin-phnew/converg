@@ -68,7 +68,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
             if (columnType.startsWith("int")) {
                 String n = StringUtil.getNumberFromText(columnType);
                 if (StringUtils.isBlank(n) || Integer.parseInt(n) < 8) {
-                    e.setColumnType("interger");
+                    e.setColumnType("integer");
                 } else {
                     e.setColumnType("bigint");
                 }
