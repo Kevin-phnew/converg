@@ -6,7 +6,7 @@
 
     <groupId>com.bys</groupId>
     <artifactId>schemaExtractor</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
 
     <dependencies>
@@ -94,7 +94,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <!--以那个main方法作为主入口-->
-                                        <Main-Class>schema.ConvergDB</Main-Class>
+                                        <Main-Class>util.EnvUtil</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
