@@ -9,11 +9,15 @@ import util.FileUtil;
 import util.LogUtil;
 import util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class ExtractSchema2ConvergDB extends ExtractSchema {
+
+    private String sepa = java.io.File.separator;
 
     @Override
     public void outPutSchema() {
@@ -35,20 +39,32 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         }
         scan.close();
 
-//  todo
-//        String domain = System.getProperty("db_name");
-//        String schemaName = System.getProperty("schema");
-//        String relationName = System.getProperty("table");
-//        Relation relation = new Relation(relationName, "base", fields);
-//        Schema schema = new Schema(domain, schemaName, relation);
-        Schema schema = new Schema();
-
-        boolean res = FileUtil.writeTxtFile(schema.toString(), outPath.trim(), "UTF-8");
-        if (res) {
-            LogUtil.info("Process complete");
-        } else {
-            LogUtil.info("Output file failed, please check the output file path");
-        }
+        // save all in one schema file
+        String domain = System.getProperty("db_name");
+        String schemaName = System.getProperty("schema");
+        List<Relation> relationList = new ArrayList<>();
+        // save each schema files
+        relationList.clear();
+        String finalOutPath = outPath;
+        relations.parallelStream().forEach(x -> {
+            x.setRelation_type("base");
+            Relation relation = new Relation(x.getName().concat("_target"), "derived", x.getColumns());
+            relation.setSource(x.getName());
+            relationList.add(x);
+            relationList.add(relation);
+            Schema schema = new Schema(domain, schemaName, relationList);
+            boolean falg = FileUtil.writeTxtFile(
+                    schema.toString(),
+                    finalOutPath.trim().concat(sepa)
+                            .concat(domain).concat(".").concat(x.getName())
+                            .replace(sepa + sepa, sepa),
+                    "UTF-8");
+            if (falg) {
+                LogUtil.info("Process complete");
+            } else {
+                LogUtil.info("Output file failed, please check the output file path");
+            }
+        });
     }
 
 
