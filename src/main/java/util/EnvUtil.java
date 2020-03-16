@@ -18,8 +18,8 @@ public class EnvUtil {
         String[] arr = new String [2];
 
         Map<String, String> env = System.getenv();
-        String userName = env.get("userName");
-        String passwd = env.get("passwd");
+        String userName = env.get("USER_NAME");
+        String passwd = env.get("PASSWD");
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
             LogUtil.info("The userName or passwd of the database is empty. " +
                     "Please check that the userName and password in the" +
