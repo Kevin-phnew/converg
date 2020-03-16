@@ -12,7 +12,6 @@ import util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class ExtractSchema2ConvergDB extends ExtractSchema {
@@ -72,7 +71,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
 
     /**
      * @return List<Column>
-     * int(n) n<8	interger
+     * int(n) n<8	integer
      * int(n) n>=8	bigint
      * timestamp(n)	timestamp
      * timestamp(n) with time zone	timestamptz
@@ -86,7 +85,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
                 if (columnType.startsWith("int")) {
                     String n = StringUtil.getNumberFromText(columnType);
                     if (StringUtils.isBlank(n) || Integer.parseInt(n) < 8) {
-                        e.setColumnType("interger");
+                        e.setColumnType("integer");
                     } else {
                         e.setColumnType("bigint");
                     }
