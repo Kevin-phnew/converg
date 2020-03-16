@@ -3,6 +3,7 @@ package util;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Map;
+import java.util.Properties;
 
 public class EnvUtil {
 
@@ -16,10 +17,9 @@ public class EnvUtil {
      */
     public static String[] getEnvironment(){
         String[] arr = new String [2];
-
         Map<String, String> env = System.getenv();
-        String userName = env.get("userName");
-        String passwd = env.get("passwd");
+        String userName = env.get("USER_NAME");
+        String passwd = env.get("PASSWORD");
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
             LogUtil.info("The userName or passwd of the database is empty. " +
                     "Please check that the userName and password in the" +
