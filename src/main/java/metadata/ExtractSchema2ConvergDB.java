@@ -12,6 +12,7 @@ import util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class ExtractSchema2ConvergDB extends ExtractSchema {
@@ -31,7 +32,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         String outPath = null;
         if (scan.hasNext()) {
             outPath = scan.next();
-            LogUtil.info("Schema written to: \n" + outPath);
+            LogUtil.info("Schema written to: " + outPath);
         } else {
             LogUtil.info("no output path");
             return;
@@ -45,7 +46,11 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         // save each schema files
         relationList.clear();
         String finalOutPath = outPath;
+        AtomicInteger tableNum = new AtomicInteger(0);
+        AtomicInteger success  = new AtomicInteger(0);
+        AtomicInteger failed   = new AtomicInteger(0);
         relations.parallelStream().forEach(x -> {
+            tableNum.getAndAdd(1);
             x.setRelation_type("base");
             Relation relation = new Relation(x.getName().concat("_target"), "derived", x.getColumns());
             relation.setSource(x.getName());
@@ -59,11 +64,14 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
                             .replace(sepa + sepa, sepa),
                     "UTF-8");
             if (falg) {
-                LogUtil.info("Process complete");
+                success.getAndAdd(1);
+                LogUtil.info(x.getName() + " process complete");
             } else {
-                LogUtil.info("Output file failed, please check the output file path");
+                failed.getAndAdd(1);
+                LogUtil.info(x.getName() + " output file failed, please try again this one");
             }
         });
+        LogUtil.info("Total:" + tableNum + ",Success:" + success + ",Failed:" +failed);
     }
 
 
