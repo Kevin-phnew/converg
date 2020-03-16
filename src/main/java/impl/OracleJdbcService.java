@@ -44,6 +44,16 @@ public class OracleJdbcService extends AbstractJdbcService {
     }
 
     @Override
+    public List<String> getAllUserTableSql() {
+        return null;
+    }
+
+    @Override
+    public List<String> getParaTablesSql(String tableName) {
+        return null;
+    }
+
+    @Override
     public List<Column> getTableColumnsAndType(String tvName) {
         tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
         String sql = "select * from " + tvName + " where 0<>0";

@@ -1,6 +1,7 @@
 package common;
 
 import model.DataSource;
+import model.Relation;
 import org.apache.commons.lang3.StringUtils;
 import util.LogUtil;
 
@@ -247,5 +248,42 @@ public abstract class AbstractJdbcService implements JdbcService {
      * a schema name pattern; must match the schema name as it is stored in the database; "" retrieves those without a schema; null means that the schema name should not be used to narrow the search
      */
     protected abstract String schemaPattern();
+
+
+    /**
+     * @return List<String>, String means get tableNames sql
+     */
+    public List<String> getTablesSql(){
+
+        String tableName = dataSource.gettvName();
+
+        List<String> strings = null;
+        if(StringUtils.isBlank(tableName)){
+            strings = getAllUserTableSql();
+        }else{
+            strings = getParaTablesSql(tableName);
+        }
+        return strings;
+    }
+
+    public abstract List<String> getAllUserTableSql();
+
+    public abstract List<String> getParaTablesSql(String tableName);
+
+
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        String tableName = System.getProperty("table");
+        List<String> tables = StringUtils.isBlank(tableName) ?
+                this.getAllUserTableSql() : this.getParaTablesSql(tableName);
+        List<Relation> relations = new ArrayList<>();
+        tables.stream().forEach(tvName -> {
+            Relation relation = new Relation();
+            relation.setName(tvName);
+            relation.setColumns(this.getTableColumnsAndType(tvName));
+            relations.add(relation);
+        });
+        return relations;
+    }
 
 }

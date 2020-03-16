@@ -3,7 +3,6 @@ package impl;
 import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
-import model.Relation;
 import org.apache.commons.lang3.StringUtils;
 import util.FileUtil;
 import util.LogUtil;
@@ -13,7 +12,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class PostgreSQLJdbcService extends AbstractJdbcService {
 
@@ -37,6 +38,82 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
             database = database.substring(0, index);
         }
         return database;
+    }
+
+    /**
+     * no table name
+     *
+     * @return
+     */
+    @Override
+    public List<String> getAllUserTableSql() {
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+        ResultSet rs = null;
+        String sql = "SELECT table_name FROM information_schema.tables " +
+                "WHERE table_schema = '" + this.getDataSource().getSchema() + "'";
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+
+        return result;
+    }
+
+    /**
+     * tableName asd%;adc;
+     * @param tableName
+     * @return
+     */
+    @Override
+    public List<String> getParaTablesSql(String tableName) {
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+        String[] tableNames = tableName.split(";");
+        StringJoiner sb = new StringJoiner(" or ");
+        Arrays.stream(tableNames).forEach(e -> sb.add("table_name like '" + e + "'"));
+        ResultSet rs = null;
+        String sql = "SELECT table_name FROM information_schema.tables " +
+                "WHERE table_schema = '" + this.getDataSource().getSchema() + "'" +
+                " and (" + sb.toString() + ")";
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+
+        return result;
     }
 
     @Override
@@ -74,52 +151,6 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
             this.close(conn, pStmt, rs);
         }
         return columns;
-    }
-
-    @Override
-    public List<Relation> getAllTablesColumnsAndType() {
-        List<String> tables = this.listAllTables();
-        List<Relation> relations = new ArrayList<>();
-        tables.stream().forEach(tvName -> {
-            Relation relation = new Relation();
-            relation.setName(tvName);
-            relation.setColumns(this.getTableColumnsAndType(tvName));
-            relations.add(relation);
-        });
-        return relations;
-    }
-
-    @Override
-    public List<String> listAllTables() {
-        Connection conn = getConnection();
-        if (conn == null) {
-            return null;
-        }
-
-        ResultSet rs = null;
-        String sql = "SELECT table_name FROM information_schema.tables " +
-                "WHERE table_schema = '" + this.getDataSource().getSchema() + "'" +
-                " and table_name like '" + this.getDataSource().gettvName() + "'";
-        PreparedStatement pStmt = null;
-        List<String> result = new ArrayList<>();
-        try {
-            pStmt = conn.prepareStatement(sql);
-            rs = pStmt.executeQuery();
-            if (rs != null) {
-                //数据库列名
-                ResultSetMetaData data = rs.getMetaData();
-                //遍历结果   getColumnCount 获取表列个数
-                while (rs.next()) {
-                    result.add(rs.getString(1));
-                }
-            }
-        } catch (Exception e) {
-            LogUtil.debug(e.getMessage(), e);
-        } finally {
-            close(conn, null, rs);
-        }
-
-        return result;
     }
 
 

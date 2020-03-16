@@ -44,7 +44,6 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         String schemaName = System.getProperty("schema");
         List<Relation> relationList = new ArrayList<>();
         // save each schema files
-        relationList.clear();
         String finalOutPath = outPath;
         AtomicInteger tableNum = new AtomicInteger(0);
         AtomicInteger success  = new AtomicInteger(0);
@@ -70,6 +69,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
                 failed.getAndAdd(1);
                 LogUtil.info(x.getName() + " output file failed, please try again this one");
             }
+            relationList.clear();
         });
         LogUtil.info("Total:" + tableNum + ",Success:" + success + ",Failed:" +failed);
     }
