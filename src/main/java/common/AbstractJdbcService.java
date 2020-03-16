@@ -248,4 +248,23 @@ public abstract class AbstractJdbcService implements JdbcService {
      */
     protected abstract String schemaPattern();
 
+    public List<String> getParameterTables(){
+
+        String tableName = dataSource.gettvName();
+
+        List<String> strings = null;
+        if(StringUtils.isBlank(tableName)){
+            strings = getAllUserTableSql();
+        }else{
+            strings = getParaTablesSql(tableName);
+        }
+        return strings;
+    }
+
+    public abstract List<String> getAllUserTableSql();
+
+    public abstract List<String> getParaTablesSql(String tableName);
+
+
+
 }
