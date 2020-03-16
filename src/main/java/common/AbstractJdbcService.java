@@ -1,6 +1,7 @@
 package common;
 
 import model.DataSource;
+import model.Relation;
 import org.apache.commons.lang3.StringUtils;
 import util.LogUtil;
 
@@ -270,5 +271,19 @@ public abstract class AbstractJdbcService implements JdbcService {
     public abstract List<String> getParaTablesSql(String tableName);
 
 
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        String tableName = System.getProperty("table");
+        List<String> tables = StringUtils.isBlank(tableName) ?
+                this.getAllUserTableSql() : this.getParaTablesSql(tableName);
+        List<Relation> relations = new ArrayList<>();
+        tables.stream().forEach(tvName -> {
+            Relation relation = new Relation();
+            relation.setName(tvName);
+            relation.setColumns(this.getTableColumnsAndType(tvName));
+            relations.add(relation);
+        });
+        return relations;
+    }
 
 }
