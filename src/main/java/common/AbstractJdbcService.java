@@ -248,7 +248,11 @@ public abstract class AbstractJdbcService implements JdbcService {
      */
     protected abstract String schemaPattern();
 
-    public List<String> getParameterTables(){
+
+    /**
+     * @return List<String>, String means get tableNames sql
+     */
+    public List<String> getTablesSql(){
 
         String tableName = dataSource.gettvName();
 

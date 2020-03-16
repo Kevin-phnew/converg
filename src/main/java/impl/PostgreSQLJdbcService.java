@@ -40,6 +40,16 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
+    public List<String> getAllUserTableSql() {
+        return null;
+    }
+
+    @Override
+    public List<String> getParaTablesSql(String tableName) {
+        return null;
+    }
+
+    @Override
     public List<Column> getTableColumnsAndType(String tvName) {
         if (StringUtils.isBlank(tvName)) {
             tvName = this.getDataSource().gettvName();
