@@ -5,6 +5,7 @@ import model.Column;
 import model.DataSource;
 import model.Relation;
 import org.apache.commons.lang3.StringUtils;
+import util.FileUtil;
 import util.JDBCUtil;
 import util.LogUtil;
 
@@ -13,7 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class OracleJdbcService extends AbstractJdbcService {
 
@@ -45,22 +48,84 @@ public class OracleJdbcService extends AbstractJdbcService {
 
     @Override
     public List<String> getAllUserTableSql() {
-        return null;
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+        ResultSet rs = null;
+        String sql = "select table_name from user_tables " +
+                "where tablespace_name ='" + this.getDataSource().getSchema() + "'";
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+
+        return result;
     }
 
     @Override
     public List<String> getParaTablesSql(String tableName) {
-        return null;
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+        String[] tableNames = tableName.split(";");
+        StringJoiner sb = new StringJoiner(" or ");
+        Arrays.stream(tableNames).forEach(e -> sb.add("table_name like '" + e + "'"));
+        ResultSet rs = null;
+        String sql = "SELECT table_name FROM user_tables" +
+                " WHERE tablespace_name = '" + this.getDataSource().getSchema() + "'" +
+                " and (" + sb.toString() + ")";
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+
+        return result;
     }
 
     @Override
     public List<Column> getTableColumnsAndType(String tvName) {
-        tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
-        String sql = "select * from " + tvName + " where 0<>0";
+        if (StringUtils.isBlank(tvName)) {
+            tvName = this.getDataSource().gettvName();
+        }
+        String sql = FileUtil.getFile("oracleIR.sql")
+//                .replace("#{dbName}", this.getDataSource().getDbName())
+                .replace("#{schema}", this.getDataSource().getSchema())
+                .replace("#{tbName}", tvName);
+
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
-        List<Column> list = new ArrayList<>();
+        List<Column> columns = new ArrayList<>();
         try {
             conn = this.getConnection();
             pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
@@ -70,11 +135,10 @@ public class OracleJdbcService extends AbstractJdbcService {
                 ResultSetMetaData data = rs.getMetaData();
                 //遍历结果   getColumnCount 获取表列个数
                 while (rs.next()) {
-                    for (int i = 1; i <= data.getColumnCount(); i++) {
-                        // typeName 字段名 type 字段类型
-                        list.add(new Column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
-                                , data.isNullable(i) == 0 ? "true" : "false"));
-                    }
+                    columns.add(new Column(
+                            rs.getString(4)
+                            , rs.getString(5)
+                            , rs.getString(6).equals("required") ? "true" : "false"));
                 }
             }
         } catch (Exception e) {
@@ -82,11 +146,22 @@ public class OracleJdbcService extends AbstractJdbcService {
         } finally {
             this.close(conn, pStmt, rs);
         }
-        return list;
+        return columns;
     }
 
     @Override
     public List<Relation> getAllTablesColumnsAndType() {
-        return null;
+        String tableName = System.getProperty("table");
+        List<String> tables = StringUtils.isBlank(tableName) ?
+                this.getAllUserTableSql() : this.getParaTablesSql(tableName);
+        List<Relation> relations = new ArrayList<>();
+        tables.stream().forEach(tvName -> {
+            Relation relation = new Relation();
+            relation.setName(tvName);
+            relation.setColumns(this.getTableColumnsAndType(tvName));
+            relations.add(relation);
+        });
+        return relations;
     }
+
 }
