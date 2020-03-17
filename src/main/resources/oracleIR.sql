@@ -1,4 +1,6 @@
 SELECT
+    '' as table_catalog,
+    '' as table_schema,
 	a.Table_name,
 	a.column_name,
 CASE
