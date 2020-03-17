@@ -253,7 +253,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     public List<Relation> getAllTablesColumnsAndType() {
         String tableName = System.getProperty("table");
         List<String> tables = StringUtils.isBlank(tableName) ?
-                this.getAllUserTableSql() : this.getParaTablesSql(tableName);
+                this.getUserAllTableSql() : this.getParaTablesSql(tableName);
         List<Relation> relations = new ArrayList<>();
         tables.stream().forEach(tvName -> {
             Relation relation = new Relation();
@@ -264,8 +264,12 @@ public abstract class AbstractJdbcService implements JdbcService {
         return relations;
     }
 
-    public abstract List<String> getAllUserTableSql();
+    public abstract List<String> getUserAllTableSql();
 
+    /**
+     * @param The tablename of parameter
+     * @return
+     */
     public abstract List<String> getParaTablesSql(String tableName);
 
 

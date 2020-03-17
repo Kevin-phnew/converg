@@ -47,7 +47,7 @@ public class OracleJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<String> getAllUserTableSql() {
+    public List<String> getUserAllTableSql() {
         Connection conn = getConnection();
         if (conn == null) {
             return null;
@@ -153,7 +153,7 @@ public class OracleJdbcService extends AbstractJdbcService {
     public List<Relation> getAllTablesColumnsAndType() {
         String tableName = System.getProperty("table");
         List<String> tables = StringUtils.isBlank(tableName) ?
-                this.getAllUserTableSql() : this.getParaTablesSql(tableName);
+                this.getUserAllTableSql() : this.getParaTablesSql(tableName);
         List<Relation> relations = new ArrayList<>();
         tables.stream().forEach(tvName -> {
             Relation relation = new Relation();

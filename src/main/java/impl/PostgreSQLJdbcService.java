@@ -46,7 +46,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
      * @return
      */
     @Override
-    public List<String> getAllUserTableSql() {
+    public List<String> getUserAllTableSql() {
         Connection conn = getConnection();
         if (conn == null) {
             return null;

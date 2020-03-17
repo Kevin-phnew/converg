@@ -48,7 +48,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<String> getAllUserTableSql() {
+    public List<String> getUserAllTableSql() {
         return null;
     }
 
