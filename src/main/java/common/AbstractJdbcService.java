@@ -249,28 +249,6 @@ public abstract class AbstractJdbcService implements JdbcService {
      */
     protected abstract String schemaPattern();
 
-
-    /**
-     * @return List<String>, String means get tableNames sql
-     */
-    public List<String> getTablesSql(){
-
-        String tableName = dataSource.gettvName();
-
-        List<String> strings = null;
-        if(StringUtils.isBlank(tableName)){
-            strings = getAllUserTableSql();
-        }else{
-            strings = getParaTablesSql(tableName);
-        }
-        return strings;
-    }
-
-    public abstract List<String> getAllUserTableSql();
-
-    public abstract List<String> getParaTablesSql(String tableName);
-
-
     @Override
     public List<Relation> getAllTablesColumnsAndType() {
         String tableName = System.getProperty("table");
@@ -285,5 +263,12 @@ public abstract class AbstractJdbcService implements JdbcService {
         });
         return relations;
     }
+
+    public abstract List<String> getAllUserTableSql();
+
+    public abstract List<String> getParaTablesSql(String tableName);
+
+
+
 
 }

@@ -11,8 +11,8 @@ public class EnvUtil {
     }
 
     /**
-     * 需要知道对方在环境变量中怎么存储数据库密码的
-     * @return
+     *
+     * @return String[]
      */
     public static String[] getEnvironment(){
         String[] arr = new String [2];

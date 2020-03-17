@@ -48,7 +48,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         AtomicInteger tableNum = new AtomicInteger(0);
         AtomicInteger success  = new AtomicInteger(0);
         AtomicInteger failed   = new AtomicInteger(0);
-        relations.parallelStream().forEach(x -> {
+        relations.forEach(x -> {        //parallelStream().forEach 相当于多线程，容易出错
             tableNum.getAndAdd(1);
             x.setRelation_type("base");
             Relation relation = new Relation(x.getName().concat("_target"), "derived", x.getColumns());
@@ -67,7 +67,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
                 LogUtil.info(x.getName() + " process complete");
             } else {
                 failed.getAndAdd(1);
-                LogUtil.info(x.getName() + " output file failed, please try again this one");
+                LogUtil.info(x.getName() + " output failed");
             }
             relationList.clear();
         });
