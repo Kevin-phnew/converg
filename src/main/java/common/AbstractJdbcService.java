@@ -1,5 +1,6 @@
 package common;
 
+import model.Column;
 import model.DataSource;
 import model.Relation;
 import org.apache.commons.lang3.StringUtils;
@@ -254,6 +255,8 @@ public abstract class AbstractJdbcService implements JdbcService {
         String tableName = System.getProperty("table");
         List<String> tables = StringUtils.isBlank(tableName) ?
                 this.getUserAllTableSql() : this.getParaTablesSql(tableName);
+        if(tables == null)
+            return null;
         List<Relation> relations = new ArrayList<>();
         tables.stream().forEach(tvName -> {
             Relation relation = new Relation();
@@ -273,6 +276,61 @@ public abstract class AbstractJdbcService implements JdbcService {
     public abstract List<String> getParaTablesSql(String tableName);
 
 
+    public List<String> findTables(String sql){
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+        ResultSet rs = null;
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }else{
+                LogUtil.info("There is no table;");
+                return null;
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+        return result;
+    }
 
-
+    public List<Column> findColumns(String sql){
+        Connection conn = null;
+        PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
+        ResultSet rs = null;//定义查询结果集rs
+        List<Column> columns = new ArrayList<>();
+        try {
+            conn = this.getConnection();
+            pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
+            rs = pStmt.executeQuery();//<第5步>获取查询结果集rs     
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    columns.add(new Column(
+                            rs.getString(4)
+                            , rs.getString(5)
+                            , rs.getString(6).equals("required") ? "true" : "false"));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            this.close(conn, pStmt, rs);
+        }
+        return columns;
+    }
 }

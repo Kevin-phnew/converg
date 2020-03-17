@@ -42,6 +42,8 @@ public class ANSIMetaData {
         if(!testConn)
             return null;
         List<Relation> relations = jdbcService.getAllTablesColumnsAndType();
+        if(relations == null)
+            return null;
         LogUtil.info("Schema extracted successfully!");
         return relations;
     }
