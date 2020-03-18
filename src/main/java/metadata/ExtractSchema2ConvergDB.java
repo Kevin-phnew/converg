@@ -59,7 +59,8 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
             boolean falg = FileUtil.writeTxtFile(
                     schema.toString(),
                     finalOutPath.trim().concat(sepa)
-                            .concat(domain).concat(".").concat(x.getName())
+                            .concat(domain).concat(".").concat(x.getName()).concat(".schema")
+                            .toLowerCase()
                             .replace(sepa + sepa, sepa),
                     "UTF-8");
             if (falg) {
