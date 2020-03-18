@@ -92,7 +92,7 @@
                                 </transformer>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <manifestEntries>
+                                    <manifestEntries> 
                                         <!--以那个main方法作为主入口-->
                                         <Main-Class>schema.ConvergDB</Main-Class>
                                     </manifestEntries>
