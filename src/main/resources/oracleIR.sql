@@ -6,15 +6,17 @@ SELECT
 CASE
 	a.data_type
 	WHEN 'CHAR' THEN
-	'char'
-	WHEN 'NCHAR' THEN
-	'char'
+	( CASE WHEN a.data_length IS NULL THEN 'char' ELSE 'char' || '(' || a.data_length || ')' END )
 	WHEN 'VARCHAR2' THEN
-	'varchar'
-	WHEN 'NVARCHAR2' THEN
-	'varchar'
+	( CASE WHEN a.data_length IS NULL THEN 'varchar' ELSE 'varchar' || '(' || a.data_length || ')' END )
 	WHEN 'NUMBER' THEN
-	'numeric'
+	(
+CASE
+
+	WHEN a.DATA_PRECISION IS NULL THEN
+	'numeric' ELSE 'numeric' || '(' || a.DATA_PRECISION || ',' || a.DATA_SCALE || ')'
+END
+	)
 	WHEN 'INTEGER' THEN
 	'integer'
 	WHEN 'FLOAT' THEN
@@ -24,19 +26,18 @@ CASE
 	WHEN 'DATE' THEN
 	'date'
 	WHEN 'TIMESTAMP(6)' THEN
-	'timestamp'
+	'timestamp(6)'
 	WHEN 'TIMESTAMP(6) WITH TIME ZONE' THEN
-	'timestampz'
+	'timestamp(6) with time zone'
 	WHEN 'TIMESTAMP(6) WITH LOCAL TIME ZONE' THEN
-	'timestampz' ELSE 'not supported'
+	'timestamp(6) with local time zone' ELSE 'not supported'
 	END AS data_type,
-	a.data_length,
-	a.data_precision,
 CASE
-	a.nullable
-	WHEN 'N' THEN
-	'required' ELSE 'notRequired'
+		a.nullable
+		WHEN 'N' THEN
+		'required' ELSE 'notRequired'
 	END AS if_required
-FROM all_tab_columns a
+FROM
+	all_tab_columns a
 WHERE a.OWNER = '#{schema}'
-  AND a.Table_name = '#{tbName}'
+AND a.Table_name = '#{tbName}'
