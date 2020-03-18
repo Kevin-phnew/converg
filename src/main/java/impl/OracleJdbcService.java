@@ -41,8 +41,8 @@ public class OracleJdbcService extends AbstractJdbcService {
 
     @Override
     public List<String> getUserAllTableSql() {
-        String sql = "select table_name from user_tables " +
-                "where tablespace_name ='" + this.getDataSource().getSchema() + "'";
+        String sql = "select table_name from all_tables " +
+                "where owner ='" + this.getDataSource().getSchema().toUpperCase() + "'";
 
         return findTables(sql);
     }
@@ -54,8 +54,8 @@ public class OracleJdbcService extends AbstractJdbcService {
         StringJoiner sb = new StringJoiner(" or ");
         Arrays.stream(tableNames).forEach(e -> sb.add("table_name like '" + e + "'"));
 
-        String sql = "SELECT table_name FROM user_tables" +
-                " WHERE tablespace_name = '" + this.getDataSource().getSchema() + "'" +
+        String sql = "SELECT table_name FROM all_tables" +
+                " WHERE owner = '" + this.getDataSource().getSchema().toUpperCase() + "'" +
                 " and (" + sb.toString() + ")";
 
         return findTables(sql);
