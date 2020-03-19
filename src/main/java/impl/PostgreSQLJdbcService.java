@@ -1,16 +1,14 @@
 package impl;
 
 import common.AbstractJdbcService;
-import common.DataSource;
+import model.Column;
+import model.DataSource;
+import org.apache.commons.lang3.StringUtils;
+import util.FileUtil;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.StringJoiner;
 
 public class PostgreSQLJdbcService extends AbstractJdbcService {
 
@@ -36,37 +34,51 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
         return database;
     }
 
+    /**
+     * no table name
+     *
+     * @return
+     */
     @Override
-    public List<Map<String, Object>> getTableColumnsAndType() {
-        String tvName = this.getDataSource().getSchema() + "." + this.getDataSource().gettvName();
-        String sql = "select * from " + tvName + " limit 1";
-        Connection conn = null;
-        PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
-        ResultSet rs = null;//定义查询结果集rs
-        List<Map<String, Object>> list = new ArrayList<>();
-        try {
-            conn = this.getConnection();
-            pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
-            rs = pStmt.executeQuery();//<第5步>获取查询结果集rs     
-            if (rs != null) {
-                //数据库列名
-                ResultSetMetaData data = rs.getMetaData();
-                //遍历结果   getColumnCount 获取表列个数
-                while (rs.next()) {
-                    for (int i = 1; i <= data.getColumnCount(); i++) {
-                        // typeName 字段名 type 字段类型
-                        Map<String, Object> map = new HashMap<>();
-                        map.put(data.getColumnName(i), data.getColumnTypeName(i));//具体长度data.getColumnType(i)
-                        list.add(map);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            this.close(conn, pStmt, rs);
-        }
-        return list;
+    public List<String> getUserAllTableSql() {
+
+        String sql = "SELECT table_name FROM information_schema.tables " +
+                "WHERE table_schema = '" + this.getDataSource().getSchema() + "'";
+
+        return findTables(sql);
     }
+
+    /**
+     * tableName asd%;adc;
+     * @param tableName
+     * @return
+     */
+    @Override
+    public List<String> getParaTablesSql(String tableName) {
+
+        String[] tableNames = tableName.split(";");
+        StringJoiner sb = new StringJoiner(" or ");
+        Arrays.stream(tableNames).forEach(e -> sb.add("table_name like '" + e + "'"));
+
+        String sql = "SELECT table_name FROM information_schema.tables " +
+                "WHERE table_schema = '" + this.getDataSource().getSchema() + "'" +
+                " and (" + sb.toString() + ")";
+
+        return findTables(sql);
+    }
+
+    @Override
+    public List<Column> getTableColumnsAndType(String tbName) {
+        if (StringUtils.isBlank(tbName)) {
+            tbName = this.getDataSource().gettbName();
+        }
+        String sql = FileUtil.getFile("postgresIR.sql")
+                .replace("#{dbName}", this.getDataSource().getDbName())
+                .replace("#{schema}", this.getDataSource().getSchema())
+                .replace("#{tbName}", tbName);
+
+        return findColumns(sql);
+    }
+
 
 }

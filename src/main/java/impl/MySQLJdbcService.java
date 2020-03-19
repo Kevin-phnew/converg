@@ -1,16 +1,19 @@
 package impl;
 
 import common.AbstractJdbcService;
-import common.DataSource;
+import model.Column;
+import model.DataSource;
+import model.Relation;
+import org.apache.commons.lang3.StringUtils;
+import util.JDBCUtil;
+import util.LogUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class MySQLJdbcService extends AbstractJdbcService {
 
@@ -20,8 +23,15 @@ public class MySQLJdbcService extends AbstractJdbcService {
 
     @Override
     protected String loadDriverClass() {
-        return "com.mysql.cj.jdbc.Driver";
-//        return "com.mysql.jdbc.Driver";
+        String driver_jar = System.getProperty("driver_jar");
+        String driver_class = System.getProperty("driver_class");
+        if (StringUtils.isNotBlank(driver_jar)) {
+            JDBCUtil.loadJdbcJar(driver_jar);
+        }
+        if (StringUtils.isBlank(driver_class)) {
+            driver_class = "com.mysql.cj.jdbc.Driver";
+        }
+        return driver_class;
     }
 
     @Override
@@ -38,13 +48,23 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Map<String, Object>> getTableColumnsAndType() {
-        String tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
-        String sql = "select * from " + tvName + " limit 1";
+    public List<String> getUserAllTableSql() {
+        return null;
+    }
+
+    @Override
+    public List<String> getParaTablesSql(String tableName) {
+        return null;
+    }
+
+    @Override
+    public List<Column> getTableColumnsAndType(String tbName) {
+        tbName = this.getDataSource().getDbName() + "." + this.getDataSource().gettbName();
+        String sql = "select * from " + tbName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
-        List<Map<String, Object>> list = new ArrayList<>();
+        List<Column> list = new ArrayList<>();
         try {
             conn = this.getConnection();
             pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
@@ -56,18 +76,21 @@ public class MySQLJdbcService extends AbstractJdbcService {
                 while (rs.next()) {
                     for (int i = 1; i <= data.getColumnCount(); i++) {
                         // typeName 字段名 type 字段类型
-                        Map<String, Object> map = new HashMap<>();
-                        map.put(data.getColumnName(i), data.getColumnTypeName(i));//具体长度data.getColumnType(i)
-                        list.add(map);
+                        list.add(new Column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
+                                , data.isNullable(i) == 0 ? "true" : "false"));
                     }
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             this.close(conn, pStmt, rs);
         }
         return list;
     }
 
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        return null;
+    }
 }

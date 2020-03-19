@@ -1,6 +1,10 @@
 package common;
 
+import model.Column;
+import model.DataSource;
+import model.Relation;
 import org.apache.commons.lang3.StringUtils;
+import util.LogUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,9 +21,9 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 校验数据源信息是否有效
+     * check dataSource valid
      *
-     * @param dataSource 数据源
+     * @param dataSource
      */
     private void checkDataSource(DataSource dataSource) {
         if (dataSource == null) {
@@ -33,12 +37,17 @@ public abstract class AbstractJdbcService implements JdbcService {
         }
     }
 
+    /**
+     * get dataSource
+     *
+     * @return
+     */
     protected DataSource getDataSource() {
         return dataSource;
     }
 
     /**
-     * 关闭(释放)资源
+     * close Connection
      *
      * @param conn Connection
      */
@@ -47,7 +56,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 关闭(释放)资源
+     * close Connection PreparedStatement ResultSet
      *
      * @param conn Connection
      * @param ps   PreparedStatement
@@ -80,8 +89,13 @@ public abstract class AbstractJdbcService implements JdbcService {
         }
     }
 
+    /**
+     * test connection
+     * @return
+     */
     @Override
     public boolean test() {
+        System.out.println("Attempting connection to " + this.getDataSource().getJdbcUrl() + "...");
         Connection conn = null;
         try {
             conn = getConnection();
@@ -93,16 +107,17 @@ public abstract class AbstractJdbcService implements JdbcService {
             if (meta == null) {
                 return false;
             }
-        } catch (SQLException e) {
-
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             close(conn);
         }
+        LogUtil.info("Connected");
         return true;
     }
 
     /**
-     * 获取连接
+     * getConnection
      *
      * @return Connection
      */
@@ -112,7 +127,8 @@ public abstract class AbstractJdbcService implements JdbcService {
             Class.forName(loadDriverClass());
             conn = DriverManager.getConnection(dataSource.getJdbcUrl(), dataSource.getJdbcUser(), dataSource.getJdbcPassword());
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.info("Connection Failed,Please check out your parameter");
+            LogUtil.debug("Connection Failed", e);
         }
         return conn;
     }
@@ -144,7 +160,7 @@ public abstract class AbstractJdbcService implements JdbcService {
                 result.add(rs.getString("TABLE_NAME"));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtil.debug(e.getMessage(), e);
         } finally {
             close(conn, null, rs);
         }
@@ -204,7 +220,7 @@ public abstract class AbstractJdbcService implements JdbcService {
      * a catalog name; must match the catalog name as it is stored in the database; "" retrieves those without a catalog; null means that the catalog name should not be used to narrow the search
      */
     protected String catalog() {
-        return null;
+        return System.getProperty("schema");
     }
 
     /**
@@ -223,7 +239,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     }
 
     /**
-     * 加载驱动class
+     * loadDriverClass
      *
      * @return class
      */
@@ -234,4 +250,87 @@ public abstract class AbstractJdbcService implements JdbcService {
      */
     protected abstract String schemaPattern();
 
+    @Override
+    public List<Relation> getAllTablesColumnsAndType() {
+        String tableName = System.getProperty("table");
+        List<String> tables = StringUtils.isBlank(tableName) ?
+                this.getUserAllTableSql() : this.getParaTablesSql(tableName);
+        if(tables == null)
+            return null;
+        List<Relation> relations = new ArrayList<>();
+        tables.stream().forEach(tbName -> {
+            Relation relation = new Relation();
+            relation.setName(tbName);
+            relation.setColumns(this.getTableColumnsAndType(tbName));
+            relations.add(relation);
+        });
+        return relations;
+    }
+
+    public abstract List<String> getUserAllTableSql();
+
+    /**
+     * @param The tablename of parameter
+     * @return
+     */
+    public abstract List<String> getParaTablesSql(String tableName);
+
+
+    public List<String> findTables(String sql){
+        Connection conn = getConnection();
+        if (conn == null) {
+            return null;
+        }
+        ResultSet rs = null;
+        PreparedStatement pStmt = null;
+        List<String> result = new ArrayList<>();
+        try {
+            pStmt = conn.prepareStatement(sql);
+            rs = pStmt.executeQuery();
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    result.add(rs.getString(1));
+                }
+            }else{
+                LogUtil.info("There is no table;");
+                return null;
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            close(conn, null, rs);
+        }
+        return result;
+    }
+
+    public List<Column> findColumns(String sql){
+        Connection conn = null;
+        PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
+        ResultSet rs = null;//定义查询结果集rs
+        List<Column> columns = new ArrayList<>();
+        try {
+            conn = this.getConnection();
+            pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
+            rs = pStmt.executeQuery();//<第5步>获取查询结果集rs     
+            if (rs != null) {
+                //数据库列名
+                ResultSetMetaData data = rs.getMetaData();
+                //遍历结果   getColumnCount 获取表列个数
+                while (rs.next()) {
+                    columns.add(new Column(
+                            rs.getString(4)
+                            , rs.getString(5)
+                            , rs.getString(6).equals("required") ? "true" : "false"));
+                }
+            }
+        } catch (Exception e) {
+            LogUtil.debug(e.getMessage(), e);
+        } finally {
+            this.close(conn, pStmt, rs);
+        }
+        return columns;
+    }
 }

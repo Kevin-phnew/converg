@@ -1,41 +1,47 @@
 package common;
 
+import model.Column;
+import model.Relation;
+
 import java.util.List;
-import java.util.Map;
 
 public interface JdbcService {
     /**
-     * 测试数据库的连通性
-     *
-     * @return true表示成功
+     * Test database connectivity
+     * @return
      */
     boolean test();
 
     /**
-     * 列出所有的表和视图
-     *
-     * @return 所有的表和视图
+     * List all tables and views
+     * @return
      */
     List<String> listAllTables();
 
     /**
-     * 列出所有包含某些字段的表和视图
-     *
-     * @param fields 字段
-     * @return 所有包含某些字段的表和视图
+     * List all tables and views fields
+     * @param fields
+     * @return
      */
     List<String> listAllTablesFields(String... fields);
 
     /**
-     * 列出所有的字段
-     *
-     * @param tableName表名或视图名
-     * @return 所有的字段
+     * List all fields
+     * @param tableName
+     * @return
      */
     List<String> listAllFields(String tableName);
 
     /**
-     * 列出所有的字段及类型
+     * List a table all fields and types
+     * @return
      */
-    List<Map<String, Object>> getTableColumnsAndType();
+    List<Column> getTableColumnsAndType(String tableName);
+
+    /**
+     * List a db's tables all fields and types
+     *
+     * @return
+     */
+    List<Relation> getAllTablesColumnsAndType();
 }

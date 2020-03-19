@@ -1,17 +1,19 @@
 package common;
 
+import model.DataSource;
+import model.JdbcType;
 import impl.MySQLJdbcService;
 import impl.OracleJdbcService;
 import impl.PostgreSQLJdbcService;
 
 public class JdbcServiceFactory {
     /**
-     * 获取jdbc service
-     *
-     * @param dataSource 数据源
+     * get jdbc service
+     * @param dataSource
      * @return jdbc service
      */
     public static JdbcService getJdbcService(DataSource dataSource) {
+        System.out.println(dataSource.toString());
         if (dataSource.getJdbcType().equals(JdbcType.MYSQL.getValue())) {
             return new MySQLJdbcService(dataSource);
         } else if (dataSource.getJdbcType().equals(JdbcType.ORACLE.getValue())) {
