@@ -1,6 +1,6 @@
 package schema;
 
-import common.ExtractSchema;
+import common.AbstractExtractSchema;
 import metadata.ExtractSchema2ConvergDB;
 import util.FileUtil;
 
@@ -15,7 +15,7 @@ public class ConvergDB {
             return;
         }
         //Metadata transformation and output
-        ExtractSchema extraSchema = new ExtractSchema2ConvergDB();
+        AbstractExtractSchema extraSchema = new ExtractSchema2ConvergDB(args);
         extraSchema.outPutSchema();
 
 

@@ -1,11 +1,15 @@
 package common;
 
-
-public abstract class ExtractSchema {
+/**
+ * @Author Kevin
+ * @Date 2020/3/19
+ */
+public interface ExtractSchema {
 
     /**
      * Specify the output schema
      */
-    public abstract void outPutSchema();
+    abstract void outPutSchema();
+
 
 }

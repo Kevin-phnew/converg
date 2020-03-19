@@ -1,10 +1,11 @@
 package metadata;
 
-import common.ExtractSchema;
+import common.AbstractExtractSchema;
 import model.Column;
 import model.Relation;
 import model.Schema;
 import org.apache.commons.lang3.StringUtils;
+import util.EnvUtil;
 import util.FileUtil;
 import util.LogUtil;
 import util.StringUtil;
@@ -16,9 +17,14 @@ import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class ExtractSchema2ConvergDB extends ExtractSchema {
+public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
 
     private String sepa = java.io.File.separator;
+
+    public void ExtractSchema2ConvergDB(String[] args){
+        EnvUtil.checkProperty();
+        checkArgs(args);
+    }
 
     @Override
     public void outPutSchema() {
