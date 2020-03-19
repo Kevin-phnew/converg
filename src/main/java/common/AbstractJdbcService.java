@@ -258,10 +258,10 @@ public abstract class AbstractJdbcService implements JdbcService {
         if(tables == null)
             return null;
         List<Relation> relations = new ArrayList<>();
-        tables.stream().forEach(tvName -> {
+        tables.stream().forEach(tbName -> {
             Relation relation = new Relation();
-            relation.setName(tvName);
-            relation.setColumns(this.getTableColumnsAndType(tvName));
+            relation.setName(tbName);
+            relation.setColumns(this.getTableColumnsAndType(tbName));
             relations.add(relation);
         });
         return relations;

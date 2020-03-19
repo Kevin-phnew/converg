@@ -68,14 +68,14 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Column> getTableColumnsAndType(String tvName) {
-        if (StringUtils.isBlank(tvName)) {
-            tvName = this.getDataSource().gettvName();
+    public List<Column> getTableColumnsAndType(String tbName) {
+        if (StringUtils.isBlank(tbName)) {
+            tbName = this.getDataSource().gettbName();
         }
         String sql = FileUtil.getFile("postgresIR.sql")
                 .replace("#{dbName}", this.getDataSource().getDbName())
                 .replace("#{schema}", this.getDataSource().getSchema())
-                .replace("#{tbName}", tvName);
+                .replace("#{tbName}", tbName);
 
         return findColumns(sql);
     }

@@ -58,9 +58,9 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Column> getTableColumnsAndType(String tvName) {
-        tvName = this.getDataSource().getDbName() + "." + this.getDataSource().gettvName();
-        String sql = "select * from " + tvName + " limit 1";
+    public List<Column> getTableColumnsAndType(String tbName) {
+        tbName = this.getDataSource().getDbName() + "." + this.getDataSource().gettbName();
+        String sql = "select * from " + tbName + " limit 1";
         Connection conn = null;
         PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
         ResultSet rs = null;//定义查询结果集rs
