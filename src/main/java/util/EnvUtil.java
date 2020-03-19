@@ -23,9 +23,9 @@ public class EnvUtil {
 
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
             LogUtil.info("The userName or passwd of the database is empty. " +
-                    "Please check that the userName and password in the" +
-                    " parameter or environment variable you entered are " +
-                    "\"userName\" and \"passwd\"");
+                    "Please check out the userName and password, in the" +
+                    " environment variable you entered are " + "\"USER_NAME\"" +
+                    " and \"PASSWORD\"");
             return null;
         }
         arr[0] = userName;
