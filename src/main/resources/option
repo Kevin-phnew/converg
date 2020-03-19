@@ -1,12 +1,13 @@
 Option
+-Ddb_name           db's name
 -Dschema            db's catalog or user, namespace
 -Dtable             table name, use % wildcard, Multiple Spaces are separated by commas
 -Ddatabase          jdbc url like jdbc:postgresql://localhost:5432/test
--Ddb_engine         postgres,oracle
--Ddriver_jar        driver jar path
--Ddriver_class      driver class org.postgresql.Driver
--DuserName          db's userName
--Dpasswd            db's password
+-Ddb_engine         type of db like postgres,oracle
+-Ddriver_jar        jdbc driver jar path
+-Ddriver_class      driver class like org.postgresql.Driver
+-DuserName          db's userName or you can config in into environment variables
+-Dpasswd            db's password or you can config in into environment variables
 
 Example:
 postgre
