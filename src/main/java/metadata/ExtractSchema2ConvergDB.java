@@ -9,6 +9,7 @@ import util.FileUtil;
 import util.LogUtil;
 import util.StringUtil;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -38,6 +39,11 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
             return;
         }
         scan.close();
+        File file = new File(outPath);
+        if(!file.exists()){
+            LogUtil.info("Output path not exist!");
+            return ;
+        }
 
         // save all in one schema file
         String domain = System.getProperty("db_name");
