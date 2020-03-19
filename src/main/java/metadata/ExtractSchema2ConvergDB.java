@@ -51,7 +51,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         relations.forEach(x -> {        //parallelStream().forEach 相当于多线程，容易出错
             tableNum.getAndAdd(1);
             x.setRelation_type("base");
-            Relation relation = new Relation(x.getName().concat("_target"), "derived", x.getColumns());
+            Relation relation = new Relation(x.getName(), "derived", x.getColumns());
             relation.setSource(x.getName());
             relationList.add(x);
             relationList.add(relation);

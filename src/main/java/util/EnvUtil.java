@@ -22,7 +22,7 @@ public class EnvUtil {
         String passwd = env.get("PASSWORD");
 
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
-            LogUtil.info("The userName or passwd of the database is empty. " +
+            LogUtil.info("The userName or password of the database is empty. " +
                     "Please check out the userName and password, in the" +
                     " environment variable you entered are " + "\"USER_NAME\"" +
                     " and \"PASSWORD\"");
