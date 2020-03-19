@@ -1,0 +1,34 @@
+Option
+-Dschema            db's catalog or user, namespace
+-Dtable             table name, use % wildcard, Multiple Spaces are separated by commas
+-Ddatabase          jdbc url like jdbc:postgresql://localhost:5432/test
+-Ddb_engine         postgres,oracle
+-Ddriver_jar        driver jar path
+-Ddriver_class      driver class org.postgresql.Driver
+-DuserName          db's userName
+-Dpasswd            db's password
+
+Example:
+postgre
+java -jar -Ddb_name=test \
+-Dschema=pg_catalog \
+-Dtable=pg_user \
+-Ddatabase=jdbc:postgresql://localhost:5432/test \
+-Ddb_engine=postgres \
+-Ddriver_jar=./postgresql-9.1-901-1.jdbc4.jar \
+-Ddriver_class=org.postgresql.Driver \
+-DuserName=username \
+-Dpasswd=password \
+schemaExtractor-1.0.jar
+
+oracle
+java -jar -Ddb_name=test \
+-Dschema=SCOTT \
+-Dtable=% \
+-Ddatabase=jdbc:oracle:thin:@localhost:1522:orcl \
+-Ddb_engine=oracle \
+-Ddriver_jar=D:\\work\\converg\\lib\\ojdbc6-11.2.0.3.jar \
+-Ddriver_class=oracle.jdbc.driver.OracleDriver \
+-DuserName=username \
+-Dpasswd=password \
+schemaExtractor-1.0.jar
