@@ -50,7 +50,7 @@ public class OracleJdbcService extends AbstractJdbcService {
     @Override
     public List<String> getParaTablesSql(String tableName) {
 
-        String[] tableNames = tableName.split(";");
+        String[] tableNames = tableName.split(",");
         StringJoiner sb = new StringJoiner(" or ");
         Arrays.stream(tableNames).forEach(e -> sb.add("table_name like '" + e + "'"));
 
@@ -62,14 +62,14 @@ public class OracleJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Column> getTableColumnsAndType(String tvName) {
-        if (StringUtils.isBlank(tvName)) {
-            tvName = this.getDataSource().gettvName();
+    public List<Column> getTableColumnsAndType(String tbName) {
+        if (StringUtils.isBlank(tbName)) {
+            tbName = this.getDataSource().gettbName();
         }
         String sql = FileUtil.getFile("oracleIR.sql")
 //                .replace("#{dbName}", this.getDataSource().getDbName())
                 .replace("#{schema}", this.getDataSource().getSchema())
-                .replace("#{tbName}", tvName);
+                .replace("#{tbName}", tbName);
 
         return findColumns(sql);
     }

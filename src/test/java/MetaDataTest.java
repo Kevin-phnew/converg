@@ -49,12 +49,12 @@ public class MetaDataTest {
         String jdbcPassword = "123456";
         String dbName = "testdb";
         String schema = "public";
-        String tvName = "company";
+        String tbName = "company";
 //        String driver_jar = "C:\\Users\\huijun\\.m2\\repository\\postgresql\\postgresql\\9.1-901-1.jdbc4\\postgresql-9.1-901-1.jdbc4.jar";
 //        JDBCUtil.loadJdbcJar(driver_jar);//动态加载指定jar
-        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tvName);
+        DataSource param = new DataSource(jdbcType, jdbcUrl, jdbcUser, jdbcPassword, dbName, schema, tbName);
         JdbcService jdbcService = JdbcServiceFactory.getJdbcService(param);
-        List<Column> fields = jdbcService.getTableColumnsAndType(tvName);
+        List<Column> fields = jdbcService.getTableColumnsAndType(tbName);
         return fields;
     }
 
