@@ -36,17 +36,17 @@ public class FileUtil {
             output.write(schema.getBytes(encoding));
             result=true;
         } catch (FileNotFoundException e) {
-            LogUtil.debug(e.getMessage(), e);
+            LogUtil.debug("File not fount", e);
         } catch (UnsupportedEncodingException e) {
-            LogUtil.debug(e.getMessage(), e);
+            LogUtil.debug("Unsupported Encoding", e);
         } catch (IOException e) {
-            LogUtil.debug(e.getMessage(), e);
+            LogUtil.debug("IOException", e);
         } finally {
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    LogUtil.debug(e.getMessage(), e);
+                    LogUtil.debug("", e);
                 }
             }
         }
