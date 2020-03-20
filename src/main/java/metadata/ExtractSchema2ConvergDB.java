@@ -9,7 +9,6 @@ import util.EnvUtil;
 import util.FileUtil;
 import util.LogUtil;
 import util.StringUtil;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +20,21 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
 
     private String sepa = java.io.File.separator;
 
-    public void ExtractSchema2ConvergDB(String[] args){
-        EnvUtil.checkProperty();
-        checkArgs(args);
+    public ExtractSchema2ConvergDB(String[] args){
+        this.args = args;
     }
+
+    @Override
+    public void main() {
+        if(null != args && args.length != 0){
+            checkArgs(args);
+        }else if(EnvUtil.checkProperty()){
+            return ;
+        }else{
+            outPutSchema();
+        }
+    }
+
 
     @Override
     public void outPutSchema() {
@@ -127,4 +137,6 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
         }
         return relations;
     }
+
+
 }

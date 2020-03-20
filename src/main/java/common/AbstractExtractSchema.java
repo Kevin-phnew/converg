@@ -5,6 +5,13 @@ import util.FileUtil;
 
 public abstract class AbstractExtractSchema implements ExtractSchema{
 
+    public String[] args ;
+
+    /**
+     * judge arguments,such as --help ect
+     */
+    public abstract void main();
+
 
 
     public static boolean checkArgs(String[] args) {
@@ -18,4 +25,7 @@ public abstract class AbstractExtractSchema implements ExtractSchema{
         }
         return status;
     }
+
+
+
 }

@@ -35,8 +35,9 @@ public class EnvUtil {
         return arr;
     }
 
-    public static void checkProperty(){
+    public static boolean checkProperty(){
 
+        boolean status = false;
         String engine = System.getProperty("db_engine");
         String database = System.getProperty("database");
         String schema = System.getProperty("schema");
@@ -44,16 +45,17 @@ public class EnvUtil {
         String info = " is null";
         if(StringUtils.isBlank(engine)){
             LogUtil.info("\"db_engine\""+ info);
-            return ;
+            status = true ;
         }
         if(StringUtils.isBlank(database)){
             LogUtil.info("\"database\""+ info);
-            return ;
+            status = true ;
         }
         if(StringUtils.isBlank(schema)){
             LogUtil.info("\"schema\""+ info);
-            return ;
+            status = true ;
         }
+        return status;
     }
 
     /**
