@@ -9,10 +9,9 @@ import util.EnvUtil;
 import util.FileUtil;
 import util.LogUtil;
 import util.StringUtil;
-import java.io.File;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -28,7 +27,7 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
     public void main() {
         if(null != args && args.length != 0){
             checkArgs(args);
-        }else if(EnvUtil.checkProperty()){
+        }else if(EnvUtil.checkProperty()){//这里需要返回true
             return ;
         }else{
             outPutSchema();
@@ -44,29 +43,13 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
         //Metadata extraction
         List<Relation> relations = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ansiMetaData);
 
-        Scanner scan = new Scanner(System.in);
-        LogUtil.info("Please provide path for ConvergDB schema output:");
-        String outPath = null;
-        if (scan.hasNext()) {
-            outPath = scan.next();
-            LogUtil.info("Schema written to: " + outPath);
-        } else {
-            LogUtil.info("no output path");
-            return;
-        }
-        scan.close();
-        File file = new File(outPath);
-        if(!file.exists()){
-            LogUtil.info("Output path not exist!");
-            return ;
-        }
-
         // save all in one schema file
         String domain = System.getProperty("db_name");
         String schemaName = System.getProperty("schema");
         List<Relation> relationList = new ArrayList<>();
         // save each schema files
-        String finalOutPath = outPath;
+        String finalOutPath = EnvUtil.getProperty("outputPath");
+        System.out.println("here :"+finalOutPath);
         AtomicInteger tableNum = new AtomicInteger(0);
         AtomicInteger success  = new AtomicInteger(0);
         AtomicInteger failed   = new AtomicInteger(0);

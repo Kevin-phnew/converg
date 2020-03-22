@@ -37,11 +37,15 @@ public class EnvUtil {
 
     public static boolean checkProperty(){
 
+        if(FileUtil.outputPathConfirm()){
+            //if output path Illegal,return true
+            return true;
+        }
+
         boolean status = false;
         String engine = System.getProperty("db_engine");
         String database = System.getProperty("database");
         String schema = System.getProperty("schema");
-
         String info = " is null";
         if(StringUtils.isBlank(engine)){
             LogUtil.info("\"db_engine\""+ info);
@@ -73,30 +77,28 @@ public class EnvUtil {
         String table = System.getProperty("table");
         String driver_jar = System.getProperty("driver_jar");
         String driver_class =System.getProperty("driver_class");
+        String outputPath = null;
+//        -o or -output-file
+        String outputPath1 = System.getProperty("o");
+        String outputPath2 = System.getProperty("output-file");
 
-        String outputPath = System.getProperty("output");
-
-        if(!StringUtils.isBlank(userName))
-            userName.trim();
-        if(!StringUtils.isBlank(passwd))
-            passwd.trim();
-        if(!StringUtils.isBlank(dbName))
-            dbName.trim();
-        if(!StringUtils.isBlank(driver_jar))
-            driver_jar.trim();
-        if(!StringUtils.isBlank(driver_class))
-            driver_class.trim();
+        if(StringUtils.isBlank(outputPath1) && StringUtils.isBlank(outputPath2)){
+            outputPath = System.getProperty("user.dir");
+        }else{
+            outputPath = StringUtils.isBlank(outputPath1) ? outputPath2:outputPath1;
+        }
 
         Map<String,String> map = new HashMap();
-        map.put("engine",engine.trim());
-        map.put("database",database.trim());
-        map.put("schema",schema.trim());
+        map.put("engine",engine);
+        map.put("database",database);
+        map.put("schema",schema);
         map.put("userName",userName);
         map.put("passwd",passwd);
         map.put("dbName",dbName);
         map.put("table",table);
         map.put("driver_jar",driver_jar);
         map.put("driver_class",driver_class);
+        map.put("outputPath",outputPath);
 
         return map.get(para);
     }

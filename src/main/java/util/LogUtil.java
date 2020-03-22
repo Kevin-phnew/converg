@@ -22,6 +22,8 @@ public class LogUtil {
     }
 
     public static void debug(String msg, Throwable t) {
+        logger.info(msg);
+        logger.info("Please refer to the extractSchema.log in the current path for details");
         logger.debug(msg,t);
     }
 
