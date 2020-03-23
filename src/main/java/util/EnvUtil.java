@@ -37,16 +37,18 @@ public class EnvUtil {
 
     public static boolean checkProperty(){
 
-        if(FileUtil.outputPathConfirm()){
-            //if output path Illegal,return true
-            return true;
-        }
+
 
         boolean status = false;
         String engine = System.getProperty("db_engine");
         String database = System.getProperty("database");
         String schema = System.getProperty("schema");
         String info = " is null";
+
+        if(FileUtil.outputPathConfirm()){
+            //if output path Illegal,return true
+            status = true ;
+        }
         if(StringUtils.isBlank(engine)){
             LogUtil.info("\"db_engine\""+ info);
             status = true ;
