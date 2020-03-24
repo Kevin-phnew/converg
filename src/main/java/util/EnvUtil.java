@@ -43,10 +43,15 @@ public class EnvUtil {
         String engine = System.getProperty("db_engine");
         String database = System.getProperty("database");
         String schema = System.getProperty("schema");
+        String db_name = System.getProperty("db_name");
         String info = " is null";
 
         if(FileUtil.outputPathConfirm()){
             //if output path Illegal,return true
+            status = true ;
+        }
+        if(StringUtils.isBlank(db_name)){
+            LogUtil.info("\"db_name\""+ info);
             status = true ;
         }
         if(StringUtils.isBlank(engine)){

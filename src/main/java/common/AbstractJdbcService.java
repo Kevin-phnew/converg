@@ -252,8 +252,10 @@ public abstract class AbstractJdbcService implements JdbcService {
 
     @Override
     public List<Relation> getAllTablesColumnsAndType() {
-        String tableName = System.getProperty("table")
-                .replaceAll("\"","").replaceAll("'","");
+        String tableName = System.getProperty("table");
+        if(!StringUtils.isBlank(tableName)){
+            tableName = tableName .replaceAll("\"","").replaceAll("'","");
+        }
         List<String> tables = StringUtils.isBlank(tableName) ?
                 this.getUserAllTableSql() : this.getParaTablesSql(tableName);
         if(tables == null)
