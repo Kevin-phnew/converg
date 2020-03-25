@@ -78,7 +78,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             } catch (SQLException e) {
                 ps = null;
             }
-        } 
+        }
         //关闭Connection
         if (conn != null) {
             try {
