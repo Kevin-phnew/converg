@@ -1,3 +1,5 @@
+package metadata;
+
 import common.JdbcService;
 import common.JdbcServiceFactory;
 import metadata.ExtractSchema2ConvergDB;
@@ -25,7 +27,7 @@ public class MetaDataTest {
         List<Column> fields = getMetaData();
         Relation relation = new Relation();
         relation.setName("");
-        relation.setColumns(fields);
+        relation.setColumn(fields);
         List<Relation> relations = new ArrayList<>();
         relations.add(relation);
         relations = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(relations);

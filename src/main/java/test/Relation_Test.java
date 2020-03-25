@@ -26,7 +26,7 @@ public class Relation_Test {
         relation.setName("car source");
         relation.setRelation_type("base");
 
-        relation.setColumns(columnArrayList);
+        relation.setColumn(columnArrayList);
 
         System.out.println(relation);
 
