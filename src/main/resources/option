@@ -1,3 +1,5 @@
+Usage: java -jar [-options] jarfile [args]
+
 Option
 -Ddb_name           db's name
 -Dschema            db's catalog or user, namespace
