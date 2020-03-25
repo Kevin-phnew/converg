@@ -90,8 +90,8 @@ public class SchemaTest {
             tempList.add(x);
             tempList.add(relation);
             Schema schema4 = new Schema("domain Domain", "schema Name", tempList);
-            schema4.setSpacesToUnderscore(true);
-            schema4.setCamelcaseToUnderscore(true);
+            schema4.setSpacesToUnderscore(false);
+            schema4.setCamelcaseToUnderscore(false);
             System.out.println(schema4);
         });
     }

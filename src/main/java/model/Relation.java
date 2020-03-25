@@ -2,6 +2,7 @@ package model;
 
 import util.StringUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,8 +66,14 @@ public class Relation implements Cloneable {
     }
 
     @Override
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() {
+        Relation relation = null;
+        try{
+            relation = (Relation) super.clone();
+        }catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return relation;
     }
 
     public Boolean getCamelcaseToUnderscore() {
@@ -100,14 +107,12 @@ public class Relation implements Cloneable {
                 this.source = StringUtil.blankSpaceToUnderscore(this.source);
             }
         }
-        if (!"base".equals(this.relation_type)) {
-            List<Column> columnList = this.column.stream().map(x -> {
-                x.setSpacesToUnderscore(this.spacesToUnderscore);
-                x.setBlankTickExpression();
-                return x;
-            }).collect(Collectors.toList());
-            this.setColumn(columnList);
-        }
+        List<Column> columnList = this.column.stream().map(x -> {
+            x.setSpacesToUnderscore(this.spacesToUnderscore);
+            x.setBlankTickExpression(this.relation_type);
+            return x;
+        }).collect(Collectors.toList());
+        this.setColumn(columnList);
         this.name = StringUtil.blackTick(this.name);
     }
 

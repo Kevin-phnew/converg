@@ -98,8 +98,8 @@ public class Column implements Cloneable {
         }
     }
 
-    public void setBlankTickExpression() {
-        if (this.columnName.contains(" ")){
+    public void setBlankTickExpression(String relationType) {
+        if (this.columnName.contains(" ") && !"base".equals(relationType)){
             this.expression = StringUtil.blackTick(this.columnName);
         }
     }
