@@ -1,12 +1,18 @@
 package model;
 
+import util.StringUtil;
+
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Schema {
     private String domain;
     private String schema;
     private List<Relation> relations;
+    private Boolean camelcaseToUnderscore=false;
+    private Boolean spacesToUnderscore=false;
 
     public Schema() {
 
@@ -46,6 +52,43 @@ public class Schema {
 
     public void setRelations(List<Relation> relations) {
         this.relations = relations;
+    }
+
+
+    public Boolean getCamelcaseToUnderscore() {
+        return camelcaseToUnderscore;
+    }
+
+    public void setCamelcaseToUnderscore(Boolean camelcaseToUnderscore) {
+        this.camelcaseToUnderscore = camelcaseToUnderscore;
+        if (camelcaseToUnderscore) {
+            this.domain = StringUtil.camelcaseToUnderscore(this.domain);
+            this.schema = StringUtil.camelcaseToUnderscore(this.schema);
+        }
+        List<Relation> relationStream = this.relations.stream().map(x -> {
+            x.setCamelcaseToUnderscore(this.camelcaseToUnderscore);
+            return x;
+        }).collect(Collectors.toList());
+        this.setRelations(relationStream);
+    }
+
+    public Boolean getSpacesToUnderscore() {
+        return spacesToUnderscore;
+    }
+
+    public void setSpacesToUnderscore(Boolean spacesToUnderscore) {
+        this.spacesToUnderscore = spacesToUnderscore;
+        if (spacesToUnderscore) {
+            this.domain = StringUtil.blankSpaceToUnderscore(this.domain);
+            this.schema = StringUtil.blankSpaceToUnderscore(this.schema);
+        }
+        List<Relation> relationStream = this.relations.stream().map(x -> {
+            x.setSpacesToUnderscore(this.spacesToUnderscore);
+            return x;
+        }).collect(Collectors.toList());
+        this.setRelations(relationStream);
+        this.domain = StringUtil.blackTick(this.domain);
+        this.schema = StringUtil.blackTick(this.schema);
     }
 
     /**
