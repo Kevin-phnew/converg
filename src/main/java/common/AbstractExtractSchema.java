@@ -10,7 +10,7 @@ public abstract class AbstractExtractSchema implements ExtractSchema{
     /**
      * judge arguments,such as --help ect
      */
-    public abstract void main();
+    public abstract void run();
 
 
 

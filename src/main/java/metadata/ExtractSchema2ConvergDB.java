@@ -25,7 +25,7 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
     }
 
     @Override
-    public void main() {
+    public void run() {
         if(null != args && args.length != 0){
             checkArgs(args);
         }else if(EnvUtil.checkProperty()){//这里需要返回true

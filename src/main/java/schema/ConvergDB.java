@@ -12,7 +12,7 @@ public class ConvergDB {
 
         //Metadata transformation and output
         AbstractExtractSchema extraSchema = new ExtractSchema2ConvergDB(args);
-        extraSchema.main();
+        extraSchema.run();
 
 
 
