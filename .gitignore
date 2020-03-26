@@ -4,3 +4,4 @@ converg.iml
 dependency-reduced-pom.xml
 schemaExtractor.iml
 *.log
+*.schema
