@@ -56,7 +56,7 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
     @Override
     public List<String> getParaTablesSql(String tableName) {
 
-        String[] tableNames = tableName.split(";");
+        String[] tableNames = tableName.split(",");
         StringJoiner sb = new StringJoiner(" or ");
         Arrays.stream(tableNames).forEach(e -> sb.add("table_name like '" + e + "'"));
 

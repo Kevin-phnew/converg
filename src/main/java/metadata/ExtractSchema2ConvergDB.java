@@ -13,6 +13,7 @@ import util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
@@ -24,7 +25,7 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
     }
 
     @Override
-    public void main() {
+    public void run() {
         if(null != args && args.length != 0){
             checkArgs(args);
         }else if(EnvUtil.checkProperty()){//这里需要返回true
@@ -46,21 +47,41 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
         // save all in one schema file
         String domain = System.getProperty("db_name");
         String schemaName = System.getProperty("schema");
+        String camelcase = System.getProperty("camelcase-to-underscore");
+        String blankSpace = System.getProperty("spaces-to-underscore");
+
+        Boolean camelcaseToUnderscore = false;
+        Boolean blankSpaceToUnderscore = false;
+
+        if (StringUtils.isNotEmpty(camelcase) && "y".equals(camelcase.toLowerCase().trim())){
+            camelcaseToUnderscore = true;
+        }
+
+        if (StringUtils.isNotEmpty(blankSpace) && "y".equals(blankSpace.toLowerCase().trim())){
+            blankSpaceToUnderscore = true;
+        }
+        Boolean finalCamelcaseToUnderscore = camelcaseToUnderscore;
+        Boolean finalBlankSpaceToUnderscore = blankSpaceToUnderscore;
+
         List<Relation> relationList = new ArrayList<>();
         // save each schema files
         String finalOutPath = EnvUtil.getProperty("outputPath");
         System.out.println("here :"+finalOutPath);
         AtomicInteger tableNum = new AtomicInteger(0);
-        AtomicInteger success  = new AtomicInteger(0);
-        AtomicInteger failed   = new AtomicInteger(0);
-        relations.forEach(x -> {        //parallelStream().forEach 相当于多线程，容易出错
+        AtomicInteger success = new AtomicInteger(0);
+        AtomicInteger failed = new AtomicInteger(0);
+        relations.forEach(x -> {
             tableNum.getAndAdd(1);
             x.setRelation_type("base");
-            Relation relation = new Relation(x.getName(), "derived", x.getColumns());
+            List<Column> derColList = new ArrayList<>();
+            x.getColumn().forEach(col -> derColList.add((Column) col.clone()));
+            Relation relation = new Relation(x.getName(), "derived", derColList);
             relation.setSource(x.getName());
             relationList.add(x);
             relationList.add(relation);
             Schema schema = new Schema(domain, schemaName, relationList);
+            schema.setCamelcaseToUnderscore(finalCamelcaseToUnderscore);
+            schema.setSpacesToUnderscore(finalBlankSpaceToUnderscore);
             boolean falg = FileUtil.writeTxtFile(
                     schema.toString(),
                     finalOutPath.trim().concat(sepa)
@@ -94,7 +115,7 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
      */
     public static List<Relation> changeANSIToConvergeMeta(List<Relation> relations) {
         for (Relation r : relations) {
-            for (Column e : r.getColumns()) {
+            for (Column e : r.getColumn()) {
                 String columnType = e.getColumnType();
                 if (columnType.startsWith("int")) {
                     String n = StringUtil.getNumberFromText(columnType);

@@ -78,7 +78,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             } catch (SQLException e) {
                 ps = null;
             }
-        } 
+        }
         //关闭Connection
         if (conn != null) {
             try {
@@ -264,7 +264,7 @@ public abstract class AbstractJdbcService implements JdbcService {
         tables.stream().forEach(tbName -> {
             Relation relation = new Relation();
             relation.setName(tbName);
-            relation.setColumns(this.getTableColumnsAndType(tbName));
+            relation.setColumn(this.getTableColumnsAndType(tbName));
             relations.add(relation);
         });
         return relations;
