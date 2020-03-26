@@ -1,4 +1,6 @@
-package test;
+package common;
+
+import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,6 +10,13 @@ public class ConnectPostgreSQL_Test {
     private final String url = "jdbc:postgresql://hadoop001:5432/testdb";
     private final String user = "postgres";
     private final String password = "123456";
+
+
+    @Test
+    public void connectPostgreTest() {
+        ConnectPostgreSQL_Test connectPostgreSQLTest = new ConnectPostgreSQL_Test();
+        connectPostgreSQLTest.connect();
+    }
 
     /**
      * Connect to the PostgreSQL database
@@ -24,13 +33,5 @@ public class ConnectPostgreSQL_Test {
         }
 
         return conn;
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        ConnectPostgreSQL_Test connectPostgreSQLTest = new ConnectPostgreSQL_Test();
-        connectPostgreSQLTest.connect();
     }
 }

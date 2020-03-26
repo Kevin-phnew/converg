@@ -1,15 +1,17 @@
-package test;
+package schema;
 
 import common.JdbcService;
 import common.JdbcServiceFactory;
 import model.Column;
 import model.DataSource;
+import org.junit.Test;
 
 import java.util.List;
 
 public class GetANSIMetaData_Test {
 
-    public static void main(String[] args) {
+    @Test
+    public void metaDataTest() {
         String userName = "postgres";
         String passwd = "123456";
         String database = "jdbc:postgresql://hadoop001:5432/testdb";

@@ -1,4 +1,4 @@
-package common;
+package model;
 
 import model.Column;
 import model.Relation;
