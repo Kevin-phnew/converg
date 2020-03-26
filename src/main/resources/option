@@ -1,19 +1,23 @@
 Usage: java -jar [-options] jarfile [args]
 
 Option
--Ddb_name           db's name
--Dschema            db's catalog or user, namespace
--Dtable             table name, use % wildcard, Multiple Spaces are separated by commas
--Ddatabase          jdbc url like jdbc:postgresql://localhost:5432/emp
--Ddb_engine         type of db like postgres,oracle
--Ddriver_jar        jdbc driver jar path, if not specified the default will be used
--Ddriver_class      driver class like org.postgresql.Driver
--DuserName          db's userName or you can config in into environment variables
--Dpasswd            db's password or you can config in into environment variables
+-Ddb_name                   required. db's name
+-Dschema                    required. db's catalog or user, namespace
+-Dtable                     required. table name, use % wildcard, Multiple Spaces are separated by commas
+-Ddatabase                  required. jdbc url like jdbc:postgresql://localhost:5432/emp
+-Ddb_engine                 required. type of db like postgres,oracle
+-Ddriver_jar                required. jdbc driver jar path, if not specified the default will be used
+-Ddriver_class              required. driver class like org.postgresql.Driver
+-DuserName                  not required. db's userName or you can config in into environment variables
+-Dpasswd                    not required. db's password or you can config in into environment variables
+-Doutput-file               not required. default path is the jar directory
+-Dcamelcase-to-underscore   not required. y: change camelcase to underscore, n: do not change camelcase to underscore
+-Dspaces-to-underscore      not required. y: change spaces to underscore, n: do not change spaces to underscore
 
-Example:
-postgre
-java -jar -Ddb_name=test \
+Example for Postgre:
+
+java -jar
+-Ddb_name=test \
 -Dschema=pg_catalog \
 -Dtable=pg_user \
 -Ddatabase=jdbc:postgresql://localhost:5432/test \
@@ -24,8 +28,11 @@ java -jar -Ddb_name=test \
 -Dpasswd=password \
 schemaExtractor-1.0.jar
 
-oracle
-java -jar -Ddb_name=test \
+
+Example for Oracle:
+
+java -jar
+-Ddb_name=test \
 -Dschema=SCOTT \
 -Dtable=% \
 -Ddatabase=jdbc:oracle:thin:@localhost:1522:orcl \

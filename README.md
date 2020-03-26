@@ -1,7 +1,5 @@
 [TOC]
 
-# Exapmle
-
 ## How to build
 
 first, you can run the following command to build the project
@@ -9,23 +7,30 @@ first, you can run the following command to build the project
 mvn clean package -Dmaven.test.skip=true
 ```
 
+## How to Use Help
+```bash
+java -jar schemaExtractor-1.0.jar --help
+```
 
 
-## Run the jar
+## How to Run the jar
 
 second, you need to understand the meaning of each parameter
 
-| parameter    | description                                                  |
-| ------------ | ------------------------------------------------------------ |
-| db_name      | the database name you created in postgreSQL                  |
-| schema       | the schema name you created in postgreSQL                    |
-| table        | the table name you created in postgreSQL                     |
-| database     | the jdbc url, for example, "jdbc:postgresql://host:port/db_name" |
-| db_engine    | the engine, just support postgreSQL, for example, "postgres" |
-| driver_jar   | we have support in lib directory, you need change it your own directory |
-| driver_class | the driver class , you do not need to change it              |
-| userName     | the username in your postgreSQL, you need to change it       |
-| passwd       | the password for you account in postgreSQL                   |
+| parameter               | description                                                  | required |
+| ----------------------- | ------------------------------------------------------------ | -------- |
+| db_name                 | the database name you created in postgreSQL                  | yes      |
+| schema                  | the schema name you created in postgreSQL                    | yes      |
+| table                   | the table name you created in postgreSQL                     | yes      |
+| database                | the jdbc url, for example, "jdbc:postgresql://host:port/db_name" | yes      |
+| db_engine               | the engine, just support postgreSQL, for example, "postgres" | yes      |
+| driver_jar              | we have support in lib directory, you need change it your own directory | yes      |
+| driver_class            | the driver class , you do not need to change it              | yes      |
+| userName                | the username in your postgreSQL, you need set  USER_NAME in your environment if you do not give the parameter | no       |
+| passwd                  | the password for you account in postgreSQL,you need set  PASSWORD in your environment if you do not give the parameter | no       |
+| output-file             | default path is the jar directory                            | no       |
+| camelcase-to-underscore | y: change camelcase to underscore, n: do not change camelcase to underscore | no       |
+| spaces-to-underscore    | y: change spaces to underscore, n: do not change spaces to underscore | no       |
 
 you can run the following command to quickly start test, you just need to change the <code>driver_jar</code> directory in your operation system
 
@@ -36,7 +41,7 @@ java -jar \
 -Ddb_name=testdb \
 -Dschema=public \
 -Dtable=company \
--Ddatabase=jdbc:postgresql://114.67.96.244:5432/testdb \
+-Ddatabase=jdbc:postgresql://hadoop001:5432/testdb \
 -Ddb_engine=postgres \
 -Ddriver_jar=/Users/guguoyu/Documents/app/maven-repo/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
 -Ddriver_class=org.postgresql.Driver \
