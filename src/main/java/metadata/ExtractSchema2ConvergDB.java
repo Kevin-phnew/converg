@@ -44,11 +44,10 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
         //Metadata extraction
         List<Relation> relations = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ansiMetaData);
 
-        // save all in one schema file
-        String domain = System.getProperty("db_name");
-        String schemaName = System.getProperty("schema");
-        String camelcase = System.getProperty("camelcase-to-underscore");
-        String blankSpace = System.getProperty("spaces-to-underscore");
+        String domain = EnvUtil.getProperty("dbName");
+        String schemaName = EnvUtil.getProperty("schema");
+        String camelcase = EnvUtil.getProperty("camelcase_to_underscore");
+        String blankSpace = EnvUtil.getProperty("spaces_to_underscore");
 
         Boolean camelcaseToUnderscore = false;
         Boolean blankSpaceToUnderscore = false;
@@ -66,7 +65,7 @@ public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
         List<Relation> relationList = new ArrayList<>();
         // save each schema files
         String finalOutPath = EnvUtil.getProperty("outputPath");
-        System.out.println("here :"+finalOutPath);
+        LogUtil.info("Output to here "+finalOutPath);
         AtomicInteger tableNum = new AtomicInteger(0);
         AtomicInteger success = new AtomicInteger(0);
         AtomicInteger failed = new AtomicInteger(0);

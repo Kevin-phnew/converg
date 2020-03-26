@@ -4,6 +4,7 @@ import model.Column;
 import model.DataSource;
 import model.Relation;
 import org.apache.commons.lang3.StringUtils;
+import util.EnvUtil;
 import util.LogUtil;
 
 import java.sql.*;
@@ -252,7 +253,7 @@ public abstract class AbstractJdbcService implements JdbcService {
 
     @Override
     public List<Relation> getAllTablesColumnsAndType() {
-        String tableName = System.getProperty("table");
+        String tableName = EnvUtil.getProperty("table");
         if(!StringUtils.isBlank(tableName)){
             tableName = tableName .replaceAll("\"","").replaceAll("'","");
         }

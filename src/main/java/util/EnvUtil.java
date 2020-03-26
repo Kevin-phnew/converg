@@ -1,5 +1,6 @@
 package util;
 
+import model.PropertyAttr;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
@@ -8,14 +9,14 @@ import java.util.Map;
 public class EnvUtil {
 
     public static void main(String args[]){
-        EnvUtil.getEnvironment();
+        EnvUtil.getEnvironmentUserPasswd();
     }
 
     /**
      *
      * @return String[]
      */
-    public static String[] getEnvironment(){
+    public static String[] getEnvironmentUserPasswd(){
         String[] arr = new String [2];
         Map<String, String> env = System.getenv();
         String userName = env.get("USER_NAME");
@@ -35,15 +36,17 @@ public class EnvUtil {
         return arr;
     }
 
+    /**
+     * Check the parameters entered by the console
+     * @return booelan
+     */
     public static boolean checkProperty(){
 
-
-
         boolean status = false;
-        String engine = System.getProperty("db_engine");
-        String database = System.getProperty("database");
-        String schema = System.getProperty("schema");
-        String db_name = System.getProperty("db_name");
+        String engine = EnvUtil.getProperty("engine");
+        String database = EnvUtil.getProperty("database");
+        String schema = EnvUtil.getProperty("schema");
+        String db_name = EnvUtil.getProperty("dbName");
         String info = " is null";
 
         if(FileUtil.outputPathConfirm()){
@@ -75,20 +78,24 @@ public class EnvUtil {
      * @return
      */
     public static String getProperty(String para){
-        String engine = System.getProperty("db_engine");
-        String database = System.getProperty("database");
-        String schema = System.getProperty("schema");
-        String userName = System.getProperty("userName");
-        String passwd = System.getProperty("passwd");
-        String dbName = System.getProperty("db_name");
-        String table = System.getProperty("table");
-        String driver_jar = System.getProperty("driver_jar");
-        String driver_class =System.getProperty("driver_class");
-        String outputPath = null;
-//        -o or -output-file
-        String outputPath1 = System.getProperty("o");
-        String outputPath2 = System.getProperty("output-file");
 
+        String engine = System.getProperty(PropertyAttr.DB_ENGINE.getValue());
+        String database = System.getProperty(PropertyAttr.DATABASE.getValue());
+        String schema = System.getProperty(PropertyAttr.SCHEMA.getValue());
+        String userName = System.getProperty(PropertyAttr.USER_NAME.getValue());
+        String passwd = System.getProperty(PropertyAttr.PASSWD.getValue());
+        String dbName = System.getProperty(PropertyAttr.DB_NAME.getValue());
+        String table = System.getProperty(PropertyAttr.TABLE.getValue());
+        String driver_jar = System.getProperty(PropertyAttr.DRIVER_JAR.getValue());
+        String driver_class =System.getProperty(PropertyAttr.DRIVER_CLASS.getValue());
+//        -o or -output-file
+        String outputPath1 = System.getProperty(PropertyAttr.O.getValue());
+        String outputPath2 = System.getProperty(PropertyAttr.OUTPUT_FILE.getValue());
+        String camelcase_to_underscore = System.getProperty(PropertyAttr.CAMELCASE_TO_UNDERSCORE.getValue());
+        String spaces_to_underscore = System.getProperty(PropertyAttr.SPACES_TO_UNDERSCORE.getValue());
+
+
+        String outputPath = null;
         if(StringUtils.isBlank(outputPath1) && StringUtils.isBlank(outputPath2)){
             outputPath = System.getProperty("user.dir");
         }else{
@@ -106,6 +113,8 @@ public class EnvUtil {
         map.put("driver_jar",driver_jar);
         map.put("driver_class",driver_class);
         map.put("outputPath",outputPath);
+        map.put("camelcase_to_underscore",camelcase_to_underscore);
+        map.put("spaces_to_underscore",spaces_to_underscore);
 
         return map.get(para);
     }
