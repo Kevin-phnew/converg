@@ -60,30 +60,26 @@ then input the schema output direction you want
 a sample export schema file:
 
 ```bash
-domain "testdb" {
-  schema "public" {
-    relation "company" {
+domain "zyilcfad" {
+  schema "test" {
+    relation "spaceincolumn" {
       relation_type = base
       attributes {
-        attribute "id" {
-          required = true
-          data_type = int(4)
-        }
-        attribute "name" {
-          required = true
-          data_type = varchar
-        }
-        attribute "age" {
-          required = true
-          data_type = int(4)
-        }
-        attribute "address" {
+        attribute "n n" {
           required = false
-          data_type = char(50)
+          data_type = integer
         }
-        attribute "salary" {
+      }
+    }
+    relation "spaceincolumn" {
+      relation_type = derived {
+        source = "spaceincolumn"
+      }
+      attributes {
+        attribute "n n" {
           required = false
-          data_type = float
+          data_type = integer
+          expression = "`n n`"
         }
       }
     }
