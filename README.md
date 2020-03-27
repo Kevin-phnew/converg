@@ -2,7 +2,7 @@
 
 ## How to build
 
-first, you can run the following command to build the project
+First, you need to run the following command to build the project
 ```bash
 mvn clean package -Dmaven.test.skip=true
 ```
@@ -15,22 +15,22 @@ java -jar schemaExtractor-1.0.jar --help
 
 ## How to Run the jar
 
-second, you need to understand the meaning of each parameter
+Meaning of all the parameters
 
 | parameter               | description                                                  | required |
 | ----------------------- | ------------------------------------------------------------ | -------- |
 | db_name                 | the database name you created in postgreSQL                  | yes      |
 | schema                  | the schema name you created in postgreSQL                    | yes      |
-| table                   | the table name you created in postgreSQL                     | yes      |
+| table                   | the name of the table to be exported, if this parameter is not present, all the tables under the shema will be exported; you can use comma seperated tabble names or % as wildcard                     | no      |
 | database                | the jdbc url, for example, "jdbc:postgresql://host:port/db_name" | yes      |
-| db_engine               | the engine, just support postgreSQL, for example, "postgres" | yes      |
-| driver_jar              | we have support in lib directory, you need change it your own directory | yes      |
-| driver_class            | the driver class , you do not need to change it              | yes      |
-| userName                | the username in your postgreSQL, you need set  USER_NAME in your environment if you do not give the parameter | no       |
-| passwd                  | the password for you account in postgreSQL,you need set  PASSWORD in your environment if you do not give the parameter | no       |
-| output-file             | default path is the jar directory                            | no       |
-| camelcase-to-underscore | y: change camelcase to underscore, n: do not change camelcase to underscore | no       |
-| spaces-to-underscore    | y: change spaces to underscore, n: do not change spaces to underscore | no       |
+| db_engine               | the db engine, for example, "postgres" or "oracle" | yes      |
+| driver_jar              | we put postgres jar in lib folder, you can point to the path where you store the driver jar file | yes      |
+| driver_class            | for postgres is "org.postgresql.Driver"              | yes      |
+| userName                | the username used to connect to postgreSQL, you can set  USER_NAME in your environment if you do not give the parameter | no       |
+| passwd                  | the password used to connect to postgreSQL,you can set  PASSWORD in your environment if you do not give the parameter | no       |
+| output-file             | the path to store the exported schema files, default will be the current folder                            | no       |
+| camelcase-to-underscore | y: change camelcase to underscore | no       |
+| spaces-to-underscore    | y: change spaces to underscore, otherwise will add backtick | no       |
 
 you can run the following command to quickly start test, you just need to change the <code>driver_jar</code> directory in your operation system
 
@@ -43,7 +43,7 @@ java -jar \
 -Dtable=company \
 -Ddatabase=jdbc:postgresql://hadoop001:5432/testdb \
 -Ddb_engine=postgres \
--Ddriver_jar=/Users/guguoyu/Documents/app/maven-repo/postgresql/postgresql/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
+-Ddriver_jar=../lib/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
 -Ddriver_class=org.postgresql.Driver \
 -DuserName=postgres \
 -Dpasswd=123456 \
@@ -53,16 +53,11 @@ schemaExtractor-1.0-SNAPSHOT.jar
 
  the console will print "Please provide path for ConvergDB schema output:"
 
-then input the schema output direction you want, for example:
-```bash
-
-/Users/guguoyu/Documents/boyan/converg/src/main/resources/outschema.txt
-
-```
+then input the schema output direction you want
 
 ## Get the result
 
-finally, you will get the result after open the outschema.txt
+a sample export schema file:
 
 ```bash
 domain "testdb" {
