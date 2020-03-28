@@ -41,12 +41,12 @@ java -jar \
 -Ddb_name=testdb \
 -Dschema=public \
 -Dtable=company \
--Ddatabase=jdbc:postgresql://hadoop001:5432/testdb \
+-Ddatabase=jdbc:postgresql://hostname:5432/testdb \
 -Ddb_engine=postgres \
 -Ddriver_jar=../lib/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
 -Ddriver_class=org.postgresql.Driver \
--DuserName=postgres \
--Dpasswd=123456 \
+-DuserName=user \
+-Dpasswd=pwd \
 schemaExtractor-1.0-SNAPSHOT.jar
 
 ```
