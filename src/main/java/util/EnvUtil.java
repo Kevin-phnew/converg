@@ -78,7 +78,16 @@ public class EnvUtil {
      * @return
      */
     public static String getProperty(String para){
-
+//        String res = null;
+//        switch (para){
+//            case "engine":
+//                res = System.getProperty(PropertyAttr.DB_ENGINE.getValue());
+//                break;
+//            case "database":
+//                res =  System.getProperty(PropertyAttr.DATABASE.getValue());
+//                break;
+//        }
+//        return res;
         String engine = System.getProperty(PropertyAttr.DB_ENGINE.getValue());
         String database = System.getProperty(PropertyAttr.DATABASE.getValue());
         String schema = System.getProperty(PropertyAttr.SCHEMA.getValue());
