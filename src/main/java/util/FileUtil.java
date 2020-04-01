@@ -1,5 +1,6 @@
 package util;
 
+import model.PropertyAttr;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -58,10 +59,10 @@ public class FileUtil {
     public static boolean outputPathConfirm(){
         boolean status = false;
 
-        String outputPath1 = System.getProperty("o");
-        String outputPath2 = System.getProperty("output-file");
+        String outputPath1 = System.getProperty(PropertyAttr.O.getValue());
+        String outputPath2 = System.getProperty(PropertyAttr.OUTPUT_FILE.getValue());
         if( !StringUtils.isBlank(outputPath1) && !StringUtils.isBlank(outputPath2)){
-            LogUtil.info("Parameters \"output-file\" and \"o\" just need one");
+            LogUtil.info("Parameters \""+PropertyAttr.O.getValue()+"\" or \""+PropertyAttr.OUTPUT_FILE.getValue()+"\" just need one");
             status = true;
         }
 
@@ -87,9 +88,12 @@ public class FileUtil {
 
     }
 
+    /**
+     * Create directory
+     * @param output
+     * @return boolean
+     */
     public static boolean createDir(String output){
-//        String output = "C:\\Users\\PH\\Desktop\\ConvergDB相关\\123\\";
-//        String output1 = "sdsa";
         File file = new File(output);
         boolean mkdirs = file.mkdirs();
         if(!mkdirs){

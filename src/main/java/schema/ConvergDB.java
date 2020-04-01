@@ -14,8 +14,6 @@ public class ConvergDB {
         AbstractExtractSchema extraSchema = new ExtractSchema2ConvergDB(args);
         extraSchema.run();
 
-
-
     }
 
 

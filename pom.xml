@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.bys</groupId>
-    <artifactId>schemaExtractor</artifactId>
+    <artifactId>schema-extractor</artifactId>
     <version>1.0</version>
 
 

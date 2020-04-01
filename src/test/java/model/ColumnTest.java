@@ -3,7 +3,7 @@ package model;
 import model.Column;
 import org.junit.Test;
 
-public class Column_Test {
+public class ColumnTest {
 
 
     @Test

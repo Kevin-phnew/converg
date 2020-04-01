@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class Relation_Test {
+public class RelationTest {
 
     @Test
     public void relationTest() {

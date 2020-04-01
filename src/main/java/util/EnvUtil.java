@@ -8,10 +8,6 @@ import java.util.Map;
 
 public class EnvUtil {
 
-    public static void main(String args[]){
-        EnvUtil.getEnvironmentUserPasswd();
-    }
-
     /**
      *
      * @return String[]
@@ -19,15 +15,15 @@ public class EnvUtil {
     public static String[] getEnvironmentUserPasswd(){
         String[] arr = new String [2];
         Map<String, String> env = System.getenv();
-        String userName = env.get("USER_NAME");
+        String userName = env.get("username");
 
-        String passwd = env.get("PASSWORD");
+        String passwd = env.get("password");
 
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
-            LogUtil.info("The userName or password of the database is empty. " +
-                    "Please check out the userName and password, in the" +
-                    " environment variable you entered are " + "\"USER_NAME\"" +
-                    " and \"PASSWORD\"");
+            LogUtil.info("The username or password of the database is empty. " +
+                    "Please check out the username and password in the" +
+                    " environment variable you entered are " + "\"username\"" +
+                    " and \"password\"");
             return null;
         }
         arr[0] = userName;

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 测试类
  */
-public class MetaDataTest {
+public class ANSIMetaDataTest {
 
     @Test
     public void getANSIMetaDataTest() {

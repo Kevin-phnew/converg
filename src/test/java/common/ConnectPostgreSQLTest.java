@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnectPostgreSQL_Test {
+public class ConnectPostgreSQLTest {
     private final String url = "jdbc:postgresql://hadoop001:5432/testdb";
     private final String user = "postgres";
     private final String password = "123456";
@@ -14,7 +14,7 @@ public class ConnectPostgreSQL_Test {
 
     @Test
     public void connectPostgreTest() {
-        ConnectPostgreSQL_Test connectPostgreSQLTest = new ConnectPostgreSQL_Test();
+        ConnectPostgreSQLTest connectPostgreSQLTest = new ConnectPostgreSQLTest();
         connectPostgreSQLTest.connect();
     }
 
