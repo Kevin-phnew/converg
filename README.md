@@ -26,11 +26,11 @@ Meaning of all the parameters
 | db_engine               | the db engine, for example, "postgres" or "oracle" | yes      |
 | driver_jar              | we put postgres jar in lib folder, you can point to the path where you store the driver jar file | yes      |
 | driver_class            | for postgres is "org.postgresql.Driver"              | yes      |
-| userName                | the username used to connect to postgreSQL, you can set  USER_NAME in your environment if you do not give the parameter | no       |
-| passwd                  | the password used to connect to postgreSQL,you can set  PASSWORD in your environment if you do not give the parameter | no       |
-| output-file             | the path to store the exported schema files, default will be the current folder                            | no       |
-| camelcase-to-underscore | y: change camelcase to underscore | no       |
-| spaces-to-underscore    | y: change spaces to underscore, otherwise will add backtick | no       |
+| username                | the username used to connect to postgreSQL, you can set  USER_NAME in your environment if you do not give the parameter | no       |
+| password                  | the password used to connect to postgreSQL,you can set  PASSWORD in your environment if you do not give the parameter | no       |
+| output_file             | the path to store the exported schema files, default will be the current folder                            | no       |
+| camelcase_to_underscore | y: change camelcase to underscore | no       |
+| spaces_to_underscore    | y: change spaces to underscore, otherwise will add backtick | no       |
 
 you can run the following command to quickly start test, you just need to change the <code>driver_jar</code> directory in your operation system
 
@@ -41,19 +41,17 @@ java -jar \
 -Ddb_name=testdb \
 -Dschema=public \
 -Dtable=company \
+-Doutput_file=/tmp/schema \
 -Ddatabase=jdbc:postgresql://hostname:5432/testdb \
 -Ddb_engine=postgres \
 -Ddriver_jar=../lib/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
 -Ddriver_class=org.postgresql.Driver \
--DuserName=user \
--Dpasswd=pwd \
-schemaExtractor-1.0-SNAPSHOT.jar
+-Dusername=user \
+-Dpassword=pwd \
+schema-extractor-1.0.jar
 
 ```
-
- the console will print "Please provide path for ConvergDB schema output:"
-
-then input the schema output direction you want
+you can run "java -jar schema-extractor-1.0.jar --help" to get detail information.
 
 ## Get the result
 
