@@ -221,7 +221,7 @@ public abstract class AbstractJdbcService implements JdbcService {
      * a catalog name; must match the catalog name as it is stored in the database; "" retrieves those without a catalog; null means that the catalog name should not be used to narrow the search
      */
     protected String catalog() {
-        return System.getProperty("schema");
+        return EnvUtil.getProperty("schema");
     }
 
     /**

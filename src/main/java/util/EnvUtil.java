@@ -8,6 +8,43 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EnvUtil {
+    private static Map<String,String> map = new HashMap();
+    static {
+        String engine = System.getProperty(PropertyAttr.DB_ENGINE.getValue());
+        String database = System.getProperty(PropertyAttr.DATABASE.getValue());
+        String schema = System.getProperty(PropertyAttr.SCHEMA.getValue());
+        String userName = System.getProperty(PropertyAttr.USER_NAME.getValue());
+        String passwd = System.getProperty(PropertyAttr.PASSWD.getValue());
+        String dbName = System.getProperty(PropertyAttr.DB_NAME.getValue());
+        String table = System.getProperty(PropertyAttr.TABLE.getValue());
+        String driver_jar = System.getProperty(PropertyAttr.DRIVER_JAR.getValue());
+        String driver_class =System.getProperty(PropertyAttr.DRIVER_CLASS.getValue());
+        // -o or -output-file
+        String outputPath1 = System.getProperty(PropertyAttr.O.getValue());
+        String outputPath2 = System.getProperty(PropertyAttr.OUTPUT_FILE.getValue());
+        String camelcase_to_underscore = System.getProperty(PropertyAttr.CAMELCASE_TO_UNDERSCORE.getValue());
+        String spaces_to_underscore = System.getProperty(PropertyAttr.SPACES_TO_UNDERSCORE.getValue());
+
+
+        String outputPath = null;
+        if(StringUtils.isBlank(outputPath1) && StringUtils.isBlank(outputPath2)){
+            outputPath = System.getProperty("user.dir");
+        }else{
+            outputPath = StringUtils.isBlank(outputPath1) ? outputPath2:outputPath1;
+        }
+        map.put("engine", engine);
+        map.put("database", database);
+        map.put("schema", schema);
+        map.put("userName", userName);
+        map.put("passwd", passwd);
+        map.put("dbName", dbName);
+        map.put("table", table);
+        map.put("driver_jar", driver_jar);
+        map.put("driver_class", driver_class);
+        map.put("outputPath", outputPath);
+        map.put("camelcase_to_underscore", camelcase_to_underscore);
+        map.put("spaces_to_underscore", spaces_to_underscore);
+    }
 
     /**
      *
@@ -81,53 +118,6 @@ public class EnvUtil {
      * @return
      */
     public static String getProperty(String para){
-//        String res = null;
-//        switch (para){
-//            case "engine":
-//                res = System.getProperty(PropertyAttr.DB_ENGINE.getValue());
-//                break;
-//            case "database":
-//                res =  System.getProperty(PropertyAttr.DATABASE.getValue());
-//                break;
-//        }
-//        return res;
-        String engine = System.getProperty(PropertyAttr.DB_ENGINE.getValue());
-        String database = System.getProperty(PropertyAttr.DATABASE.getValue());
-        String schema = System.getProperty(PropertyAttr.SCHEMA.getValue());
-        String userName = System.getProperty(PropertyAttr.USER_NAME.getValue());
-        String passwd = System.getProperty(PropertyAttr.PASSWD.getValue());
-        String dbName = System.getProperty(PropertyAttr.DB_NAME.getValue());
-        String table = System.getProperty(PropertyAttr.TABLE.getValue());
-        String driver_jar = System.getProperty(PropertyAttr.DRIVER_JAR.getValue());
-        String driver_class =System.getProperty(PropertyAttr.DRIVER_CLASS.getValue());
-//        -o or -output-file
-        String outputPath1 = System.getProperty(PropertyAttr.O.getValue());
-        String outputPath2 = System.getProperty(PropertyAttr.OUTPUT_FILE.getValue());
-        String camelcase_to_underscore = System.getProperty(PropertyAttr.CAMELCASE_TO_UNDERSCORE.getValue());
-        String spaces_to_underscore = System.getProperty(PropertyAttr.SPACES_TO_UNDERSCORE.getValue());
-
-
-        String outputPath = null;
-        if(StringUtils.isBlank(outputPath1) && StringUtils.isBlank(outputPath2)){
-            outputPath = System.getProperty("user.dir");
-        }else{
-            outputPath = StringUtils.isBlank(outputPath1) ? outputPath2:outputPath1;
-        }
-
-        Map<String,String> map = new HashMap();
-        map.put("engine",engine);
-        map.put("database",database);
-        map.put("schema",schema);
-        map.put("userName",userName);
-        map.put("passwd",passwd);
-        map.put("dbName",dbName);
-        map.put("table",table);
-        map.put("driver_jar",driver_jar);
-        map.put("driver_class",driver_class);
-        map.put("outputPath",outputPath);
-        map.put("camelcase_to_underscore",camelcase_to_underscore);
-        map.put("spaces_to_underscore",spaces_to_underscore);
-
         return map.get(para);
     }
 

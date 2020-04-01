@@ -4,6 +4,7 @@ import common.AbstractJdbcService;
 import model.Column;
 import model.DataSource;
 import org.apache.commons.lang3.StringUtils;
+import util.EnvUtil;
 import util.FileUtil;
 import util.JDBCUtil;
 
@@ -19,8 +20,8 @@ public class OracleJdbcService extends AbstractJdbcService {
 
     @Override
     protected String loadDriverClass() {
-        String driver_jar = System.getProperty("driver_jar");
-        String driver_class = System.getProperty("driver_class");
+        String driver_jar = EnvUtil.getProperty("driver_jar");
+        String driver_class = EnvUtil.getProperty("driver_class");
         if (StringUtils.isNotBlank(driver_jar)) {
             JDBCUtil.loadJdbcJar(driver_jar);
         }
