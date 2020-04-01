@@ -19,18 +19,18 @@ Meaning of all the parameters
 
 | parameter               | description                                                  | required |
 | ----------------------- | ------------------------------------------------------------ | -------- |
-| db_name                 | the database name you created in postgreSQL                  | yes      |
-| schema                  | the schema name you created in postgreSQL                    | yes      |
+| db_name                 | the database name                                            | yes      |
+| schema                  | the schema name                                              | yes      |
 | table                   | the name of the table to be exported, if this parameter is not present, all the tables under the shema will be exported; you can use comma seperated tabble names or % as wildcard                     | no      |
 | database                | the jdbc url, for example, "jdbc:postgresql://host:port/db_name" | yes      |
 | db_engine               | the db engine, for example, "postgres" or "oracle" | yes      |
-| driver_jar              | we put postgres jar in lib folder, you can point to the path where you store the driver jar file | yes      |
-| driver_class            | for postgres is "org.postgresql.Driver"              | yes      |
-| username                | the username used to connect to postgreSQL, you can set  USER_NAME in your environment if you do not give the parameter | no       |
-| password                  | the password used to connect to postgreSQL,you can set  PASSWORD in your environment if you do not give the parameter | no       |
+| driver_jar              | we put postgres jar in lib folder, you can point to the path where you store the driver jar file | no      |
+| driver_class            | for postgres is "org.postgresql.Driver"              | no      |
+| username                | the username used to connect to database, you can set  username in your environment if you do not give the parameter | no       |
+| password                  | the password used to connect to database,you can set  password in your environment if you do not give the parameter | no       |
 | output_file             | the path to store the exported schema files, default will be the current folder                            | no       |
-| camelcase_to_underscore | y: change camelcase to underscore | no       |
-| spaces_to_underscore    | y: change spaces to underscore, otherwise will add backtick | no       |
+| camelcase_to_underscore | y: change camelcase to underscore，default y | no       |
+| spaces_to_underscore    | y: change spaces to underscore, otherwise will add backtick, default y | no       |
 
 you can run the following command to quickly start test, you just need to change the <code>driver_jar</code> directory in your operation system
 
