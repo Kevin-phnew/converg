@@ -9,7 +9,7 @@ mvn clean package -Dmaven.test.skip=true
 
 ## How to Use Help
 ```bash
-java -jar schemaExtractor-1.0.jar --help
+java -jar schema-extractor-1.0.jar --help
 ```
 
 
