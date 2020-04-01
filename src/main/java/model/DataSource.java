@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 //数据源信息
 public class DataSource implements Serializable {
-    //数据库类型
+    //database driver type
     private String jdbcType;
     //url
     private String jdbcUrl;
@@ -16,7 +16,7 @@ public class DataSource implements Serializable {
     private String schema;
     //
     private String dbName;
-    //表名 | 视图名
+    //table name or viewer name
     private String tbName;
 
     public DataSource(String jdbcType, String jdbcUrl, String jdbcUser, String jdbcPassword, String dbName, String schema, String tbName) {

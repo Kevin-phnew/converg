@@ -17,11 +17,11 @@ public enum PropertyAttr {
 
     private String value;
 
-    // 自定义普通成员方法
+    // define get value
     public String getValue(){
         return value;
     }
-    //构造方法
+    // define constructor
     PropertyAttr(String value){
         this.value = value;
     }

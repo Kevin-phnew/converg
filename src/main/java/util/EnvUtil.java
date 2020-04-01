@@ -1,5 +1,6 @@
 package util;
 
+import model.JdbcType;
 import model.PropertyAttr;
 import org.apache.commons.lang3.StringUtils;
 
@@ -64,6 +65,12 @@ public class EnvUtil {
         if(StringUtils.isBlank(schema)){
             LogUtil.info("\"schema\""+ info);
             status = true ;
+        }
+        if(!JdbcType.MYSQL.getValue().equalsIgnoreCase(engine)
+        || !JdbcType.ORACLE.getValue().equalsIgnoreCase(engine)
+        || !JdbcType.POSTGRESQL.getValue().equalsIgnoreCase(engine)) {
+            LogUtil.info("Parameter engine must be \"oracle\" or \"mysql\" or \"postgres\"");
+            status = true;
         }
         return status;
     }

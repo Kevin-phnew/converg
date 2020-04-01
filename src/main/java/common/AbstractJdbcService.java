@@ -64,7 +64,7 @@ public abstract class AbstractJdbcService implements JdbcService {
      * @param rs   ResultSet
      */
     protected void close(Connection conn, Statement ps, ResultSet rs) {
-        //关闭ResultSet
+        //close ResultSet
         if (rs != null) {
             try {
                 rs.close();
@@ -72,7 +72,7 @@ public abstract class AbstractJdbcService implements JdbcService {
                 rs = null;
             }
         }
-        //关闭PreparedStatement
+        //close PreparedStatement
         if (ps != null) {
             try {
                 ps.close();
@@ -80,7 +80,7 @@ public abstract class AbstractJdbcService implements JdbcService {
                 ps = null;
             }
         }
-        //关闭Connection
+        //close Connection
         if (conn != null) {
             try {
                 conn.close();
@@ -144,18 +144,18 @@ public abstract class AbstractJdbcService implements JdbcService {
         List<String> result = new ArrayList<String>();
         ResultSet rs = null;
         try {
-            //参数1 int resultSetType
-            //ResultSet.TYPE_FORWORD_ONLY 结果集的游标只能向下滚动。
-            //ResultSet.TYPE_SCROLL_INSENSITIVE 结果集的游标可以上下移动，当数据库变化时，当前结果集不变。
-            //ResultSet.TYPE_SCROLL_SENSITIVE 返回可滚动的结果集，当数据库变化时，当前结果集同步改变。
+            //Parameter 1 int resultSetType
+            //ResultSet.TYPE_FORWORD_ONLY: The result set cursor can only scroll down.
+            //ResultSet.TYPE_SCROLL_INSENSITIV: The cursor of the result set can be moved up and down, and the current result set remains the same as the database changes.
+            //ResultSet.TYPE_SCROLL_SENSITIVE: Returns a scrollable result set that changes synchronously when the database changes.
 
-            //参数2 int resultSetConcurrency
-            //ResultSet.CONCUR_READ_ONLY 不能用结果集更新数据库中的表。
-            //ResultSet.CONCUR_UPDATETABLE 能用结果集更新数据库中的表
+            //Parameter 2 int resultSetConcurrency
+            //ResultSet.CONCUR_READ_ONLY: A result set cannot be used to update a table in the database.
+            //ResultSet.CONCUR_UPDATETABLE: Tables in the database can be updated with result sets.
 
             conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             DatabaseMetaData meta = conn.getMetaData();
-            //目录名称; 数据库名; 表名称; 表类型;
+            //Directory name; Database name; Table name; Table type;
             rs = meta.getTables(catalog(), schemaPattern(), tableNamePattern(), types());
             while (rs.next()) {
                 result.add(rs.getString("TABLE_NAME"));
@@ -193,18 +193,18 @@ public abstract class AbstractJdbcService implements JdbcService {
 
     @Override
     public List<String> listAllTablesFields(String... fields) {
-        //如果字段为空, 则返回null
+        //return null when fields is empty
         if (fields == null || fields.length == 0) {
             return null;
         }
-        //如果表结构(视图)为空, 则返回null
+        //return null when table viewer or struct is empty
         List<String> tvs = listAllTables();
         if (tvs == null || tvs.size() == 0) {
             return null;
         }
 
         List<String> result = new CopyOnWriteArrayList<>();
-        //并发筛选包含特定字段的表结构
+        //filter table contained special fields by parallel
         tvs.parallelStream().forEach(tv -> {
             List<String> fieldsList = listAllFields(tv);
             if (fieldsList != null && fieldsList.size() > 0) {
@@ -275,12 +275,17 @@ public abstract class AbstractJdbcService implements JdbcService {
     public abstract List<String> getUserAllTableSql();
 
     /**
-     * @param The tablename of parameter
+     * @param tableName: The tablename of parameter
      * @return
      */
     public abstract List<String> getParaTablesSql(String tableName);
 
 
+    /**
+     * execute sql to select tables and check input table is exist or not
+     * @param sql sql string
+     * @return tables list
+     */
     public List<String> findTables(String sql){
         Connection conn = getConnection();
         if (conn == null) {
@@ -293,9 +298,9 @@ public abstract class AbstractJdbcService implements JdbcService {
             pStmt = conn.prepareStatement(sql);
             rs = pStmt.executeQuery();
             if (rs != null) {
-                //数据库列名
+                //database Column name
                 ResultSetMetaData data = rs.getMetaData();
-                //遍历结果   getColumnCount 获取表列个数
+                // iterate result
                 while (rs.next()) {
                     result.add(rs.getString(1));
                 }
@@ -311,19 +316,24 @@ public abstract class AbstractJdbcService implements JdbcService {
         return result;
     }
 
+    /**
+     * execute sql to select columns information
+     * @param sql sql string
+     * @return columns list
+     */
     public List<Column> findColumns(String sql){
         Connection conn = null;
-        PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
-        ResultSet rs = null;//定义查询结果集rs
+        PreparedStatement pStmt = null; //define pStmt    
+        ResultSet rs = null;//define result set
         List<Column> columns = new ArrayList<>();
         try {
             conn = this.getConnection();
-            pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
-            rs = pStmt.executeQuery();//<第5步>获取查询结果集rs     
+            pStmt = conn.prepareStatement(sql);//obtain pStmt    
+            rs = pStmt.executeQuery();//obtain rs     
             if (rs != null) {
-                //数据库列名
+                //database column name
                 ResultSetMetaData data = rs.getMetaData();
-                //遍历结果   getColumnCount 获取表列个数
+                //iterate result
                 while (rs.next()) {
                     columns.add(new Column(
                             rs.getString(4)

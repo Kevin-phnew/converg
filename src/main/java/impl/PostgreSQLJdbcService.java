@@ -23,9 +23,8 @@ public class PostgreSQLJdbcService extends AbstractJdbcService {
 
     @Override
     protected String schemaPattern() {
-        //mysql的schemaPattern为数据库名称
+        //the mysql schemaPattern is database name
         String url = getDataSource().getJdbcUrl();
-        //jdbc:mysql://localhost:3306/iso_db?useUnicode=true&characterEncoding=UTF-8
         String database = url.substring(url.indexOf("/", 13) + 1);
         int index = database.indexOf("?");
         if (index > 0) {

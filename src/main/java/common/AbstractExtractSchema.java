@@ -12,8 +12,12 @@ public abstract class AbstractExtractSchema implements ExtractSchema{
      */
     public abstract void run();
 
-
-
+    /**
+     * check parameter contains help or not
+     * @param args parameters
+     * @return return false by default
+     *         return true when parameters contains help and print command note
+     */
     public static boolean checkArgs(String[] args) {
         boolean status = false;
         for (String e : args) {

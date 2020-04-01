@@ -7,14 +7,13 @@ import java.util.regex.Pattern;
 
 public class StringUtil {
     /**
-     * 获取字符第一串数字
-     *
-     * @param text
-     * @return
+     * obtain the first string of number
+     * @param text original string
+     * @return the first string of number
      */
     public static String getNumberFromText(String text) {
         try {
-            Pattern pat = Pattern.compile("\\d*");
+            Pattern pat = Pattern.compile("\\d+");
             Matcher mat = pat.matcher(text);
             if (mat.find()) {
                 return mat.group();

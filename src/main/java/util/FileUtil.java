@@ -11,13 +11,13 @@ public class FileUtil {
      * Read resources file
      */
     public static String getFile(String fileName) {
-        // 这种方式也是使用 java 的 ClassLoader 来读取
+        // loading by using java ClassLoader
         StringBuilder out = null;
         try {
             InputStream inputStream = FileUtil.class.getClassLoader().getResourceAsStream(fileName);
             out = new StringBuilder();
             byte[] b = new byte[4096];
-            // 读取流
+            // read input-stream
             for (int n; (n = inputStream.read(b)) != -1; ) {
                 out.append(new String(b, 0, n));
             }
@@ -56,6 +56,10 @@ public class FileUtil {
         return result;
     }
 
+    /**
+     * check output path exist or not
+     * @return true or false
+     */
     public static boolean outputPathConfirm(){
         boolean status = false;
 
@@ -69,10 +73,6 @@ public class FileUtil {
         if(!StringUtils.isBlank(outputPath1)){
             File file = new File(outputPath1);
             if(!file.exists()){
-//                boolean dir = createDir(output_o);
-//                if(dir){
-//                    LogUtil.info("Create folder :" + output_o);
-//                }
                 LogUtil.info("\""+outputPath1+"\"" + " not exist");
                 status = true;
             }

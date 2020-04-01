@@ -9,7 +9,7 @@ public interface ExtractSchema {
     /**
      * Specify the output schema
      */
-    abstract void outPutSchema();
+    void outPutSchema();
 
 
 }
