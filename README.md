@@ -51,7 +51,6 @@ java -jar \
 schema-extractor-1.0.jar
 
 ```
-you can run "java -jar schema-extractor-1.0.jar --help" to get detail information.
 
 ## Get the result
 
