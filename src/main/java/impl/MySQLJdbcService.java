@@ -95,7 +95,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Relation> getAllTablesColumnsAndType() {
+    public List<Relation> getAllTablesColumnsAndType(String tableName) {
         return null;
     }
 }

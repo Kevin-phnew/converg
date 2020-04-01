@@ -50,7 +50,7 @@ public class ANSIMetaData {
         boolean testConn = jdbcService.test();
         if(!testConn)
             return null;
-        List<Relation> relations = jdbcService.getAllTablesColumnsAndType();
+        List<Relation> relations = jdbcService.getAllTablesColumnsAndType(table);
         if(relations == null)
             return null;
         LogUtil.info("Schema extracted successfully!");

@@ -102,7 +102,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <!--以那个main方法作为主入口-->
-                                        <Main-Class>schema.ConvergDB</Main-Class>
+                                        <Main-Class>ConvergdbApplication</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>

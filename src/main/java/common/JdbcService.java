@@ -43,5 +43,5 @@ public interface JdbcService {
      *
      * @return
      */
-    List<Relation> getAllTablesColumnsAndType();
+    List<Relation> getAllTablesColumnsAndType(String tableName);
 }

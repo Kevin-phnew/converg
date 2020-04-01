@@ -104,11 +104,12 @@ public class EnvUtil {
             status = true ;
         }
         if(!JdbcType.MYSQL.getValue().equalsIgnoreCase(engine)
-        || !JdbcType.ORACLE.getValue().equalsIgnoreCase(engine)
-        || !JdbcType.POSTGRESQL.getValue().equalsIgnoreCase(engine)) {
+        && !JdbcType.ORACLE.getValue().equalsIgnoreCase(engine)
+        && !JdbcType.POSTGRESQL.getValue().equalsIgnoreCase(engine)) {
             LogUtil.info("Parameter engine must be \"oracle\" or \"mysql\" or \"postgres\"");
             status = true;
         }
+
         return status;
     }
 

@@ -128,8 +128,7 @@ public abstract class AbstractJdbcService implements JdbcService {
             Class.forName(loadDriverClass());
             conn = DriverManager.getConnection(dataSource.getJdbcUrl(), dataSource.getJdbcUser(), dataSource.getJdbcPassword());
         } catch (Exception e) {
-            LogUtil.info("Connection Failed,Please check out your parameter");
-            LogUtil.debug("Connection Failed", e);
+            LogUtil.debug(e.getMessage(), e);
         }
         return conn;
     }
@@ -252,8 +251,7 @@ public abstract class AbstractJdbcService implements JdbcService {
     protected abstract String schemaPattern();
 
     @Override
-    public List<Relation> getAllTablesColumnsAndType() {
-        String tableName = EnvUtil.getProperty("table");
+    public List<Relation> getAllTablesColumnsAndType(String tableName) {
         if(!StringUtils.isBlank(tableName)){
             tableName = tableName .replaceAll("\"","").replaceAll("'","")
                     .replaceAll("`","");
