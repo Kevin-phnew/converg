@@ -5,11 +5,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.bys</groupId>
-    <artifactId>schemaExtractor</artifactId>
+    <artifactId>schema-extractor</artifactId>
     <version>1.0</version>
 
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
@@ -44,6 +51,7 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.9</version>
         </dependency>
+
 
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -94,7 +102,7 @@
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
                                         <!--以那个main方法作为主入口-->
-                                        <Main-Class>schema.ConvergDB</Main-Class>
+                                        <Main-Class>ConvergdbApplication</Main-Class>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
@@ -104,6 +112,14 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.4.2</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin> 
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>

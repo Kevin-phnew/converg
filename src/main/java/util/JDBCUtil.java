@@ -11,10 +11,8 @@ import java.sql.Connection;
 
 public class JDBCUtil {
 
-
-//    try catch,连接异常返回
+//    try catch, return when throwing exception
     public Connection getConn(String database,String db_engine){
-
         return null;
     }
 
@@ -24,14 +22,15 @@ public class JDBCUtil {
      * @param jarPath
      */
     public static void loadJdbcJar(String jarPath) {
-        File jarFile = new File(jarPath); // 从URLClassLoader类中获取类所在文件夹的方法，jar也可以认为是一个文件夹
+        // obtain function from class URLClassLoader, the jar can also see as folder
+        File jarFile = new File(jarPath);
 
         if (jarFile.exists() == false && StringUtils.isNotBlank(jarPath)) {
             System.out.println("jar file not found.");
             return;
         }
 
-        //获取类加载器的addURL方法，准备动态调用
+        //obtain function addURL from class loader for dynamic call
         Method method = null;
         try {
             method = URLClassLoader.class.getDeclaredMethod("addURL", URL.class);
@@ -39,26 +38,26 @@ public class JDBCUtil {
             e1.printStackTrace();
         }
 
-        // 获取方法的访问权限，保存原始值
+        // obtain function accessible saving default value
         boolean accessible = method.isAccessible();
         try {
-            //修改访问权限为可写
+            // modify accessible to enable
             if (accessible == false) {
                 method.setAccessible(true);
             }
 
-            // 获取系统类加载器
+            // obtain system class loader
             URLClassLoader classLoader = (URLClassLoader) ClassLoader.getSystemClassLoader();
 
-            //获取jar文件的url路径
+            // obtain the url of jar file
             java.net.URL url = jarFile.toURI().toURL();
 
-            //jar路径加入到系统url路径里
+            // append jar url to system url
             method.invoke(classLoader, url);
         } catch (Exception e) {
             LogUtil.debug(e.getMessage(), e);
         } finally {
-            //回写访问权限
+            // reset accessible value
             method.setAccessible(accessible);
         }
     }

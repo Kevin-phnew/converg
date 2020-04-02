@@ -1,11 +1,15 @@
 package model;
 
-public class Column {
+import util.StringUtil;
+
+public class Column implements Cloneable {
 
     private String columnName;
     private String columnType;
     private String required;
     private String expression;
+    private Boolean camelcaseToUnderscore=false;
+    private Boolean spacesToUnderscore=false;
 
     public Column() {
 
@@ -59,6 +63,45 @@ public class Column {
 
     public void setExpression(String expression) {
         this.expression = expression;
+    }
+
+    public Boolean getCamelcaseToUnderscore() {
+        return camelcaseToUnderscore;
+    }
+
+    @Override
+    public Object clone() {
+        Column column = null;
+        try{
+            column = (Column) super.clone();
+        }catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return column;
+    }
+
+    public void setCamelcaseToUnderscore(Boolean camelcaseToUnderscore) {
+        this.camelcaseToUnderscore = camelcaseToUnderscore;
+        if (camelcaseToUnderscore) {
+            this.columnName = StringUtil.camelcaseToUnderscore(this.columnName);
+        }
+    }
+
+    public Boolean getSpacesToUnderscore() {
+        return spacesToUnderscore;
+    }
+
+    public void setSpacesToUnderscore(Boolean spacesToUnderscore) {
+        this.spacesToUnderscore = spacesToUnderscore;
+        if (spacesToUnderscore) {
+            this.columnName = StringUtil.blankSpaceToUnderscore(this.columnName);
+        }
+    }
+
+    public void setBlankTickExpression(String relationType) {
+        if (this.columnName.contains(" ") && !"base".equals(relationType)){
+            this.expression = StringUtil.blackTick(this.columnName);
+        }
     }
 
     /**

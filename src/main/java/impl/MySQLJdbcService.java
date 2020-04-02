@@ -5,6 +5,7 @@ import model.Column;
 import model.DataSource;
 import model.Relation;
 import org.apache.commons.lang3.StringUtils;
+import util.EnvUtil;
 import util.JDBCUtil;
 import util.LogUtil;
 
@@ -23,8 +24,8 @@ public class MySQLJdbcService extends AbstractJdbcService {
 
     @Override
     protected String loadDriverClass() {
-        String driver_jar = System.getProperty("driver_jar");
-        String driver_class = System.getProperty("driver_class");
+        String driver_jar = EnvUtil.getProperty("driver_jar");
+        String driver_class = EnvUtil.getProperty("driver_class");
         if (StringUtils.isNotBlank(driver_jar)) {
             JDBCUtil.loadJdbcJar(driver_jar);
         }
@@ -36,7 +37,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
 
     @Override
     protected String schemaPattern() {
-        //mysql的schemaPattern为数据库名称
+        // the mysql schemaPattern is database name
         String url = getDataSource().getJdbcUrl();
         //jdbc:mysql://localhost:3306/iso_db?useUnicode=true&characterEncoding=UTF-8
         String database = url.substring(url.indexOf("/", 13) + 1);
@@ -62,20 +63,24 @@ public class MySQLJdbcService extends AbstractJdbcService {
         tbName = this.getDataSource().getDbName() + "." + this.getDataSource().gettbName();
         String sql = "select * from " + tbName + " limit 1";
         Connection conn = null;
-        PreparedStatement pStmt = null; //定义盛装SQL语句的载体pStmt    
-        ResultSet rs = null;//定义查询结果集rs
+        //define pStmt
+        PreparedStatement pStmt = null;
+        //define result set
+        ResultSet rs = null;
         List<Column> list = new ArrayList<>();
         try {
             conn = this.getConnection();
-            pStmt = conn.prepareStatement(sql);//<第4步>获取盛装SQL语句的载体pStmt    
-            rs = pStmt.executeQuery();//<第5步>获取查询结果集rs     
+            //obtain pStmt
+            pStmt = conn.prepareStatement(sql);
+            //obtain result set
+            rs = pStmt.executeQuery();
             if (rs != null) {
-                //数据库列名
+                //database column
                 ResultSetMetaData data = rs.getMetaData();
-                //遍历结果   getColumnCount 获取表列个数
+                //iterate result set
                 while (rs.next()) {
                     for (int i = 1; i <= data.getColumnCount(); i++) {
-                        // typeName 字段名 type 字段类型
+                        // typeName   type
                         list.add(new Column(data.getColumnName(i), data.getColumnTypeName(i) + data.getColumnType(i)
                                 , data.isNullable(i) == 0 ? "true" : "false"));
                     }
@@ -90,7 +95,7 @@ public class MySQLJdbcService extends AbstractJdbcService {
     }
 
     @Override
-    public List<Relation> getAllTablesColumnsAndType() {
+    public List<Relation> getAllTablesColumnsAndType(String tableName) {
         return null;
     }
 }

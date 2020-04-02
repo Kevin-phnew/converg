@@ -1,10 +1,13 @@
-package test;
+package model;
 
 import model.Column;
+import org.junit.Test;
 
-public class Column_Test {
+public class ColumnTest {
 
-    public static void main(String[] args) {
+
+    @Test
+    public void columenTest() {
         Column column = new Column();
         column.setColumnType("varchar(20)");
         column.setColumnName("name");

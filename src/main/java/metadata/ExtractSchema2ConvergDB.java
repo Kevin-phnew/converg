@@ -1,24 +1,40 @@
 package metadata;
 
-import common.ExtractSchema;
+import common.AbstractExtractSchema;
 import model.Column;
 import model.Relation;
 import model.Schema;
 import org.apache.commons.lang3.StringUtils;
+import util.EnvUtil;
 import util.FileUtil;
 import util.LogUtil;
 import util.StringUtil;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
-public class ExtractSchema2ConvergDB extends ExtractSchema {
+public class ExtractSchema2ConvergDB extends AbstractExtractSchema {
 
     private String sepa = java.io.File.separator;
+
+    public ExtractSchema2ConvergDB(String[] args){
+        this.args = args;
+    }
+
+    @Override
+    public void run() {
+        if(null != args && args.length != 0){
+            checkArgs(args);
+        }else if(EnvUtil.checkProperty()){//check property need return true
+            return ;
+        }else{
+            outPutSchema();
+        }
+    }
+
 
     @Override
     public void outPutSchema() {
@@ -28,40 +44,43 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         //Metadata extraction
         List<Relation> relations = ExtractSchema2ConvergDB.changeANSIToConvergeMeta(ansiMetaData);
 
-        Scanner scan = new Scanner(System.in);
-        LogUtil.info("Please provide path for ConvergDB schema output:");
-        String outPath = null;
-        if (scan.hasNext()) {
-            outPath = scan.next();
-            LogUtil.info("Schema written to: " + outPath);
-        } else {
-            LogUtil.info("no output path");
-            return;
-        }
-        scan.close();
-        File file = new File(outPath);
-        if(!file.exists()){
-            LogUtil.info("Output path not exist!");
-            return ;
+        String domain = EnvUtil.getProperty("dbName");
+        String schemaName = EnvUtil.getProperty("schema");
+        String camelcase = EnvUtil.getProperty("camelcase_to_underscore");
+        String blankSpace = EnvUtil.getProperty("spaces_to_underscore");
+
+        Boolean camelcaseToUnderscore = false;
+        Boolean blankSpaceToUnderscore = false;
+
+        if (StringUtils.isNotEmpty(camelcase) && "y".equals(camelcase.toLowerCase().trim())){
+            camelcaseToUnderscore = true;
         }
 
-        // save all in one schema file
-        String domain = System.getProperty("db_name");
-        String schemaName = System.getProperty("schema");
+        if (StringUtils.isNotEmpty(blankSpace) && "y".equals(blankSpace.toLowerCase().trim())){
+            blankSpaceToUnderscore = true;
+        }
+        Boolean finalCamelcaseToUnderscore = camelcaseToUnderscore;
+        Boolean finalBlankSpaceToUnderscore = blankSpaceToUnderscore;
+
         List<Relation> relationList = new ArrayList<>();
         // save each schema files
-        String finalOutPath = outPath;
+        String finalOutPath = EnvUtil.getProperty("outputPath");
+        LogUtil.info("Output to here "+finalOutPath);
         AtomicInteger tableNum = new AtomicInteger(0);
-        AtomicInteger success  = new AtomicInteger(0);
-        AtomicInteger failed   = new AtomicInteger(0);
-        relations.forEach(x -> {        //parallelStream().forEach 相当于多线程，容易出错
+        AtomicInteger success = new AtomicInteger(0);
+        AtomicInteger failed = new AtomicInteger(0);
+        relations.forEach(x -> {
             tableNum.getAndAdd(1);
             x.setRelation_type("base");
-            Relation relation = new Relation(x.getName(), "derived", x.getColumns());
+            List<Column> derColList = new ArrayList<>();
+            x.getColumn().forEach(col -> derColList.add((Column) col.clone()));
+            Relation relation = new Relation(x.getName(), "derived", derColList);
             relation.setSource(x.getName());
             relationList.add(x);
             relationList.add(relation);
             Schema schema = new Schema(domain, schemaName, relationList);
+            schema.setCamelcaseToUnderscore(finalCamelcaseToUnderscore);
+            schema.setSpacesToUnderscore(finalBlankSpaceToUnderscore);
             boolean falg = FileUtil.writeTxtFile(
                     schema.toString(),
                     finalOutPath.trim().concat(sepa)
@@ -95,7 +114,7 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
      */
     public static List<Relation> changeANSIToConvergeMeta(List<Relation> relations) {
         for (Relation r : relations) {
-            for (Column e : r.getColumns()) {
+            for (Column e : r.getColumn()) {
                 String columnType = e.getColumnType();
                 if (columnType.startsWith("int")) {
                     String n = StringUtil.getNumberFromText(columnType);
@@ -121,4 +140,6 @@ public class ExtractSchema2ConvergDB extends ExtractSchema {
         }
         return relations;
     }
+
+
 }

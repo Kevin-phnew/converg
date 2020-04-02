@@ -13,22 +13,31 @@ import java.util.List;
 
 public class ANSIMetaData {
 
-    /**
-     * Middle tier, providing data to the outside
-     *
-     * @return List<Column>
-     */
+
     public static List<Relation> getANSIMetaData() {
 
-        String userName = System.getProperty("userName");
-        String passwd = System.getProperty("passwd");
-        String database = System.getProperty("database");
-        String engine = System.getProperty("db_engine");
-        String schema = System.getProperty("schema");
-        String dbName = System.getProperty("db_name");
-        String table = System.getProperty("table");
+        String userName = EnvUtil.getProperty("userName");
+        String passwd   = EnvUtil.getProperty("passwd");
+        String database = EnvUtil.getProperty("database");
+        String engine   = EnvUtil.getProperty("engine");
+        String schema   = EnvUtil.getProperty("schema");
+        String dbName   = EnvUtil.getProperty("dbName");
+        String table    = EnvUtil.getProperty("table");
+
+        return getANSIMetaData(engine,database,userName,passwd,dbName,schema,table);
+
+    }
+
+    /**
+     * Middle tier, providing data to the outside
+     * @para engine:oracle,mysql,postgres   Necessary
+     * @return List<Column>
+     */
+    public static List<Relation> getANSIMetaData(String engine,String database,String userName,String
+            passwd,String dbName,String schema,String table){
+
         if(StringUtils.isBlank(userName) || StringUtils.isBlank(passwd)){
-            String[] env = EnvUtil.getEnvironment();
+            String[] env = EnvUtil.getEnvironmentUserPasswd();
             if(null == env)
                 return null;
             userName = env[0];
@@ -41,12 +50,11 @@ public class ANSIMetaData {
         boolean testConn = jdbcService.test();
         if(!testConn)
             return null;
-        List<Relation> relations = jdbcService.getAllTablesColumnsAndType();
+        List<Relation> relations = jdbcService.getAllTablesColumnsAndType(table);
         if(relations == null)
             return null;
         LogUtil.info("Schema extracted successfully!");
         return relations;
     }
-
 
 }

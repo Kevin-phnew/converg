@@ -1,29 +1,38 @@
-Option
--Ddb_name           db's name
--Dschema            db's catalog or user, namespace
--Dtable             table name, use % wildcard, Multiple Spaces are separated by commas
--Ddatabase          jdbc url like jdbc:postgresql://localhost:5432/test
--Ddb_engine         type of db like postgres,oracle
--Ddriver_jar        jdbc driver jar path
--Ddriver_class      driver class like org.postgresql.Driver
--DuserName          db's userName or you can config in into environment variables
--Dpasswd            db's password or you can config in into environment variables
+Usage: java -jar [-options] jarfile [args]
 
-Example:
-postgre
-java -jar -Ddb_name=test \
+Option
+-Ddb_name                   required. db's name
+-Dschema                    required. db's catalog or user, namespace
+-Ddatabase                  required. jdbc url like jdbc:postgresql://localhost:5432/emp
+-Ddb_engine                 required. type of db like postgres,oracle
+-Dtable                     not required. table name, use % wildcard, Multiple Spaces are separated by commas.If this parameter is empty, all the table information under this user will be extracted
+-Ddriver_jar                not required. jdbc driver jar path, if not specified the default will be used
+-Ddriver_class              not required. driver class like org.postgresql.Driver
+-Dusername                  not required. db's username or you can config in into environment variables
+-Dpassword                  not required. db's password or you can config in into environment variables
+-Doutput_file               not required. default path is the jar directory
+-Dcamelcase_to_underscore   not required. y: change camelcase to underscore, n: do not change camelcase to underscore
+-Dspaces_to_underscore      not required. y: change spaces to underscore, n: do not change spaces to underscore
+
+Example for Postgre:
+
+java -jar
+-Ddb_name=test \
 -Dschema=pg_catalog \
 -Dtable=pg_user \
 -Ddatabase=jdbc:postgresql://localhost:5432/test \
 -Ddb_engine=postgres \
 -Ddriver_jar=./postgresql-9.1-901-1.jdbc4.jar \
 -Ddriver_class=org.postgresql.Driver \
--DuserName=username \
--Dpasswd=password \
+-Dusername=username \
+-Dpassword=password \
 schemaExtractor-1.0.jar
 
-oracle
-java -jar -Ddb_name=test \
+
+Example for Oracle:
+
+java -jar
+-Ddb_name=test \
 -Dschema=SCOTT \
 -Dtable=% \
 -Ddatabase=jdbc:oracle:thin:@localhost:1522:orcl \

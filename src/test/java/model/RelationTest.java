@@ -1,14 +1,15 @@
-package test;
+package model;
 
 import model.Column;
 import model.Relation;
+import org.junit.Test;
 
 import java.util.ArrayList;
 
-public class Relation_Test {
+public class RelationTest {
 
-    public static void main(String[] args) {
-
+    @Test
+    public void relationTest() {
         Column column = new Column();
         column.setColumnType("varchar(20)");
         column.setColumnName("name");
@@ -26,9 +27,9 @@ public class Relation_Test {
         relation.setName("car source");
         relation.setRelation_type("base");
 
-        relation.setColumns(columnArrayList);
+        relation.setColumn(columnArrayList);
 
         System.out.println(relation);
-
     }
+
 }
