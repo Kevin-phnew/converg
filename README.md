@@ -90,7 +90,7 @@ domain "zyilcfad" {
 
 If you just want to use this tool to extract the metadata of the database instead of outputting our defined schema, you can inptut the schema-extractor. jar in your project.you can refer to the following code, detail parameter introduction in test file ANSIMetaDataTest.class
 
-```java
+```Java
 
     public void getANSIMetaDataTest(String engine,String database,String userName,String
             passwd,String dbName,String schema,String table){
