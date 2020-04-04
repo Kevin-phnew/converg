@@ -20,8 +20,8 @@ Meaning of all the parameters
 | parameter               | description                                                  | required |
 | ----------------------- | ------------------------------------------------------------ | -------- |
 | db_name                 | the database name                                            | yes      |
-| schema                  | db's catalog or user, namespace                                             | yes      |
-| table                   | the name of the table to be exported, if this parameter is not present, all the tables under the shema will be exported; you can use comma seperated tabble names or % as wildcard                     | no      |
+| schema                  | db's schema name                                             | yes      |
+| table                   | the name of the table to be exported. if this parameter is not given, all the tables under the shema will be exported; you can use comma seperated table names or % as wildcard                     | no      |
 | database                | the jdbc url, for example, "jdbc:postgresql://host:port/db_name" | yes      |
 | db_engine               | the db engine, for example, "postgres" or "oracle" | yes      |
 | driver_jar              | we put postgres jar in lib folder, you can point to the path where you store the driver jar file | no      |
