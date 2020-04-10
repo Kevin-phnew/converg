@@ -34,6 +34,7 @@ Meaning of all the parameters
 
 you can run the following command to quickly start test, you just need to change the <code>driver_jar</code> directory in your operation system
 
+PostgreSql
 
 ```bash
 
@@ -46,6 +47,25 @@ java -jar \
 -Ddb_engine=postgres \
 -Ddriver_jar=../lib/9.1-901-1.jdbc4/postgresql-9.1-901-1.jdbc4.jar \
 -Ddriver_class=org.postgresql.Driver \
+-Dusername=user \
+-Dpassword=pwd \
+schema-extractor-1.0.jar
+
+```
+
+Oracle
+
+```bash
+
+java -jar \
+-Ddb_name=testdb \
+-Dschema=user1 \
+-Dtable="company,sales" \
+-Doutput_file=/tmp/schema \
+-Ddatabase= jdbc:oracle:thin:@hostname:1521:testdb \
+-Ddb_engine=oracle \
+-Ddriver_jar=../lib/ojdbc6.jar \
+-Ddriver_class=oracle.jdbc.driver.OracleDriver \
 -Dusername=user \
 -Dpassword=pwd \
 schema-extractor-1.0.jar
